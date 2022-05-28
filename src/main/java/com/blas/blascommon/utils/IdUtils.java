@@ -38,7 +38,7 @@ public class IdUtils {
 
     public static String genNumericID() {
         int leftLimit = 48; // numeral '0'
-        int rightLimit = 57; // letter 'z'
+        int rightLimit = 57; // numeral '9'
         int targetStringLength = 6;
         String generatedString = "";
         Random random = new Random();
@@ -52,7 +52,7 @@ public class IdUtils {
 
     public static String genNumericID(int lengthOfId) {
         int leftLimit = 48; // numeral '0'
-        int rightLimit = 57; // letter 'z'
+        int rightLimit = 57; // numeral '9'
         String generatedString = "";
         Random random = new Random();
         generatedString = random.ints(leftLimit, rightLimit + 1)

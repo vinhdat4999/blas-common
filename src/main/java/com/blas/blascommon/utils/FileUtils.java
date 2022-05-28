@@ -13,14 +13,14 @@ import java.nio.file.Paths;
 public class FileUtils {
 
     public static boolean createBlankFile(String path) {
-        boolean createFileSucessed = false;
+        boolean createFileSucceed = false;
         try {
             File newFile = new File(path);
-            createFileSucessed = newFile.createNewFile();
+            createFileSucceed = newFile.createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return createFileSucessed;
+        return createFileSucceed;
     }
 
     public static String readFile(String path) {
