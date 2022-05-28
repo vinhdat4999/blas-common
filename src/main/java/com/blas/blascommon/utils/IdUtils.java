@@ -1,4 +1,4 @@
-package utils;
+package com.blas.blascommon.utils;
 
 import java.util.Random;
 import java.util.UUID;
