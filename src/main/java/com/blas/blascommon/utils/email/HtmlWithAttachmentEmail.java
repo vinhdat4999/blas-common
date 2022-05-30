@@ -1,6 +1,6 @@
 package com.blas.blascommon.utils.email;
 
-import static com.blas.blascommon.utils.email.conf.EmailConfig.getConfigInfor;
+import static com.blas.blascommon.utils.email.conf.EmailConfig.getConfigInfo;
 
 import com.blas.blascommon.utils.email.conf.EmailConfigKeys;
 import java.io.File;
@@ -35,7 +35,7 @@ public class HtmlWithAttachmentEmail extends Email implements Runnable {
 
     @Override
     public void run() {
-        EmailConfigKeys emailConfigKeys = getConfigInfor();
+        EmailConfigKeys emailConfigKeys = getConfigInfo();
         String RECEIVE_EMAIL = this.emailTo;
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
