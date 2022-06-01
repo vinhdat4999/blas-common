@@ -105,18 +105,4 @@ public class DeleteRequest {
         }
         return jsonObjectList;
     }
-
-//    public static int sendDeleteRequestToLelApi(String id) {
-//        int responseId = 0;
-//        try {
-//            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-//            HttpDelete request = new HttpDelete(Constants.LEL_DELETE_REQUEST_URL + "?id=" + id);
-//            CloseableHttpResponse response = httpClient.execute(request);
-//            String jsonStr = EntityUtils.toString(response.getEntity());
-//            responseId = Integer.parseInt(jsonStr);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return responseId;
-//    }
 }
