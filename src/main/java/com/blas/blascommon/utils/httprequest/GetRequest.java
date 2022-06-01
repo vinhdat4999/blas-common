@@ -18,15 +18,19 @@ public class GetRequest {
             Map<String, String> headerList) {
         String urlEndpoint = hostUrl;
         StringBuilder sb = new StringBuilder("");
-        for (String key : parameterList.keySet()) {
-            sb.append(key).append("=").append(parameterList.get(key)).append("&");
+        if (parameterList != null) {
+            for (String key : parameterList.keySet()) {
+                sb.append(key).append("=").append(parameterList.get(key)).append("&");
+            }
         }
         urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
         String response = null;
         try {
             HttpGet httpGet = new HttpGet(urlEndpoint);
-            for (String headerKey : headerList.keySet()) {
-                httpGet.setHeader(headerKey, headerList.get(headerKey));
+            if (headerList != null) {
+                for (String headerKey : headerList.keySet()) {
+                    httpGet.setHeader(headerKey, headerList.get(headerKey));
+                }
             }
             HttpClient client = HttpClients.createDefault();
             HttpResponse httpResponse = client.execute(httpGet);
@@ -42,15 +46,19 @@ public class GetRequest {
             Map<String, String> headerList) {
         String urlEndpoint = hostUrl;
         StringBuilder sb = new StringBuilder("");
-        for (String key : parameterList.keySet()) {
-            sb.append(key).append("=").append(parameterList.get(key)).append("&");
+        if (parameterList != null) {
+            for (String key : parameterList.keySet()) {
+                sb.append(key).append("=").append(parameterList.get(key)).append("&");
+            }
         }
         urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
         JSONArray response = null;
         try {
             HttpGet httpGet = new HttpGet(urlEndpoint);
-            for (String headerKey : headerList.keySet()) {
-                httpGet.setHeader(headerKey, headerList.get(headerKey));
+            if (headerList != null) {
+                for (String headerKey : headerList.keySet()) {
+                    httpGet.setHeader(headerKey, headerList.get(headerKey));
+                }
             }
             HttpClient client = HttpClients.createDefault();
             HttpResponse httpResponse = client.execute(httpGet);
@@ -67,15 +75,19 @@ public class GetRequest {
             Map<String, String> headerList) {
         String urlEndpoint = hostUrl;
         StringBuilder sb = new StringBuilder("");
-        for (String key : parameterList.keySet()) {
-            sb.append(key).append("=").append(parameterList.get(key)).append("&");
+        if (parameterList != null) {
+            for (String key : parameterList.keySet()) {
+                sb.append(key).append("=").append(parameterList.get(key)).append("&");
+            }
         }
         urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
         List<JSONObject> jsonObjectList = new ArrayList<>();
         try {
             HttpGet httpGet = new HttpGet(urlEndpoint);
-            for (String headerKey : headerList.keySet()) {
-                httpGet.setHeader(headerKey, headerList.get(headerKey));
+            if (headerList != null) {
+                for (String headerKey : headerList.keySet()) {
+                    httpGet.setHeader(headerKey, headerList.get(headerKey));
+                }
             }
             HttpClient client = HttpClients.createDefault();
             HttpResponse httpResponse = client.execute(httpGet);
