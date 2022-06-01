@@ -23,7 +23,7 @@ public class DeleteRequest {
             for (String key : parameterList.keySet()) {
                 sb.append(key).append("=").append(parameterList.get(key)).append("&");
             }
-            urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
+            urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
         }
         String response = null;
         try {
@@ -52,7 +52,7 @@ public class DeleteRequest {
             for (String key : parameterList.keySet()) {
                 sb.append(key).append("=").append(parameterList.get(key)).append("&");
             }
-            urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
+            urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
         }
         JSONArray response = null;
         try {
@@ -82,7 +82,7 @@ public class DeleteRequest {
             for (String key : parameterList.keySet()) {
                 sb.append(key).append("=").append(parameterList.get(key)).append("&");
             }
-            urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
+            urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
         }
         List<JSONObject> jsonObjectList = new ArrayList<>();
         try {
