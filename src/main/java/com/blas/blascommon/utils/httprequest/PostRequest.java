@@ -1,13 +1,20 @@
 package com.blas.blascommon.utils.httprequest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -209,6 +216,77 @@ public class PostRequest {
             httpPost.setEntity(entity);
             CloseableHttpResponse response2 = httpClient.execute(httpPost);
             response = new JSONArray(IOUtils.toString(response2.getEntity().getContent(), "UTF-8"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public static JSONObject sendPostRequestWithFormUrlEncodedPayloadGetJsonObjectResponse(
+            String hostUrl,
+            Map<String, String> parameterList,
+            Map<String, String> headerList, Map<String, String> payload) {
+        String urlEndpoint = hostUrl;
+        StringBuilder sb;
+        if (parameterList != null) {
+            sb = new StringBuilder("");
+            for (String key : parameterList.keySet()) {
+                sb.append(key).append("=").append(parameterList.get(key)).append("&");
+            }
+            urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
+        }
+        JSONObject response = null;
+        try {
+            HttpPost httpPost = new HttpPost(urlEndpoint);
+            if (headerList != null) {
+                for (String headerKey : headerList.keySet()) {
+                    httpPost.setHeader(headerKey, headerList.get(headerKey));
+                }
+            }
+            List<NameValuePair> urlParameters = new ArrayList<>();
+            for (String payloadKey : payload.keySet()) {
+                String payloadValue = payload.get(payloadKey);
+                urlParameters.add(new BasicNameValuePair(payloadKey, payloadValue));
+            }
+            httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            CloseableHttpResponse res = httpClient.execute(httpPost);
+            response = new JSONObject(EntityUtils.toString(res.getEntity()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public static String sendPostRequestWithFormUrlEncodedPayloadGetStringResponse(String hostUrl,
+            Map<String, String> parameterList,
+            Map<String, String> headerList, Map<String, String> payload) {
+        String urlEndpoint = hostUrl;
+        StringBuilder sb;
+        if (parameterList != null) {
+            sb = new StringBuilder("");
+            for (String key : parameterList.keySet()) {
+                sb.append(key).append("=").append(parameterList.get(key)).append("&");
+            }
+            urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
+        }
+        String response = null;
+        try {
+            HttpPost httpPost = new HttpPost(urlEndpoint);
+            if (headerList != null) {
+                for (String headerKey : headerList.keySet()) {
+                    httpPost.setHeader(headerKey, headerList.get(headerKey));
+                }
+            }
+            List<NameValuePair> urlParameters = new ArrayList<>();
+            for (String payloadKey : payload.keySet()) {
+                String payloadValue = payload.get(payloadKey);
+                urlParameters.add(new BasicNameValuePair(payloadKey, payloadValue));
+            }
+            httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            CloseableHttpResponse res = httpClient.execute(httpPost);
+            response = EntityUtils.toString(res.getEntity());
         } catch (Exception e) {
             e.printStackTrace();
         }
