@@ -17,13 +17,14 @@ public class GetRequest {
             Map<String, String> parameterList,
             Map<String, String> headerList) {
         String urlEndpoint = hostUrl;
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb;
         if (parameterList != null) {
+            sb = new StringBuilder("");
             for (String key : parameterList.keySet()) {
                 sb.append(key).append("=").append(parameterList.get(key)).append("&");
             }
+            urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
         }
-        urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
         String response = null;
         try {
             HttpGet httpGet = new HttpGet(urlEndpoint);
@@ -45,13 +46,14 @@ public class GetRequest {
             Map<String, String> parameterList,
             Map<String, String> headerList) {
         String urlEndpoint = hostUrl;
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb;
         if (parameterList != null) {
+            sb = new StringBuilder("");
             for (String key : parameterList.keySet()) {
                 sb.append(key).append("=").append(parameterList.get(key)).append("&");
             }
+            urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
         }
-        urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
         JSONArray response = null;
         try {
             HttpGet httpGet = new HttpGet(urlEndpoint);
@@ -74,13 +76,14 @@ public class GetRequest {
             Map<String, String> parameterList,
             Map<String, String> headerList) {
         String urlEndpoint = hostUrl;
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb;
         if (parameterList != null) {
+            sb = new StringBuilder("");
             for (String key : parameterList.keySet()) {
                 sb.append(key).append("=").append(parameterList.get(key)).append("&");
             }
+            urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
         }
-        urlEndpoint += "?" + sb.toString().substring(0, sb.toString().length() - 1);
         List<JSONObject> jsonObjectList = new ArrayList<>();
         try {
             HttpGet httpGet = new HttpGet(urlEndpoint);
