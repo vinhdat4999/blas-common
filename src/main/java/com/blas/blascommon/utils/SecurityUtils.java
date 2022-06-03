@@ -126,7 +126,7 @@ public class SecurityUtils {
         return result;
     }
 
-    public static String base64Encode(byte[] content){
+    public static String base64Encode(byte[] content) {
         return Base64.getEncoder().encodeToString(content);
     }
 

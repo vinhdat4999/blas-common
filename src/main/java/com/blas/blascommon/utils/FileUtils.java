@@ -1,14 +1,18 @@
 package com.blas.blascommon.utils;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import javax.imageio.ImageIO;
 
 public class FileUtils {
 
@@ -54,6 +58,14 @@ public class FileUtils {
         }
     }
 
+    public static void writeBufferImageToFile(BufferedImage image, String formatName, String path) {
+        try {
+            ImageIO.write(image, formatName, new File(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void writeTextToFile(String content, String path) {
         try {
             FileWriter writer = new FileWriter(path);
@@ -62,6 +74,17 @@ public class FileUtils {
             buffer.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void writeByteArrayToFile(byte[] content, String path) {
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path));
+            bos.write(content);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
