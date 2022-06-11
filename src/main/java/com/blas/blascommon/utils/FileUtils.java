@@ -144,4 +144,15 @@ public class FileUtils {
         return deletedFile;
     }
 
+    public static String convertByteToAppropriateType(long type) {
+        String[] types = {"B", "KB", "MB", "GB", "TB"};
+        int count = 0;
+        float temp = type;
+        while (temp >= 1024) {
+            count++;
+            temp /= 1024.0;
+        }
+        return String.format("%.2f", temp) + " " + types[count];
+    }
+
 }
