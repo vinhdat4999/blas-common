@@ -1,4 +1,4 @@
-package com.blas.blascommon.utils;
+package com.blas.blascommon.security;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
