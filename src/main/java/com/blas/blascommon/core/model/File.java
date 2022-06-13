@@ -116,8 +116,8 @@ public class File {
         return isShareEveryone;
     }
 
-    public void setShareEveryone(boolean shareEveryone) {
-        isShareEveryone = shareEveryone;
+    public void setShareEveryone(boolean isShareEveryone) {
+        isShareEveryone = isShareEveryone;
     }
 
     @Override
