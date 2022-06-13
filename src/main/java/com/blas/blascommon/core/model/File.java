@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "files")
@@ -16,16 +18,20 @@ public class File {
 
     @Id
     @Column(name = "file_id", length = 50, nullable = false)
+    @NotEmpty
     private String fileId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "	fk_files_1"))
+    @NotNull
     private UserDetail userDetail;
 
     @Column(name = "file_name", length = 50, nullable = false)
+    @NotEmpty
     private String fileName;
 
     @Column(name = "file_path", length = 300, nullable = false)
+    @NotEmpty
     private String filePath;
 
     @Column(name = "time_upload", nullable = false)
@@ -35,9 +41,11 @@ public class File {
     private String description;
 
     @Column(name = "is_delete")
+    @NotEmpty
     private boolean isDelete;
 
     @Column(name = "is_share_everyone")
+    @NotEmpty
     private boolean isShareEveryone;
 
     public File() {

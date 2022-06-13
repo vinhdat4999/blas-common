@@ -2,6 +2,7 @@ package com.blas.blascommon.core.service.impl;
 
 import static com.blas.blascommon.constants.Response.ADDRESS_ID_NOT_FOUND;
 import static com.blas.blascommon.constants.Response.USER_ID_NOT_FOUND;
+import static com.blas.blascommon.utils.IdUtils.genUUID;
 
 import com.blas.blascommon.core.dao.AddressDao;
 import com.blas.blascommon.core.dao.AuthUserDao;
@@ -51,6 +52,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address createAddress(Address address) {
+        address.setAddressId(genUUID());
         return addressDao.save(address);
     }
 

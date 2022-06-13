@@ -5,6 +5,7 @@ import static com.blas.blascommon.constants.Response.FILE_ID_NOT_FOUND;
 import static com.blas.blascommon.constants.Response.FILE_PATH_NOT_FOUND;
 import static com.blas.blascommon.constants.Response.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.security.SecurityUtils.getUserIdLoggedIn;
+import static com.blas.blascommon.utils.IdUtils.genUUID;
 
 import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.dao.FileDao;
@@ -76,6 +77,7 @@ public class FileServiceImpl implements FileService {
         if (getFileByUserIdAndFilePath(file.getFilePath()) != null) {
             throw new BadRequestException(DUPLICATED_FILE);
         }
+        file.setFileId(genUUID());
         return fileDao.save(file);
     }
 
