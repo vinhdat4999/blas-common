@@ -24,4 +24,7 @@ public interface FileDao extends JpaRepository<File, String> {
     @Query("SELECT f FROM File f WHERE f.isDelete = false AND f.isShareEveryone = true")
     public List<File> getAllValidPublicFile();
 
+    @Query("SELECT f FROM File f WHERE f.userDetail.userId = ?1 AND f.filePath = ?2")
+    public File getFileByUserIdAndFilePath(String userId, String filePath);
+
 }

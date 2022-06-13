@@ -43,16 +43,22 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address getDefaultAddressByUser(String userId) {
-        return null;
+        if (authUserDao.findById(userId).isEmpty()) {
+            throw new NotFoundException(USER_ID_NOT_FOUND);
+        }
+        return addressDao.getDefaultAddressByUser(userId);
     }
 
     @Override
     public Address createAddress(Address address) {
-        return null;
+        return addressDao.save(address);
     }
 
     @Override
     public void updateAddress(Address address) {
-
+        if (addressDao.findById(address.getAddressId()).isEmpty()) {
+            throw new NotFoundException(ADDRESS_ID_NOT_FOUND);
+        }
+        addressDao.save(address);
     }
 }

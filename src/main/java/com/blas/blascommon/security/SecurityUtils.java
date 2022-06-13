@@ -1,5 +1,6 @@
 package com.blas.blascommon.security;
 
+import com.blas.blascommon.core.dao.AuthUserDao;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -22,6 +23,11 @@ public class SecurityUtils {
             username = principal.toString();
         }
         return username;
+    }
+
+    public static String getUserIdLoggedIn(AuthUserDao authUserDao) {
+        String username = getUsernameLoggedIn();
+        return authUserDao.getAuthUserByUsername(username).getUserId();
     }
 
     public static String md5Encode(String rawPassword) {

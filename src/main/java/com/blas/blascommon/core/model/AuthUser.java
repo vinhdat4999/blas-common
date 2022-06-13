@@ -100,11 +100,11 @@ public class AuthUser {
         this.countLoginFailed = countLoginFailed;
     }
 
-    public boolean isActive() {
+    public boolean isIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setIsActive(boolean active) {
         isActive = active;
     }
 

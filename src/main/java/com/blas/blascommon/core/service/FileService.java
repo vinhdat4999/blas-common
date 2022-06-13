@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface FileService {
 
-    public File getFileByFilePath(String filePath);
+    public File getFileByUserIdAndFilePath(String filePath);
 
     public List<File> getAllActiveFileByUser(String userId);
 
@@ -16,8 +16,6 @@ public interface FileService {
     public File createFile(File file);
 
     public void updateFile(File file);
-
-    public void deleteLogicFile(String fileId);
 
     public void deletePhysicalFile(String fileId);
 

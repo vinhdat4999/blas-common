@@ -11,9 +11,9 @@ public interface UserDetailDao extends JpaRepository<UserDetail, String> {
     @Query("SELECT u FROM UserDetail u WHERE u.authUser.username = ?1")
     public UserDetail getUserDetailByUsername(String username);
 
-    @Query("SELECT COUNT(u.phoneNumber) FROM UserDetail u WHERE u.phoneNumber = ?1")
-    public int countUserDetailByPhone(String phone);
+    @Query("SELECT u FROM UserDetail u WHERE u.phoneNumber = ?1")
+    public UserDetail getUserDetailByPhone(String phone);
 
-    @Query("SELECT COUNT(u.email) FROM UserDetail u WHERE u.email = ?1")
-    public int countUserDetailByEmail(String email);
+    @Query("SELECT u FROM UserDetail u WHERE u.email = ?1")
+    public UserDetail getUserDetailByEmail(String email);
 }

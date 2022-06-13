@@ -58,10 +58,10 @@ public class AuthUserServiceImpl implements AuthUserService {
                 || userDetailDao.getUserDetailByUsername(authUser.getUsername()) != null) {
             throw new BadRequestException(DUPLICATED_USERNAME);
         }
-        if (userDetailDao.countUserDetailByPhone(userDetail.getPhoneNumber()) > 0) {
+        if (userDetailDao.getUserDetailByPhone(userDetail.getPhoneNumber()) != null) {
             throw new BadRequestException(DUPLICATED_PHONE);
         }
-        if (userDetailDao.countUserDetailByEmail(userDetail.getEmail()) > 0) {
+        if (userDetailDao.getUserDetailByEmail(userDetail.getEmail()) != null) {
             throw new BadRequestException(DUPLICATED_EMAIL);
         }
         authUser = authUserDao.save(authUser);
@@ -71,13 +71,16 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     public void updateAuthUser(AuthUser authUser) {
-        if (!authUserDao.findById(authUser.getUserId()).isEmpty()) {
+        if (authUserDao.findById(authUser.getUserId()).isEmpty()) {
             throw new NotFoundException(USER_ID_NOT_FOUND);
         }
-        if (userDetailDao.countUserDetailByPhone(authUser.getUserDetail().getPhoneNumber()) > 0) {
+        UserDetail userDetail = userDetailDao.getUserDetailByPhone(
+                authUser.getUserDetail().getPhoneNumber());
+        if (userDetail != null && !userDetail.getUserId().equals(authUser.getUserId())) {
             throw new BadRequestException(DUPLICATED_PHONE);
         }
-        if (userDetailDao.countUserDetailByEmail(authUser.getUserDetail().getEmail()) > 0) {
+        userDetail = userDetailDao.getUserDetailByEmail(authUser.getUserDetail().getEmail());
+        if (userDetail != null && !userDetail.getUserId().equals(authUser.getUserId())) {
             throw new BadRequestException(DUPLICATED_EMAIL);
         }
         authUserDao.save(authUser);
