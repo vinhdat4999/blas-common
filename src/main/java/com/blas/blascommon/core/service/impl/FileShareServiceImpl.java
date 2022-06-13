@@ -5,6 +5,7 @@ import static com.blas.blascommon.constants.Response.FILE_PATH_NOT_FOUND;
 import static com.blas.blascommon.constants.Response.FILE_SHARE_ID_NOT_FOUND;
 import static com.blas.blascommon.constants.Response.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.security.SecurityUtils.getUserIdLoggedIn;
+import static com.blas.blascommon.utils.IdUtils.genUUID;
 
 import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.dao.FileDao;
@@ -71,6 +72,7 @@ public class FileShareServiceImpl implements FileShareService {
 
     @Override
     public FileShare createFileShare(FileShare fileShare) {
+        fileShare.setFileShareId(genUUID());
         return fileShareDao.save(fileShare);
     }
 

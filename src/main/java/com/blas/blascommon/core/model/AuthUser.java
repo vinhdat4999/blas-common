@@ -29,7 +29,7 @@ public class AuthUser {
     @NotNull
     private UserDetail userDetail;
 
-    @Column(name = "password", length = 100, nullable = false)
+    @Column(name = "password", length = 256, nullable = false)
     @NotEmpty
     private String password;
 

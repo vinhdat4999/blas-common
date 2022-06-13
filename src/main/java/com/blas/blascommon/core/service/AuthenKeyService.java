@@ -9,6 +9,8 @@ public interface AuthenKeyService {
 
     public boolean isValidAuthenKey(String userId, String authenKey, LocalDateTime timeCheck);
 
-    public AuthenKey createOrUpdateAuthenKey(AuthenKey authenKey);
+    public String createAuthenKey();
+
+    public void useAuthenKey();
 
 }

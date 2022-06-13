@@ -1,6 +1,7 @@
 package com.blas.blascommon.core.service.impl;
 
 import static com.blas.blascommon.constants.Response.ROLE_ID_NOT_FOUND;
+import static com.blas.blascommon.utils.IdUtils.genUUID;
 
 import com.blas.blascommon.core.dao.RoleDao;
 import com.blas.blascommon.core.model.Role;
@@ -29,6 +30,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role createRole(Role role) {
+        role.setRoleId(genUUID());
         return roleDao.save(role);
     }
 

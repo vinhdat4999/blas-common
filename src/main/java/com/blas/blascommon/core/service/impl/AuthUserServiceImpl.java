@@ -5,6 +5,7 @@ import static com.blas.blascommon.constants.Response.DUPLICATED_PHONE;
 import static com.blas.blascommon.constants.Response.DUPLICATED_USERNAME;
 import static com.blas.blascommon.constants.Response.USERNAME_NOT_FOUND;
 import static com.blas.blascommon.constants.Response.USER_ID_NOT_FOUND;
+import static com.blas.blascommon.utils.IdUtils.genUUID;
 
 import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.dao.UserDetailDao;
@@ -64,6 +65,8 @@ public class AuthUserServiceImpl implements AuthUserService {
         if (userDetailDao.getUserDetailByEmail(userDetail.getEmail()) != null) {
             throw new BadRequestException(DUPLICATED_EMAIL);
         }
+        authUser.setUserId(genUUID());
+        userDetail.setUserId(authUser.getUserId());
         authUser = authUserDao.save(authUser);
         userDetailDao.save(userDetail);
         return authUser;
