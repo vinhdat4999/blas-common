@@ -74,7 +74,7 @@ public class FileShareServiceImpl implements FileShareService {
     }
 
     @Override
-    public void deletePhysicFileShareByFileShareId(String fileShareId) {
+    public void deletePhysicalFileShareByFileShareId(String fileShareId) {
         Optional<FileShare> fileShare = fileShareDao.findById(fileShareId);
         if (fileShare.isEmpty()) {
             throw new NotFoundException(FILE_SHARE_ID_NOT_FOUND);
@@ -83,7 +83,7 @@ public class FileShareServiceImpl implements FileShareService {
     }
 
     @Override
-    public void deletePhysicFileShareByFileId(String fileId) {
+    public void deletePhysicalFileShareByFileId(String fileId) {
         List<FileShare> fileShareList = getAllFileShareByFileId(fileId);
         for (FileShare fileShare : fileShareList) {
             fileShareDao.delete(fileShare);

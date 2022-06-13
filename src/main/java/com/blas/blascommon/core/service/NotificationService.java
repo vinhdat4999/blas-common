@@ -13,6 +13,6 @@ public interface NotificationService {
 
     public void updateNotification(Notification notification);
 
-    public void deleteNotification(String notificationId);
+    public void deletePhysicalNotification(String notificationId);
 
 }

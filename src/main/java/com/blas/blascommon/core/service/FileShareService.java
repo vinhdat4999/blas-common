@@ -17,8 +17,8 @@ public interface FileShareService {
 
     public void updateFileShare(FileShare fileShare);
 
-    public void deletePhysicFileShareByFileShareId(String fileShareId);
+    public void deletePhysicalFileShareByFileShareId(String fileShareId);
 
-    public void deletePhysicFileShareByFileId(String fileId);
+    public void deletePhysicalFileShareByFileId(String fileId);
 
 }
