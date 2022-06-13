@@ -74,6 +74,12 @@ public class AuthUserServiceImpl implements AuthUserService {
         if (!authUserDao.findById(authUser.getUserId()).isEmpty()) {
             throw new NotFoundException(USER_ID_NOT_FOUND);
         }
+        if (userDetailDao.countUserDetailByPhone(authUser.getUserDetail().getPhoneNumber()) > 0) {
+            throw new BadRequestException(DUPLICATED_PHONE);
+        }
+        if (userDetailDao.countUserDetailByEmail(authUser.getUserDetail().getEmail()) > 0) {
+            throw new BadRequestException(DUPLICATED_EMAIL);
+        }
         authUserDao.save(authUser);
     }
 }

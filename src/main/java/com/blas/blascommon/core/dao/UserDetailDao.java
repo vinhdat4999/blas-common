@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserDetailDao extends JpaRepository<UserDetail, Integer> {
+public interface UserDetailDao extends JpaRepository<UserDetail, String> {
 
     @Query("SELECT u FROM UserDetail u WHERE u.authUser.username = ?1")
     public UserDetail getUserDetailByUsername(String username);
