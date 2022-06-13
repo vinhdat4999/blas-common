@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "authenkeys")
+@Table(name = "authen_keys")
 public class AuthenKey {
 
     @Id
@@ -71,11 +71,11 @@ public class AuthenKey {
         this.authenKey = authenKey;
     }
 
-    public boolean isUsed() {
+    public boolean isIsUsed() {
         return isUsed;
     }
 
-    public void setUsed(boolean used) {
+    public void setIsUsed(boolean used) {
         isUsed = used;
     }
 

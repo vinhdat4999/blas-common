@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AddressDao extends JpaRepository<Address, String> {
 
-    @Query("SELECT a FROM Address a WHERE a.isActive = false")
-    public List<Address> getAllActiveAddress();
+    @Query("SELECT a FROM Address a WHERE a.userDetail.userId = ?1 AND a.isDefault = true")
+    public Address getDefaultAddressByUser(String userId);
 
-    @Query("SELECT a FROM Address a WHERE a.isActive = false AND a.UserDetail.userId = ?1")
+    @Query("SELECT a FROM Address a WHERE a.isActive = true AND a.userDetail.userId = ?1")
     public List<Address> getAllActiveAddressByUser(String userId);
 
 }

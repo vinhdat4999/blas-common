@@ -87,11 +87,11 @@ public class Notification {
         this.linkRef = linkRef;
     }
 
-    public boolean isRead() {
+    public boolean isIsRead() {
         return isRead;
     }
 
-    public void setRead(boolean read) {
+    public void setIsRead(boolean read) {
         isRead = read;
     }
 

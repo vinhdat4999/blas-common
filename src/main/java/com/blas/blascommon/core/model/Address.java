@@ -14,11 +14,11 @@ import javax.persistence.Table;
 public class Address {
 
     @Id
-    @Column(name = "address_id")
+    @Column(name = "address_id", length = 50, nullable = false)
     private String addressId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "	fk_addresses_1"))
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_addresses_1"))
     private UserDetail userDetail;
 
     @Column(name = "city", length = 50, nullable = false)
@@ -103,19 +103,19 @@ public class Address {
         this.address = address;
     }
 
-    public boolean isDefault() {
+    public boolean isIsDefault() {
         return isDefault;
     }
 
-    public void setDefault(boolean aDefault) {
+    public void setIsDefault(boolean aDefault) {
         isDefault = aDefault;
     }
 
-    public boolean isActive() {
+    public boolean isIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setIsActive(boolean active) {
         isActive = active;
     }
 
