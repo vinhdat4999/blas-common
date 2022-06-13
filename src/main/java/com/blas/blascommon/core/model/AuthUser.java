@@ -28,7 +28,7 @@ public class AuthUser {
     private String password;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_auth_user_1"))
+    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_auth_users_1"))
     private Role role;
 
     @Column(name = "count_login_failed")

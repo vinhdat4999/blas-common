@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface NotificationDao extends JpaRepository<Notification, String> {
 
-    @Query("SELECT n FROM Notification n WHERE n.UserDetail.userId = ?1")
+    @Query("SELECT n FROM Notification n WHERE n.userDetail.userId = ?1")
     public List<Notification> getAllNotificationByUser(String userId);
 
-    @Query("SELECT n FROM Notification n WHERE n.UserDetail.userId = ?1 AND n.isRead = false")
+    @Query("SELECT n FROM Notification n WHERE n.userDetail.userId = ?1 AND n.isRead = false")
     public int getNumberOfUnreadNotificationByUser(String userId);
 
 }

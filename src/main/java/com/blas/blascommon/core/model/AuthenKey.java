@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "authenkeys")
+@Table(name = "authen_keys")
 public class AuthenKey {
 
     @Id

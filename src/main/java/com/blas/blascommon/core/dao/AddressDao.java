@@ -12,7 +12,7 @@ public interface AddressDao extends JpaRepository<Address, String> {
     @Query("SELECT a FROM Address a WHERE a.isActive = false")
     public List<Address> getAllActiveAddress();
 
-    @Query("SELECT a FROM Address a WHERE a.isActive = false AND a.UserDetail.userId = ?1")
+    @Query("SELECT a FROM Address a WHERE a.isActive = false AND a.userDetail.userId = ?1")
     public List<Address> getAllActiveAddressByUser(String userId);
 
 }

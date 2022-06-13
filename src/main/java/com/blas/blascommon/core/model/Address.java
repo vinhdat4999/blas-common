@@ -14,11 +14,11 @@ import javax.persistence.Table;
 public class Address {
 
     @Id
-    @Column(name = "address_id")
+    @Column(name = "address_id", length = 50, nullable = false)
     private String addressId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "	fk_addresses_1"))
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_addresses_1"))
     private UserDetail userDetail;
 
     @Column(name = "city", length = 50, nullable = false)
