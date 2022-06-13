@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "authen_keys")
@@ -16,19 +18,23 @@ public class AuthenKey {
 
     @Id
     @Column(name = "authen_id", length = 50, nullable = false)
+    @NotEmpty
     private String authenId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "	fk_authen_keys_1"))
+    @NotNull
     private AuthUser authUser;
 
     @Column(name = "authen_key", length = 10, nullable = false)
+    @NotEmpty
     private String authenKey;
 
     @Column(name = "is_used")
     private boolean isUsed;
 
     @Column(name = "time_generate")
+    @NotEmpty
     private LocalDateTime timeGenerate;
 
     @Column(name = "time_used")

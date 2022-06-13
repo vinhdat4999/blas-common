@@ -4,7 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
-| 1.9.0   | 13/06/2022   | Add common services                                                             |
+| 1.9.1   | 13/06/2022   | Add common services                                                             |
 | 1.8.0   | 12/06/2022   | Add common business logic                                                       |
 | 1.7.2   | 11/06/2022   | New utilities: Time, update utilities of service: File                          |
 | 1.6.0   | 04/06/2022   | New utilities of service: Image resize                                          |
