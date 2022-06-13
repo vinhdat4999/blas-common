@@ -29,6 +29,11 @@ public class FileServiceImpl implements FileService {
     private FileDao fileDao;
 
     @Override
+    public List<File> getAllFile() {
+        return fileDao.getAllFile();
+    }
+
+    @Override
     public File getFileByUserIdAndFilePath(String filePath) {
         File file = fileDao.getFileByUserIdAndFilePath(getUserIdLoggedIn(authUserDao), filePath);
         if (file == null) {

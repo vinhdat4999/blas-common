@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface FileService {
 
+    public List<File> getAllFile();
+
     public File getFileByUserIdAndFilePath(String filePath);
 
     public List<File> getAllActiveFileByUser(String userId);
