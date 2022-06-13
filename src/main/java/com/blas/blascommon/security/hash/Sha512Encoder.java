@@ -1,6 +1,5 @@
 package com.blas.blascommon.security.hash;
 
-import static com.blas.blascommon.security.SecurityUtils.sha256Encode;
 import static com.blas.blascommon.security.SecurityUtils.sha512Encode;
 
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -12,7 +12,7 @@ public interface FileService {
     public List<File> searchAllActiveFileByUser(String userId, String keyword);
 
     public List<File> getAllFileDeletedByUser(String userId);
-    
+
     public List<File> getAllValidPublicFile();
 
     public File createFile(File file);
