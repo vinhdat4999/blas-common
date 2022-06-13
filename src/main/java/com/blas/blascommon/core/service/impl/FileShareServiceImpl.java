@@ -70,6 +70,10 @@ public class FileShareServiceImpl implements FileShareService {
 
     @Override
     public void updateFileShare(FileShare fileShare) {
+        Optional<FileShare> fileShareOld = fileShareDao.findById(fileShare.getFileShareId());
+        if (fileShareOld.isEmpty()) {
+            throw new NotFoundException(FILE_SHARE_ID_NOT_FOUND);
+        }
         fileShareDao.save(fileShare);
     }
 

@@ -7,14 +7,14 @@ public interface UserDetailService {
 
     public List<UserDetail> getAllUserDetail();
 
-    public UserDetail getUserDetailByUserId(String UserId);
+    public UserDetail getUserDetailByUserId(String userId);
 
     public UserDetail getUserDetailByUsername(String username);
 
     public void updateUserDetail(UserDetail userDetail);
 
-    public int countUserDetailByPhone(String phone);
+    public UserDetail findUserDetailByPhone(String phone);
 
-    public int countUserDetailByEmail(String email);
+    public UserDetail findUserDetailByEmail(String email);
 
 }

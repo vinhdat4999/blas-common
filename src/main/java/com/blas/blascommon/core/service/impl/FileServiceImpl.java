@@ -71,8 +71,12 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void updateFile(File file) {
-        File fileOld = getFileByUserIdAndFilePath(file.getFilePath());
-        if (fileOld != null && !fileOld.getFileId().equals(file.getFileId())) {
+        Optional<File> fileOld = fileDao.findById(file.getFileId());
+        if (fileOld.isEmpty()) {
+            throw new NotFoundException(FILE_ID_NOT_FOUND);
+        }
+        File fileOldObject = getFileByUserIdAndFilePath(file.getFilePath());
+        if (fileOldObject != null && !fileOldObject.getFileId().equals(file.getFileId())) {
             throw new BadRequestException(DUPLICATED_FILE);
         }
         fileDao.save(file);

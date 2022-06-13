@@ -50,6 +50,11 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void updateNotification(Notification notification) {
+        Optional<Notification> notificationOld = notificationDao.findById(
+                notification.getNofiticationId());
+        if (notificationOld.isEmpty()) {
+            throw new NotFoundException(NOTIFICATION_ID_NOT_FOUND);
+        }
         notificationDao.save(notification);
     }
 
