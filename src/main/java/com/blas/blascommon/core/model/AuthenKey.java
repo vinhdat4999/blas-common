@@ -71,11 +71,11 @@ public class AuthenKey {
         this.authenKey = authenKey;
     }
 
-    public boolean isUsed() {
+    public boolean isIsUsed() {
         return isUsed;
     }
 
-    public void setUsed(boolean used) {
+    public void setIsUsed(boolean used) {
         isUsed = used;
     }
 

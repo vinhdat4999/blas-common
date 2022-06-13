@@ -104,20 +104,20 @@ public class File {
         this.description = description;
     }
 
-    public boolean isDelete() {
+    public boolean isIsDelete() {
         return isDelete;
     }
 
-    public void setDelete(boolean delete) {
+    public void setIsDelete(boolean delete) {
         isDelete = delete;
     }
 
-    public boolean isShareEveryone() {
+    public boolean isIsShareEveryone() {
         return isShareEveryone;
     }
 
-    public void setShareEveryone(boolean shareEveryone) {
-        isShareEveryone = shareEveryone;
+    public void setIsShareEveryone(boolean isShareEveryone) {
+        isShareEveryone = isShareEveryone;
     }
 
     @Override

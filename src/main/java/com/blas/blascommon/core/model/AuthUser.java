@@ -40,11 +40,12 @@ public class AuthUser {
     public AuthUser() {
     }
 
-    public AuthUser(String userId, String username, String password, Role role,
-            int countLoginFailed,
-            boolean isActive) {
+    public AuthUser(String userId, String username, UserDetail userDetail, String password,
+            Role role,
+            int countLoginFailed, boolean isActive) {
         this.userId = userId;
         this.username = username;
+        this.userDetail = userDetail;
         this.password = password;
         this.role = role;
         this.countLoginFailed = countLoginFailed;
@@ -65,6 +66,14 @@ public class AuthUser {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public UserDetail getUserDetail() {
+        return userDetail;
+    }
+
+    public void setUserDetail(UserDetail userDetail) {
+        this.userDetail = userDetail;
     }
 
     public String getPassword() {
@@ -104,6 +113,7 @@ public class AuthUser {
         return "AuthUser{" +
                 "userId='" + userId + '\'' +
                 ", username='" + username + '\'' +
+                ", userDetail=" + userDetail +
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", countLoginFailed=" + countLoginFailed +
