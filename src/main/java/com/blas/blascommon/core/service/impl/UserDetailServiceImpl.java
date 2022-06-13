@@ -5,7 +5,6 @@ import static com.blas.blascommon.constants.Response.DUPLICATED_PHONE;
 import static com.blas.blascommon.constants.Response.USERNAME_NOT_FOUND;
 import static com.blas.blascommon.constants.Response.USER_ID_NOT_FOUND;
 
-import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.dao.UserDetailDao;
 import com.blas.blascommon.core.model.UserDetail;
 import com.blas.blascommon.core.service.UserDetailService;
@@ -20,9 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class UserDetailServiceImpl implements UserDetailService {
-
-    @Autowired
-    private AuthUserDao authUserDao;
 
     @Autowired
     private UserDetailDao userDetailDao;
