@@ -62,6 +62,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public List<File> getAllValidPublicFile() {
+        return fileDao.getAllValidPublicFile();
+    }
+
+    @Override
     public File createFile(File file) {
         if (getFileByUserIdAndFilePath(file.getFilePath()) != null) {
             throw new BadRequestException(DUPLICATED_FILE);

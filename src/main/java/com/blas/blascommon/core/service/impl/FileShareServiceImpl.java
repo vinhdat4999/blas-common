@@ -3,11 +3,13 @@ package com.blas.blascommon.core.service.impl;
 import static com.blas.blascommon.constants.Response.FILE_ID_NOT_FOUND;
 import static com.blas.blascommon.constants.Response.FILE_PATH_NOT_FOUND;
 import static com.blas.blascommon.constants.Response.FILE_SHARE_ID_NOT_FOUND;
+import static com.blas.blascommon.constants.Response.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.security.SecurityUtils.getUserIdLoggedIn;
 
 import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.dao.FileDao;
 import com.blas.blascommon.core.dao.FileShareDao;
+import com.blas.blascommon.core.model.AuthUser;
 import com.blas.blascommon.core.model.File;
 import com.blas.blascommon.core.model.FileShare;
 import com.blas.blascommon.core.service.FileShareService;
@@ -51,7 +53,11 @@ public class FileShareServiceImpl implements FileShareService {
 
     @Override
     public List<FileShare> getAllFileShareByShareForThisUser(String userId) {
-        return null;
+        Optional<AuthUser> authUser = authUserDao.findById(userId);
+        if (authUser.isEmpty()) {
+            throw new NotFoundException(USER_ID_NOT_FOUND);
+        }
+        return fileShareDao.getAllFileShareByShareForThisUser(userId);
     }
 
     @Override
