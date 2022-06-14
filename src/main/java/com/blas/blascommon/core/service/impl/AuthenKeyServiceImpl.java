@@ -12,6 +12,7 @@ import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.dao.AuthenKeyDao;
 import com.blas.blascommon.core.model.AuthUser;
 import com.blas.blascommon.core.model.AuthenKey;
+import com.blas.blascommon.core.service.AuthUserService;
 import com.blas.blascommon.core.service.AuthenKeyService;
 import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.NotFoundException;
@@ -34,6 +35,9 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
 
     @Autowired
     private Sha256Encoder sha256Encoder;
+
+    @Autowired
+    private AuthUserService authUserService;
 
     @Override
     public AuthenKey getAuthenKeyByUserId(String userId) {
@@ -65,7 +69,7 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
 
     @Override
     public String createAuthenKey() {
-        Optional<AuthUser> authUser = authUserDao.findById(getUserIdLoggedIn(authUserDao));
+        Optional<AuthUser> authUser = authUserDao.findById(getUserIdLoggedIn(authUserService));
         if (authUser == null) {
             throw new BadRequestException(USER_ID_NOT_FOUND);
         }
@@ -90,7 +94,7 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
 
     @Override
     public void useAuthenKey() {
-        Optional<AuthUser> authUser = authUserDao.findById(getUserIdLoggedIn(authUserDao));
+        Optional<AuthUser> authUser = authUserDao.findById(getUserIdLoggedIn(authUserService));
         if (authUser == null) {
             throw new BadRequestException(USER_ID_NOT_FOUND);
         }

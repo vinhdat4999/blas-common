@@ -10,6 +10,7 @@ import static com.blas.blascommon.utils.IdUtils.genUUID;
 import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.dao.FileDao;
 import com.blas.blascommon.core.model.File;
+import com.blas.blascommon.core.service.AuthUserService;
 import com.blas.blascommon.core.service.FileService;
 import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.NotFoundException;
@@ -29,6 +30,9 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private FileDao fileDao;
 
+    @Autowired
+    private AuthUserService authUserService;
+
     @Override
     public List<File> getAllFile() {
         return fileDao.getAllFile();
@@ -36,7 +40,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public File getFileByUserIdAndFilePath(String filePath) {
-        File file = fileDao.getFileByUserIdAndFilePath(getUserIdLoggedIn(authUserDao), filePath);
+        File file = fileDao.getFileByUserIdAndFilePath(getUserIdLoggedIn(authUserService),
+                filePath);
         if (file == null) {
             throw new NotFoundException(FILE_PATH_NOT_FOUND);
         }

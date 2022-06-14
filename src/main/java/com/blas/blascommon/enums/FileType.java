@@ -2,11 +2,11 @@ package com.blas.blascommon.enums;
 
 public enum FileType {
 
-    JPG(".jpg"),
-    JPEG(".jpeg"),
-    PNG(".png"),
-    SVG(".svg"),
-    GIF(".gif");
+    JPG("jpg"),
+    JPEG("jpeg"),
+    PNG("png"),
+    SVG("svg"),
+    GIF("gif");
 
     private String postfix;
 
