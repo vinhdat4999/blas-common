@@ -83,6 +83,16 @@
             <artifactId>httpclient</artifactId>
             <version>${org.apache.httpcomponents}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>${com.google.zxing}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>${com.google.zxing}</version>
+        </dependency>
     </dependencies>
 
 </project>

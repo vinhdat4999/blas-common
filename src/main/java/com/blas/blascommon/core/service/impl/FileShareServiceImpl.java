@@ -13,6 +13,7 @@ import com.blas.blascommon.core.dao.FileShareDao;
 import com.blas.blascommon.core.model.AuthUser;
 import com.blas.blascommon.core.model.File;
 import com.blas.blascommon.core.model.FileShare;
+import com.blas.blascommon.core.service.AuthUserService;
 import com.blas.blascommon.core.service.FileShareService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
@@ -34,6 +35,9 @@ public class FileShareServiceImpl implements FileShareService {
     @Autowired
     private FileShareDao fileShareDao;
 
+    @Autowired
+    private AuthUserService authUserService;
+
     @Override
     public List<FileShare> getAllFileShareByFileId(String fileId) {
         Optional<File> file = fileDao.findById(fileId);
@@ -45,7 +49,8 @@ public class FileShareServiceImpl implements FileShareService {
 
     @Override
     public List<FileShare> getAllFileShareByFilePath(String filePath) {
-        File file = fileDao.getFileByUserIdAndFilePath(getUserIdLoggedIn(authUserDao), filePath);
+        File file = fileDao.getFileByUserIdAndFilePath(getUserIdLoggedIn(authUserService),
+                filePath);
         if (file == null) {
             throw new NotFoundException(FILE_PATH_NOT_FOUND);
         }
