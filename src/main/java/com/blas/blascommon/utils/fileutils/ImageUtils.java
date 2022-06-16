@@ -1,4 +1,4 @@
-package com.blas.blascommon.utils;
+package com.blas.blascommon.utils.fileutils;
 
 import static com.blas.blascommon.constants.Configuration.BAR_CODE_HEIGHT;
 import static com.blas.blascommon.constants.Configuration.BAR_CODE_WIDTH;

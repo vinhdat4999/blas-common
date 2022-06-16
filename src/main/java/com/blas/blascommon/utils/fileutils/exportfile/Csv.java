@@ -1,4 +1,4 @@
-package com.blas.blascommon.utils.export;
+package com.blas.blascommon.utils.fileutils.exportfile;
 
 import com.opencsv.CSVWriter;
 import java.io.FileWriter;
@@ -13,10 +13,9 @@ public class Csv {
         list.add(headers);
         list.addAll(data);
         try (CSVWriter writer = new CSVWriter(new FileWriter(path))) {
-            writer.writeAll(data);
+            writer.writeAll(list);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
 }

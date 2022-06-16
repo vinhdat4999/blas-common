@@ -1,4 +1,4 @@
-package com.blas.blascommon.utils;
+package com.blas.blascommon.utils.fileutils;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;

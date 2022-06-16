@@ -1,4 +1,4 @@
-package com.blas.blascommon.utils.export;
+package com.blas.blascommon.utils.fileutils.exportfile;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,7 +42,6 @@ public class Excel {
         }
     }
 
-    // Create workbook
     private static Workbook getWorkbook(String excelFilePath) throws IOException {
         Workbook workbook = null;
         if (excelFilePath.endsWith("xlsx")) {
@@ -52,7 +51,6 @@ public class Excel {
         } else {
             throw new IllegalArgumentException("The specified file is not Excel file");
         }
-
         return workbook;
     }
 
