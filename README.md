@@ -4,7 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
-| 1.11.0  | 17/06/2022   | Export to CSV and Excel (xlsx)                                                  |
+| 1.11.0  | 17/06/2022   | Export, import CSV and Excel (xlsx)                                             |
 | 1.10.0  | 14/06/2022   | Add QR code and bar code generator                                              |
 | 1.9.1   | 13/06/2022   | Add common services                                                             |
 | 1.8.0   | 12/06/2022   | Add common business logic                                                       |
