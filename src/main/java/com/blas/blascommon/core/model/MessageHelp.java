@@ -31,7 +31,7 @@ public class MessageHelp {
     private LocalDateTime createTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_message_helps_2"))
+    @JoinColumn(name = "create_by", foreignKey = @ForeignKey(name = "fk_message_helps_2"))
     @NotNull
     private UserDetail createBy;
 
