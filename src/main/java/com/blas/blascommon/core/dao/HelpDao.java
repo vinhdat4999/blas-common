@@ -15,4 +15,7 @@ public interface HelpDao extends JpaRepository<Help, String> {
     @Query("SELECT h FROM Help h WHERE h.status = ?1")
     public List<Help> getHelpListByStatus(String status);
 
+    @Query("SELECT count(1)>0 FROM Help h WHERE h.ticketId = ?1")
+    public boolean isExistedHelpTicketId(String ticketId);
+
 }

@@ -4,7 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
-| 1.12.0  | 24/06/2022   | Add new service: Create help                                                    |
+| 1.12.0  | 23/06/2022   | Add new service: Create help                                                    |
 | 1.11.0  | 17/06/2022   | Export, import CSV and Excel (xlsx, xls)                                        |
 | 1.10.0  | 14/06/2022   | Add QR code and bar code generator                                              |
 | 1.9.1   | 13/06/2022   | Add common services                                                             |
