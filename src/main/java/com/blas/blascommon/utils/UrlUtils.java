@@ -41,37 +41,37 @@ public class UrlUtils {
     }
 
     public static String toUrlStandard(String str) {
-        str = str.replace(" ", "-");
-        str = str.replace("'", "");
-        str = str.replace(",", "");
-        str = str.replace(".", "");
-        str = str.replace("?", "");
-        str = str.replace("/", "");
-        str = str.replace("\\", "");
-        str = str.replace("|", "");
-        str = str.replace("@", "");
-        str = str.replace("#", "");
-        str = str.replace("$", "");
-        str = str.replace("%", "");
-        str = str.replace("^", "");
-        str = str.replace("&", "");
-        str = str.replace("*", "");
-        str = str.replace("(", "");
-        str = str.replace(")", "");
-        str = str.replace("_", "");
-        str = str.replace("=", "");
-        str = str.replace("+", "");
-        str = str.replace("~", "");
-        str = str.replace("!", "");
-        str = str.replace(";", "");
-        str = str.replace("[", "");
-        str = str.replace("]", "");
-        str = str.replace("{", "");
-        str = str.replace("}", "");
-        str = str.replace("\"", "");
-        str = str.replace(":", "");
-        str = str.toLowerCase();
         StringBuilder sb = new StringBuilder(str);
+        sb = new StringBuilder(sb.toString().replace(" ", "-"));
+        sb = new StringBuilder(sb.toString().replace("'", ""));
+        sb = new StringBuilder(sb.toString().replace(",", ""));
+        sb = new StringBuilder(sb.toString().replace(".", ""));
+        sb = new StringBuilder(sb.toString().replace("?", ""));
+        sb = new StringBuilder(sb.toString().replace("/", ""));
+        sb = new StringBuilder(sb.toString().replace("\\", ""));
+        sb = new StringBuilder(sb.toString().replace("|", ""));
+        sb = new StringBuilder(sb.toString().replace("@", ""));
+        sb = new StringBuilder(sb.toString().replace("#", ""));
+        sb = new StringBuilder(sb.toString().replace("$", ""));
+        sb = new StringBuilder(sb.toString().replace("%", ""));
+        sb = new StringBuilder(sb.toString().replace("^", ""));
+        sb = new StringBuilder(sb.toString().replace("&", ""));
+        sb = new StringBuilder(sb.toString().replace("*", ""));
+        sb = new StringBuilder(sb.toString().replace("(", ""));
+        sb = new StringBuilder(sb.toString().replace(")", ""));
+        sb = new StringBuilder(sb.toString().replace("_", ""));
+        sb = new StringBuilder(sb.toString().replace("=", ""));
+        sb = new StringBuilder(sb.toString().replace("+", ""));
+        sb = new StringBuilder(sb.toString().replace("~", ""));
+        sb = new StringBuilder(sb.toString().replace("!", ""));
+        sb = new StringBuilder(sb.toString().replace(";", ""));
+        sb = new StringBuilder(sb.toString().replace("[", ""));
+        sb = new StringBuilder(sb.toString().replace("]", ""));
+        sb = new StringBuilder(sb.toString().replace("{", ""));
+        sb = new StringBuilder(sb.toString().replace("}", ""));
+        sb = new StringBuilder(sb.toString().replace("\"", ""));
+        sb = new StringBuilder(sb.toString().replace(":", ""));
+        sb = new StringBuilder(sb.toString().toLowerCase());
         for (int i = 0; i < sb.length(); i++) {
             sb.setCharAt(i, removeAccent(sb.charAt(i)));
         }
