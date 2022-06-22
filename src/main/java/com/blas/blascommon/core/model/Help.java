@@ -26,7 +26,7 @@ public class Help {
     private LocalDateTime createTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_helps_1"))
+    @JoinColumn(name = "create_by", foreignKey = @ForeignKey(name = "fk_helps_1"))
     @NotNull
     private UserDetail createBy;
 
@@ -35,7 +35,7 @@ public class Help {
     private LocalDateTime updateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_helps_2"))
+    @JoinColumn(name = "update_by", foreignKey = @ForeignKey(name = "fk_helps_2"))
     @NotNull
     private UserDetail updateBy;
 
