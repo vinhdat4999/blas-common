@@ -6,7 +6,9 @@ public enum FileType {
     JPEG("jpeg"),
     PNG("png"),
     SVG("svg"),
-    GIF("gif");
+    GIF("gif"),
+    XLSX("xlsx"),
+    XLS("xls");
 
     private String postfix;
 
