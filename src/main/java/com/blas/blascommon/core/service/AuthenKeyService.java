@@ -12,6 +12,6 @@ public interface AuthenKeyService {
 
     public String createAuthenKey(AuthUser authUser);
 
-    public void useAuthenKey();
+    public void useAuthenKey(AuthUser authUser);
 
 }
