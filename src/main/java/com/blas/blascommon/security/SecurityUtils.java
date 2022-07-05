@@ -1,6 +1,5 @@
 package com.blas.blascommon.security;
 
-import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.service.AuthUserService;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -135,6 +134,10 @@ public class SecurityUtils {
 
     public static String base64Encode(byte[] content) {
         return Base64.getEncoder().encodeToString(content);
+    }
+
+    public static byte[] base64Decode(String base64Content) {
+        return Base64.getDecoder().decode(base64Content);
     }
 
 }

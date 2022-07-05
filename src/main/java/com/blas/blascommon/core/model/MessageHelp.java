@@ -11,7 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "message_helps")
 public class MessageHelp {
@@ -38,67 +40,4 @@ public class MessageHelp {
     @NotEmpty
     @Column(name = "message", nullable = false)
     private String message;
-
-    public MessageHelp() {
-    }
-
-    public MessageHelp(String id, Help ticket_id, LocalDateTime createTime, UserDetail createBy,
-            String message) {
-        this.id = id;
-        this.ticket_id = ticket_id;
-        this.createTime = createTime;
-        this.createBy = createBy;
-        this.message = message;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Help getTicket_id() {
-        return ticket_id;
-    }
-
-    public void setTicket_id(Help ticket_id) {
-        this.ticket_id = ticket_id;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public UserDetail getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(UserDetail createBy) {
-        this.createBy = createBy;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return "MessageHelp{" +
-                "id='" + id + '\'' +
-                ", ticket_id=" + ticket_id +
-                ", createTime=" + createTime +
-                ", createBy=" + createBy +
-                ", message='" + message + '\'' +
-                '}';
-    }
 }

@@ -11,7 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "notifications")
 public class Notification {
@@ -40,77 +42,4 @@ public class Notification {
     @Column(name = "is_read")
     @NotEmpty
     private boolean isRead;
-
-    public Notification() {
-    }
-
-    public Notification(String nofiticationId, UserDetail userDetail, String content,
-            LocalDateTime time, String linkRef, boolean isRead) {
-        this.nofiticationId = nofiticationId;
-        this.userDetail = userDetail;
-        this.content = content;
-        this.time = time;
-        this.linkRef = linkRef;
-        this.isRead = isRead;
-    }
-
-    public String getNofiticationId() {
-        return nofiticationId;
-    }
-
-    public void setNofiticationId(String nofiticationId) {
-        this.nofiticationId = nofiticationId;
-    }
-
-    public UserDetail getUserDetail() {
-        return userDetail;
-    }
-
-    public void setUserDetail(UserDetail userDetail) {
-        this.userDetail = userDetail;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
-
-    public String getLinkRef() {
-        return linkRef;
-    }
-
-    public void setLinkRef(String linkRef) {
-        this.linkRef = linkRef;
-    }
-
-    public boolean isIsRead() {
-        return isRead;
-    }
-
-    public void setIsRead(boolean read) {
-        isRead = read;
-    }
-
-    @Override
-    public String toString() {
-        return "Notification{" +
-                "nofiticationId='" + nofiticationId + '\'' +
-                ", userDetail=" + userDetail +
-                ", content='" + content + '\'' +
-                ", time=" + time +
-                ", linkRef='" + linkRef + '\'' +
-                ", isRead=" + isRead +
-                '}';
-    }
 }

@@ -5,7 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -22,43 +24,4 @@ public class Role {
     @Column(name = "is_active")
     @NotEmpty
     private boolean isActive;
-
-    public Role() {
-    }
-
-    public Role(String roleId, String roleName, boolean isActive) {
-        super();
-        this.roleId = roleId;
-        this.roleName = roleName;
-        this.isActive = isActive;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public boolean isIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    @Override
-    public String toString() {
-        return "Role [roleId=" + roleId + ", roleName=" + roleName + ", isActive=" + isActive + "]";
-    }
 }

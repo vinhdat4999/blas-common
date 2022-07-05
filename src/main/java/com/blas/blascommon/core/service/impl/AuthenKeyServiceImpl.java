@@ -57,7 +57,7 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
         if (!authenKeyObject.getAuthUser().getUsername().equals(getUsernameLoggedIn())) {
             return false;
         }
-        if (authenKeyObject.isIsUsed()) {
+        if (authenKeyObject.isUsed()) {
             return false;
         }
         if (getTimeNow().isAfter(
@@ -68,27 +68,25 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
     }
 
     @Override
-    public String createAuthenKey() {
-        Optional<AuthUser> authUser = authUserDao.findById(getUserIdLoggedIn(authUserService));
-        if (authUser == null) {
-            throw new BadRequestException(USER_ID_NOT_FOUND);
-        }
-        AuthenKey authenKeyOld = authenKeyDao.getAuthenKeyByUserId(authUser.get().getUserId());
+    public String createAuthenKey(AuthUser authUser) {
+        AuthenKey authenKeyOld = authenKeyDao.getAuthenKeyByUserId(authUser.getUserId());
         String key = genMixID();
         if (authenKeyOld == null) {
             AuthenKey authenKey = new AuthenKey();
             authenKey.setAuthenId(genUUID());
             authenKey.setAuthenKey(sha256Encoder.encode(key));
-            authenKey.setAuthUser(authUser.get());
+            authenKey.setAuthUser(authUser);
             authenKey.setTimeGenerate(getTimeNow());
-            authenKey.setIsUsed(false);
+            authenKey.setUsed(false);
+            authenKeyDao.save(authenKey);
             return key;
         }
         authenKeyOld.setAuthenKey(sha256Encoder.encode(key));
         authenKeyOld.setAuthenKey(genMixID());
-        authenKeyOld.setAuthUser(authUser.get());
+        authenKeyOld.setAuthUser(authUser);
         authenKeyOld.setTimeGenerate(getTimeNow());
-        authenKeyOld.setIsUsed(false);
+        authenKeyOld.setUsed(false);
+        authenKeyDao.save(authenKeyOld);
         return key;
     }
 
@@ -99,7 +97,7 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
             throw new BadRequestException(USER_ID_NOT_FOUND);
         }
         AuthenKey authenKeyOld = authenKeyDao.getAuthenKeyByUserId(authUser.get().getUserId());
-        authenKeyOld.setIsUsed(true);
+        authenKeyOld.setUsed(true);
         authenKeyOld.setTimeUsed(getTimeNow());
         authenKeyDao.save(authenKeyOld);
     }

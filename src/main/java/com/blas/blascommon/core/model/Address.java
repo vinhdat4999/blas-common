@@ -10,7 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "addresses")
 public class Address {
@@ -48,98 +50,4 @@ public class Address {
     @Column(name = "is_active")
     @NotEmpty
     private boolean isActive;
-
-    public Address() {
-    }
-
-    public Address(String addressId, UserDetail userDetail, String city, String district,
-            String ward,
-            String address, boolean isDefault, boolean isActive) {
-        this.addressId = addressId;
-        this.userDetail = userDetail;
-        this.city = city;
-        this.district = district;
-        this.ward = ward;
-        this.address = address;
-        this.isDefault = isDefault;
-        this.isActive = isActive;
-    }
-
-    public String getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(String addressId) {
-        this.addressId = addressId;
-    }
-
-    public UserDetail getUserDetail() {
-        return userDetail;
-    }
-
-    public void setUserDetail(UserDetail userDetail) {
-        this.userDetail = userDetail;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getWard() {
-        return ward;
-    }
-
-    public void setWard(String ward) {
-        this.ward = ward;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public boolean isIsDefault() {
-        return isDefault;
-    }
-
-    public void setIsDefault(boolean aDefault) {
-        isDefault = aDefault;
-    }
-
-    public boolean isIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean active) {
-        isActive = active;
-    }
-
-    @Override
-    public String toString() {
-        return "Address{" +
-                "addressId='" + addressId + '\'' +
-                ", userDetail=" + userDetail +
-                ", city='" + city + '\'' +
-                ", district='" + district + '\'' +
-                ", ward='" + ward + '\'' +
-                ", address='" + address + '\'' +
-                ", isDefault=" + isDefault +
-                ", isActive=" + isActive +
-                '}';
-    }
 }

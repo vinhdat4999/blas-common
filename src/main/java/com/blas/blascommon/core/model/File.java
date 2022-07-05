@@ -11,7 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "files")
 public class File {
@@ -47,98 +49,4 @@ public class File {
     @Column(name = "is_share_everyone")
     @NotEmpty
     private boolean isShareEveryone;
-
-    public File() {
-    }
-
-    public File(String fileId, UserDetail userDetail, String fileName, String filePath,
-            LocalDateTime timeUpload, String description, boolean isDelete,
-            boolean isShareEveryone) {
-        this.fileId = fileId;
-        this.userDetail = userDetail;
-        this.fileName = fileName;
-        this.filePath = filePath;
-        this.timeUpload = timeUpload;
-        this.description = description;
-        this.isDelete = isDelete;
-        this.isShareEveryone = isShareEveryone;
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public void setFileId(String fileId) {
-        this.fileId = fileId;
-    }
-
-    public UserDetail getUserDetail() {
-        return userDetail;
-    }
-
-    public void setUserDetail(UserDetail userDetail) {
-        this.userDetail = userDetail;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public LocalDateTime getTimeUpload() {
-        return timeUpload;
-    }
-
-    public void setTimeUpload(LocalDateTime timeUpload) {
-        this.timeUpload = timeUpload;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(boolean delete) {
-        isDelete = delete;
-    }
-
-    public boolean isIsShareEveryone() {
-        return isShareEveryone;
-    }
-
-    public void setIsShareEveryone(boolean isShareEveryone) {
-        isShareEveryone = isShareEveryone;
-    }
-
-    @Override
-    public String toString() {
-        return "File{" +
-                "fileId='" + fileId + '\'' +
-                ", userDetail=" + userDetail +
-                ", fileName='" + fileName + '\'' +
-                ", filePath='" + filePath + '\'' +
-                ", timeUpload=" + timeUpload +
-                ", description='" + description + '\'' +
-                ", isDelete=" + isDelete +
-                ", isShareEveryone=" + isShareEveryone +
-                '}';
-    }
 }

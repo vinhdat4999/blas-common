@@ -11,7 +11,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "auth_users")
 public class AuthUser {
@@ -42,91 +44,11 @@ public class AuthUser {
     @NotEmpty
     private int countLoginFailed;
 
+    @Column(name = "is_block")
+    @NotEmpty
+    private boolean isBlock;
+
     @Column(name = "is_active")
     @NotEmpty
     private boolean isActive;
-
-    public AuthUser() {
-    }
-
-    public AuthUser(String userId, String username, UserDetail userDetail, String password,
-            Role role,
-            int countLoginFailed, boolean isActive) {
-        this.userId = userId;
-        this.username = username;
-        this.userDetail = userDetail;
-        this.password = password;
-        this.role = role;
-        this.countLoginFailed = countLoginFailed;
-        this.isActive = isActive;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public UserDetail getUserDetail() {
-        return userDetail;
-    }
-
-    public void setUserDetail(UserDetail userDetail) {
-        this.userDetail = userDetail;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public int getCountLoginFailed() {
-        return countLoginFailed;
-    }
-
-    public void setCountLoginFailed(int countLoginFailed) {
-        this.countLoginFailed = countLoginFailed;
-    }
-
-    public boolean isIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean active) {
-        isActive = active;
-    }
-
-    @Override
-    public String toString() {
-        return "AuthUser{" +
-                "userId='" + userId + '\'' +
-                ", username='" + username + '\'' +
-                ", userDetail=" + userDetail +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                ", countLoginFailed=" + countLoginFailed +
-                ", isActive=" + isActive +
-                '}';
-    }
 }
