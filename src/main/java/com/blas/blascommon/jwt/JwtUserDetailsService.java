@@ -28,11 +28,11 @@ public class JwtUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
         GrantedAuthority authority = new SimpleGrantedAuthority(userRole);
         grantList.add(authority);
-        boolean userIsActive = authUser.isIsActive();
-        boolean accountNonExpired = true;
+        boolean userIsActive = authUser.isActive();
+        boolean accountNonLocked = !authUser.isBlock();
         boolean credentialsNonExpired = true;
         return new org.springframework.security.core.userdetails.User(authUser.getUsername(),
                 authUser.getPassword(), userIsActive,
-                accountNonExpired, credentialsNonExpired, accountNonExpired, grantList);
+                accountNonLocked, credentialsNonExpired, accountNonLocked, grantList);
     }
 }
