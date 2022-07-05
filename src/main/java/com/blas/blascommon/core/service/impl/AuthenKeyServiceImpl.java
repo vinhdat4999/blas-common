@@ -54,9 +54,6 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
         if (authenKeyObject == null) {
             return false;
         }
-        if (!authenKeyObject.getAuthUser().getUsername().equals(getUsernameLoggedIn())) {
-            return false;
-        }
         if (authenKeyObject.isUsed()) {
             return false;
         }
@@ -82,21 +79,17 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
             return key;
         }
         authenKeyOld.setAuthenKey(sha256Encoder.encode(key));
-        authenKeyOld.setAuthenKey(genMixID());
         authenKeyOld.setAuthUser(authUser);
         authenKeyOld.setTimeGenerate(getTimeNow());
         authenKeyOld.setUsed(false);
+        authenKeyOld.setTimeUsed(null);
         authenKeyDao.save(authenKeyOld);
         return key;
     }
 
     @Override
-    public void useAuthenKey() {
-        Optional<AuthUser> authUser = authUserDao.findById(getUserIdLoggedIn(authUserService));
-        if (authUser == null) {
-            throw new BadRequestException(USER_ID_NOT_FOUND);
-        }
-        AuthenKey authenKeyOld = authenKeyDao.getAuthenKeyByUserId(authUser.get().getUserId());
+    public void useAuthenKey(AuthUser authUser) {
+        AuthenKey authenKeyOld = authenKeyDao.getAuthenKeyByUserId(authUser.getUserId());
         authenKeyOld.setUsed(true);
         authenKeyOld.setTimeUsed(getTimeNow());
         authenKeyDao.save(authenKeyOld);
