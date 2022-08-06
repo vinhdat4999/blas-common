@@ -7,7 +7,7 @@ public class TimeUtils {
     public static String getTimeLabel(LocalDateTime datetime) {
         LocalDateTime now = LocalDateTime.now();
         if (now.minusSeconds(60).isBefore(datetime)) {
-            return " now";
+            return "now";
         }
         if (now.minusMinutes(60).isBefore(datetime)) {
             return (now.getMinute() - datetime.getMinute()) + " minute ago";

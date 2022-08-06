@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 1.14.0  | 04/08/2022   | Refactor code                                                                   |
 | 1.13.1  | 05/07/2022   | Add block user and reformat code                                                |
 | 1.12.2  | 27/06/2022   | Add new service: Create help                                                    |
 | 1.11.0  | 17/06/2022   | Export, import CSV and Excel (xlsx, xls)                                        |
