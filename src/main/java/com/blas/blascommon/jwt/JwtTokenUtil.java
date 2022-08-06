@@ -1,5 +1,6 @@
 package com.blas.blascommon.jwt;
 
+import com.blas.blascommon.properties.JwtConfigurationProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -7,14 +8,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class JwtTokenUtil {
 
-    public static final long JWT_TOKEN_VALIDITY = 24 * 60 * 60;
+    @Autowired
+    private JwtConfigurationProperties jwtConfigurationProperties;
 
     @Value("jwt.secret")
     private String secret;
@@ -62,7 +66,8 @@ public class JwtTokenUtil {
 
         return Jwts.builder().setClaims(claims).setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .setExpiration(new Date(System.currentTimeMillis()
+                        + jwtConfigurationProperties.getTimeToExpired() * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 

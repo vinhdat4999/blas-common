@@ -13,7 +13,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
-            AuthenticationException authException) throws IOException, ServletException {
+            AuthenticationException authException) throws IOException {
         final String expired = (String) request.getAttribute("expired");
         System.out.println("expired: " + expired);
         if (expired != null) {
@@ -22,5 +22,4 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
     }
-
 }
