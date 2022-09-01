@@ -18,34 +18,34 @@ import lombok.Data;
 @Table(name = "helps")
 public class Help {
 
-    @Id
-    @Column(name = "ticket_id", length = 50, nullable = false)
-    @NotEmpty
-    private String ticketId;
+  @Id
+  @Column(name = "ticket_id", length = 50, nullable = false)
+  @NotEmpty
+  private String ticketId;
 
-    @NotEmpty
-    @Column(name = "create_time", nullable = false)
-    private LocalDateTime createTime;
+  @NotEmpty
+  @Column(name = "create_time", nullable = false)
+  private LocalDateTime createTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_by", foreignKey = @ForeignKey(name = "fk_helps_1"))
-    @NotNull
-    private UserDetail createBy;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "create_by", foreignKey = @ForeignKey(name = "fk_helps_1"))
+  @NotNull
+  private UserDetail createBy;
 
-    @NotEmpty
-    @Column(name = "update_time", nullable = false)
-    private LocalDateTime updateTime;
+  @NotEmpty
+  @Column(name = "update_time", nullable = false)
+  private LocalDateTime updateTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "update_by", foreignKey = @ForeignKey(name = "fk_helps_2"))
-    @NotNull
-    private UserDetail updateBy;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "update_by", foreignKey = @ForeignKey(name = "fk_helps_2"))
+  @NotNull
+  private UserDetail updateBy;
 
-    @NotEmpty
-    @Column(name = "content", nullable = false)
-    private String content;
+  @NotEmpty
+  @Column(name = "content", nullable = false)
+  private String content;
 
-    @NotEmpty
-    @Column(name = "status", length = 20, nullable = false)
-    private String status;
+  @NotEmpty
+  @Column(name = "status", length = 20, nullable = false)
+  private String status;
 }

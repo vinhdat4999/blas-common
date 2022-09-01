@@ -5,14 +5,13 @@ import java.util.List;
 
 public interface NotificationService {
 
-    public List<Notification> getAllNotificationByUser(String userId);
+  public List<Notification> getAllNotificationByUser(String userId);
 
-    public int getNumberOfUnreadNotificationByUser(String userId);
+  public int getNumberOfUnreadNotificationByUser(String userId);
 
-    public Notification createNotification(Notification notification);
+  public Notification createNotification(Notification notification);
 
-    public void updateNotification(Notification notification);
+  public void updateNotification(Notification notification);
 
-    public void deletePhysicalNotification(String notificationId);
-
+  public void deletePhysicalNotification(String notificationId);
 }

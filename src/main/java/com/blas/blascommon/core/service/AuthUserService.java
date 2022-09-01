@@ -6,14 +6,13 @@ import java.util.List;
 
 public interface AuthUserService {
 
-    public List<AuthUser> getAllAuthUser();
+  public List<AuthUser> getAllAuthUser();
 
-    public AuthUser getAuthUserByUserId(String userId);
+  public AuthUser getAuthUserByUserId(String userId);
 
-    public AuthUser getAuthUserByUsername(String username);
+  public AuthUser getAuthUserByUsername(String username);
 
-    public AuthUser createUser(AuthUser authUser, UserDetail userDetail);
+  public AuthUser createUser(AuthUser authUser, UserDetail userDetail);
 
-    public void updateAuthUser(AuthUser authUser);
-
+  public void updateAuthUser(AuthUser authUser);
 }

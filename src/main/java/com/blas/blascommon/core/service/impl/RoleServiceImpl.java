@@ -16,30 +16,30 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class RoleServiceImpl implements RoleService {
 
-    @Autowired
-    private RoleDao roleDao;
+  @Autowired
+  private RoleDao roleDao;
 
-    @Override
-    public Role getRoleByRoleId(String roleId) {
-        Optional<Role> role = roleDao.findById(roleId);
-        if (role.isEmpty()) {
-            throw new NotFoundException(ROLE_ID_NOT_FOUND);
-        }
-        return role.get();
+  @Override
+  public Role getRoleByRoleId(String roleId) {
+    Optional<Role> role = roleDao.findById(roleId);
+    if (role.isEmpty()) {
+      throw new NotFoundException(ROLE_ID_NOT_FOUND);
     }
+    return role.get();
+  }
 
-    @Override
-    public Role createRole(Role role) {
-        role.setRoleId(genUUID());
-        return roleDao.save(role);
-    }
+  @Override
+  public Role createRole(Role role) {
+    role.setRoleId(genUUID());
+    return roleDao.save(role);
+  }
 
-    @Override
-    public void updateRole(Role role) {
-        Optional<Role> roleOld = roleDao.findById(role.getRoleId());
-        if (roleOld.isEmpty()) {
-            throw new NotFoundException(ROLE_ID_NOT_FOUND);
-        }
-        roleDao.save(role);
+  @Override
+  public void updateRole(Role role) {
+    Optional<Role> roleOld = roleDao.findById(role.getRoleId());
+    if (roleOld.isEmpty()) {
+      throw new NotFoundException(ROLE_ID_NOT_FOUND);
     }
+    roleDao.save(role);
+  }
 }

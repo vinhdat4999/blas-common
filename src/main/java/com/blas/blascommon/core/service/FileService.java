@@ -5,22 +5,21 @@ import java.util.List;
 
 public interface FileService {
 
-    public List<File> getAllFile();
+  public List<File> getAllFile();
 
-    public File getFileByUserIdAndFilePath(String filePath);
+  public File getFileByUserIdAndFilePath(String userId, String filePath);
 
-    public List<File> getAllActiveFileByUser(String userId);
+  public List<File> getAllActiveFileByUser(String userId);
 
-    public List<File> searchAllActiveFileByUser(String userId, String keyword);
+  public List<File> searchAllActiveFileByUser(String userId, String keyword);
 
-    public List<File> getAllFileDeletedByUser(String userId);
+  public List<File> getAllFileDeletedByUser(String userId);
 
-    public List<File> getAllValidPublicFile();
+  public List<File> getAllValidPublicFile();
 
-    public File createFile(File file);
+  public File createFile(String userId, File file);
 
-    public void updateFile(File file);
+  public void updateFile(String userId, File file);
 
-    public void deletePhysicalFile(String fileId);
-
+  public void deletePhysicalFile(String fileId);
 }

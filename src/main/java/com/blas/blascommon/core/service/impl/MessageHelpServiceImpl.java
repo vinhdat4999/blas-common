@@ -19,40 +19,40 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class MessageHelpServiceImpl implements MessageHelpService {
 
-    @Autowired
-    private HelpDao helpDao;
+  @Autowired
+  private HelpDao helpDao;
 
-    @Autowired
-    private MessageHelpDao messageHelpDao;
+  @Autowired
+  private MessageHelpDao messageHelpDao;
 
-    @Override
-    public List<MessageHelp> getAllMessageHelpByHelpTicketId(String ticketId) {
-        if (helpDao.findById(ticketId).isEmpty()) {
-            throw new NotFoundException(HELP_TICKET_ID_NOT_FOUND);
-        }
-        return messageHelpDao.getMessageHelpListByHelpTicketId(ticketId);
+  @Override
+  public List<MessageHelp> getAllMessageHelpByHelpTicketId(String ticketId) {
+    if (helpDao.findById(ticketId).isEmpty()) {
+      throw new NotFoundException(HELP_TICKET_ID_NOT_FOUND);
     }
+    return messageHelpDao.getMessageHelpListByHelpTicketId(ticketId);
+  }
 
-    @Override
-    public MessageHelp getMessageHelpById(String id) {
-        Optional<MessageHelp> messageHelp = messageHelpDao.findById(id);
-        if (messageHelp.isEmpty()) {
-            throw new NotFoundException(MESSAGE_HELP_ID_NOT_FOUND);
-        }
-        return messageHelp.get();
+  @Override
+  public MessageHelp getMessageHelpById(String id) {
+    Optional<MessageHelp> messageHelp = messageHelpDao.findById(id);
+    if (messageHelp.isEmpty()) {
+      throw new NotFoundException(MESSAGE_HELP_ID_NOT_FOUND);
     }
+    return messageHelp.get();
+  }
 
-    @Override
-    public MessageHelp createMessageHelp(MessageHelp messageHelp) {
-        messageHelp.setId(genUUID());
-        return messageHelpDao.save(messageHelp);
-    }
+  @Override
+  public MessageHelp createMessageHelp(MessageHelp messageHelp) {
+    messageHelp.setId(genUUID());
+    return messageHelpDao.save(messageHelp);
+  }
 
-    @Override
-    public void updateMessageHelp(MessageHelp messageHelp) {
-        if (messageHelpDao.findById(messageHelp.getId()).isEmpty()) {
-            throw new NotFoundException(MESSAGE_HELP_ID_NOT_FOUND);
-        }
-        messageHelpDao.save(messageHelp);
+  @Override
+  public void updateMessageHelp(MessageHelp messageHelp) {
+    if (messageHelpDao.findById(messageHelp.getId()).isEmpty()) {
+      throw new NotFoundException(MESSAGE_HELP_ID_NOT_FOUND);
     }
+    messageHelpDao.save(messageHelp);
+  }
 }
