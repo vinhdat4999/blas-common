@@ -18,26 +18,26 @@ import lombok.Data;
 @Table(name = "message_helps")
 public class MessageHelp {
 
-    @Id
-    @Column(name = "id", length = 50, nullable = false)
-    @NotEmpty
-    private String id;
+  @Id
+  @Column(name = "id", length = 50, nullable = false)
+  @NotEmpty
+  private String id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ticket_id", foreignKey = @ForeignKey(name = "fk_message_helps_1"))
-    @NotNull
-    private Help ticket_id;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "ticket_id", foreignKey = @ForeignKey(name = "fk_message_helps_1"))
+  @NotNull
+  private Help ticket_id;
 
-    @NotEmpty
-    @Column(name = "create_time", nullable = false)
-    private LocalDateTime createTime;
+  @NotEmpty
+  @Column(name = "create_time", nullable = false)
+  private LocalDateTime createTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_by", foreignKey = @ForeignKey(name = "fk_message_helps_2"))
-    @NotNull
-    private UserDetail createBy;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "create_by", foreignKey = @ForeignKey(name = "fk_message_helps_2"))
+  @NotNull
+  private UserDetail createBy;
 
-    @NotEmpty
-    @Column(name = "message", nullable = false)
-    private String message;
+  @NotEmpty
+  @Column(name = "message", nullable = false)
+  private String message;
 }

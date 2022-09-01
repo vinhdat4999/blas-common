@@ -5,16 +5,15 @@ import java.util.List;
 
 public interface UserDetailService {
 
-    public List<UserDetail> getAllUserDetail();
+  public List<UserDetail> getAllUserDetail();
 
-    public UserDetail getUserDetailByUserId(String userId);
+  public UserDetail getUserDetailByUserId(String userId);
 
-    public UserDetail getUserDetailByUsername(String username);
+  public UserDetail getUserDetailByUsername(String username);
 
-    public void updateUserDetail(UserDetail userDetail);
+  public void updateUserDetail(UserDetail userDetail);
 
-    public UserDetail findUserDetailByPhone(String phone);
+  public UserDetail findUserDetailByPhone(String phone);
 
-    public UserDetail findUserDetailByEmail(String email);
-
+  public UserDetail findUserDetailByEmail(String email);
 }

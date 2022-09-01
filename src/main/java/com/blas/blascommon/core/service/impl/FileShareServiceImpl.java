@@ -26,84 +26,84 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class FileShareServiceImpl implements FileShareService {
 
-    @Autowired
-    private AuthUserDao authUserDao;
+  @Autowired
+  private AuthUserDao authUserDao;
 
-    @Autowired
-    private FileDao fileDao;
+  @Autowired
+  private FileDao fileDao;
 
-    @Autowired
-    private FileShareDao fileShareDao;
+  @Autowired
+  private FileShareDao fileShareDao;
 
-    @Autowired
-    private AuthUserService authUserService;
+  @Autowired
+  private AuthUserService authUserService;
 
-    @Override
-    public List<FileShare> getAllFileShareByFileId(String fileId) {
-        Optional<File> file = fileDao.findById(fileId);
-        if (file.isEmpty()) {
-            throw new NotFoundException(FILE_ID_NOT_FOUND);
-        }
-        return fileShareDao.getAllFileShareByFileId(fileId);
+  @Override
+  public List<FileShare> getAllFileShareByFileId(String fileId) {
+    Optional<File> file = fileDao.findById(fileId);
+    if (file.isEmpty()) {
+      throw new NotFoundException(FILE_ID_NOT_FOUND);
     }
+    return fileShareDao.getAllFileShareByFileId(fileId);
+  }
 
-    @Override
-    public List<FileShare> getAllFileShareByFilePath(String filePath) {
-        File file = fileDao.getFileByUserIdAndFilePath(getUserIdLoggedIn(authUserService),
-                filePath);
-        if (file == null) {
-            throw new NotFoundException(FILE_PATH_NOT_FOUND);
-        }
-        return fileShareDao.getAllFileShareByFilePath(filePath);
+  @Override
+  public List<FileShare> getAllFileShareByFilePath(String filePath) {
+    File file = fileDao.getFileByUserIdAndFilePath(getUserIdLoggedIn(authUserService),
+        filePath);
+    if (file == null) {
+      throw new NotFoundException(FILE_PATH_NOT_FOUND);
     }
+    return fileShareDao.getAllFileShareByFilePath(filePath);
+  }
 
-    @Override
-    public List<FileShare> getAllFileShareByShareForThisUser(String userId) {
-        Optional<AuthUser> authUser = authUserDao.findById(userId);
-        if (authUser.isEmpty()) {
-            throw new NotFoundException(USER_ID_NOT_FOUND);
-        }
-        return fileShareDao.getAllFileShareByShareForThisUser(userId);
+  @Override
+  public List<FileShare> getAllFileShareByShareForThisUser(String userId) {
+    Optional<AuthUser> authUser = authUserDao.findById(userId);
+    if (authUser.isEmpty()) {
+      throw new NotFoundException(USER_ID_NOT_FOUND);
     }
+    return fileShareDao.getAllFileShareByShareForThisUser(userId);
+  }
 
-    @Override
-    public FileShare getFileShareByFileShareId(String fileShareId) {
-        Optional<FileShare> fileShare = fileShareDao.findById(fileShareId);
-        if (fileShare.isEmpty()) {
-            throw new NotFoundException(FILE_SHARE_ID_NOT_FOUND);
-        }
-        return fileShare.get();
+  @Override
+  public FileShare getFileShareByFileShareId(String fileShareId) {
+    Optional<FileShare> fileShare = fileShareDao.findById(fileShareId);
+    if (fileShare.isEmpty()) {
+      throw new NotFoundException(FILE_SHARE_ID_NOT_FOUND);
     }
+    return fileShare.get();
+  }
 
-    @Override
-    public FileShare createFileShare(FileShare fileShare) {
-        fileShare.setFileShareId(genUUID());
-        return fileShareDao.save(fileShare);
-    }
+  @Override
+  public FileShare createFileShare(FileShare fileShare) {
+    fileShare.setFileShareId(genUUID());
+    return fileShareDao.save(fileShare);
+  }
 
-    @Override
-    public void updateFileShare(FileShare fileShare) {
-        Optional<FileShare> fileShareOld = fileShareDao.findById(fileShare.getFileShareId());
-        if (fileShareOld.isEmpty()) {
-            throw new NotFoundException(FILE_SHARE_ID_NOT_FOUND);
-        }
-        fileShareDao.save(fileShare);
+  @Override
+  public void updateFileShare(FileShare fileShare) {
+    Optional<FileShare> fileShareOld = fileShareDao.findById(fileShare.getFileShareId());
+    if (fileShareOld.isEmpty()) {
+      throw new NotFoundException(FILE_SHARE_ID_NOT_FOUND);
     }
+    fileShareDao.save(fileShare);
+  }
 
-    @Override
-    public void deletePhysicalFileShareByFileShareId(String fileShareId) {
-        Optional<FileShare> fileShare = fileShareDao.findById(fileShareId);
-        if (fileShare.isEmpty()) {
-            throw new NotFoundException(FILE_SHARE_ID_NOT_FOUND);
-        }
-        fileShareDao.delete(fileShare.get());
+  @Override
+  public void deletePhysicalFileShareByFileShareId(String fileShareId) {
+    Optional<FileShare> fileShare = fileShareDao.findById(fileShareId);
+    if (fileShare.isEmpty()) {
+      throw new NotFoundException(FILE_SHARE_ID_NOT_FOUND);
     }
+    fileShareDao.delete(fileShare.get());
+  }
 
-    @Override
-    public void deletePhysicalFileShareByFileId(String fileId) {
-        List<FileShare> fileShareList = getAllFileShareByFileId(fileId);
-        for (FileShare fileShare : fileShareList) {
-            fileShareDao.delete(fileShare);
-        }
+  @Override
+  public void deletePhysicalFileShareByFileId(String fileId) {
+    List<FileShare> fileShareList = getAllFileShareByFileId(fileId);
+    for (FileShare fileShare : fileShareList) {
+      fileShareDao.delete(fileShare);
     }
+  }
 }

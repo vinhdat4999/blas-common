@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AuthUserDao extends JpaRepository<AuthUser, String> {
 
-    @Query("SELECT u FROM AuthUser u WHERE u.username = ?1")
-    public AuthUser getAuthUserByUsername(String username);
-
+  @Query("SELECT u FROM AuthUser u WHERE u.username = ?1")
+  public AuthUser getAuthUserByUsername(String username);
 }

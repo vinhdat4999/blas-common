@@ -5,12 +5,11 @@ import java.util.List;
 
 public interface MessageHelpService {
 
-    public List<MessageHelp> getAllMessageHelpByHelpTicketId(String ticketId);
+  public List<MessageHelp> getAllMessageHelpByHelpTicketId(String ticketId);
 
-    public MessageHelp getMessageHelpById(String id);
+  public MessageHelp getMessageHelpById(String id);
 
-    public MessageHelp createMessageHelp(MessageHelp messageHelp);
+  public MessageHelp createMessageHelp(MessageHelp messageHelp);
 
-    public void updateMessageHelp(MessageHelp messageHelp);
-
+  public void updateMessageHelp(MessageHelp messageHelp);
 }

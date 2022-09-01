@@ -20,52 +20,52 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class NotificationServiceImpl implements NotificationService {
 
-    @Autowired
-    private AuthUserDao authUserDao;
+  @Autowired
+  private AuthUserDao authUserDao;
 
-    @Autowired
-    private NotificationDao notificationDao;
+  @Autowired
+  private NotificationDao notificationDao;
 
-    @Override
-    public List<Notification> getAllNotificationByUser(String userId) {
-        Optional<AuthUser> authUser = authUserDao.findById(userId);
-        if (authUser.isEmpty()) {
-            throw new NotFoundException(USER_ID_NOT_FOUND);
-        }
-        return notificationDao.getAllNotificationByUser(userId);
+  @Override
+  public List<Notification> getAllNotificationByUser(String userId) {
+    Optional<AuthUser> authUser = authUserDao.findById(userId);
+    if (authUser.isEmpty()) {
+      throw new NotFoundException(USER_ID_NOT_FOUND);
     }
+    return notificationDao.getAllNotificationByUser(userId);
+  }
 
-    @Override
-    public int getNumberOfUnreadNotificationByUser(String userId) {
-        Optional<AuthUser> authUser = authUserDao.findById(userId);
-        if (authUser.isEmpty()) {
-            throw new NotFoundException(USER_ID_NOT_FOUND);
-        }
-        return notificationDao.getNumberOfUnreadNotificationByUser(userId);
+  @Override
+  public int getNumberOfUnreadNotificationByUser(String userId) {
+    Optional<AuthUser> authUser = authUserDao.findById(userId);
+    if (authUser.isEmpty()) {
+      throw new NotFoundException(USER_ID_NOT_FOUND);
     }
+    return notificationDao.getNumberOfUnreadNotificationByUser(userId);
+  }
 
-    @Override
-    public Notification createNotification(Notification notification) {
-        notification.setNofiticationId(genUUID());
-        return notificationDao.save(notification);
-    }
+  @Override
+  public Notification createNotification(Notification notification) {
+    notification.setNofiticationId(genUUID());
+    return notificationDao.save(notification);
+  }
 
-    @Override
-    public void updateNotification(Notification notification) {
-        Optional<Notification> notificationOld = notificationDao.findById(
-                notification.getNofiticationId());
-        if (notificationOld.isEmpty()) {
-            throw new NotFoundException(NOTIFICATION_ID_NOT_FOUND);
-        }
-        notificationDao.save(notification);
+  @Override
+  public void updateNotification(Notification notification) {
+    Optional<Notification> notificationOld = notificationDao.findById(
+        notification.getNofiticationId());
+    if (notificationOld.isEmpty()) {
+      throw new NotFoundException(NOTIFICATION_ID_NOT_FOUND);
     }
+    notificationDao.save(notification);
+  }
 
-    @Override
-    public void deletePhysicalNotification(String notificationId) {
-        Optional<Notification> notification = notificationDao.findById(notificationId);
-        if (notification.isEmpty()) {
-            throw new NotFoundException(NOTIFICATION_ID_NOT_FOUND);
-        }
-        notificationDao.delete(notification.get());
+  @Override
+  public void deletePhysicalNotification(String notificationId) {
+    Optional<Notification> notification = notificationDao.findById(notificationId);
+    if (notification.isEmpty()) {
+      throw new NotFoundException(NOTIFICATION_ID_NOT_FOUND);
     }
+    notificationDao.delete(notification.get());
+  }
 }

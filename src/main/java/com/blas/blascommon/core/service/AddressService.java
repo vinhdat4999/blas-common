@@ -5,14 +5,13 @@ import java.util.List;
 
 public interface AddressService {
 
-    public List<Address> getAllActiveAddressByUser(String userId);
+  public List<Address> getAllActiveAddressByUser(String userId);
 
-    public Address getAddressByAddressId(String addressId);
+  public Address getAddressByAddressId(String addressId);
 
-    public Address getDefaultAddressByUser(String userId);
+  public Address getDefaultAddressByUser(String userId);
 
-    public Address createAddress(Address address);
+  public Address createAddress(Address address);
 
-    public void updateAddress(Address address);
-
+  public void updateAddress(Address address);
 }
