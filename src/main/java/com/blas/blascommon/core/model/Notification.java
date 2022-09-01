@@ -18,28 +18,28 @@ import lombok.Data;
 @Table(name = "notifications")
 public class Notification {
 
-    @Id
-    @Column(name = "nofitication_id", length = 50, nullable = false)
-    @NotEmpty
-    private String nofiticationId;
+  @Id
+  @Column(name = "nofitication_id", length = 50, nullable = false)
+  @NotEmpty
+  private String nofiticationId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_notifications_1"))
-    @NotNull
-    private UserDetail userDetail;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_notifications_1"))
+  @NotNull
+  private UserDetail userDetail;
 
-    @Column(name = "content", length = 200, nullable = false)
-    @NotEmpty
-    private String content;
+  @Column(name = "content", length = 200, nullable = false)
+  @NotEmpty
+  private String content;
 
-    @Column(name = "time")
-    @NotEmpty
-    private LocalDateTime time;
+  @Column(name = "time")
+  @NotEmpty
+  private LocalDateTime time;
 
-    @Column(name = "link_ref", length = 200)
-    private String linkRef;
+  @Column(name = "link_ref", length = 200)
+  private String linkRef;
 
-    @Column(name = "is_read")
-    @NotEmpty
-    private boolean isRead;
+  @Column(name = "is_read")
+  @NotEmpty
+  private boolean isRead;
 }

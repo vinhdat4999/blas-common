@@ -17,18 +17,18 @@ import lombok.Data;
 @Table(name = "file_shares")
 public class FileShare {
 
-    @Id
-    @Column(name = "file_share_id", length = 50, nullable = false)
-    @NotEmpty
-    private String fileShareId;
+  @Id
+  @Column(name = "file_share_id", length = 50, nullable = false)
+  @NotEmpty
+  private String fileShareId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "file_id", foreignKey = @ForeignKey(name = "	fk_file_shares_1"))
-    @NotNull
-    private File file;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "file_id", foreignKey = @ForeignKey(name = "	fk_file_shares_1"))
+  @NotNull
+  private File file;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "	fk_file_shares_2"))
-    @NotNull
-    private UserDetail userDetail;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "	fk_file_shares_2"))
+  @NotNull
+  private UserDetail userDetail;
 }

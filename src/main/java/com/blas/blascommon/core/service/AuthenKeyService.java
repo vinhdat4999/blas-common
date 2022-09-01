@@ -6,12 +6,11 @@ import java.time.LocalDateTime;
 
 public interface AuthenKeyService {
 
-    public AuthenKey getAuthenKeyByUserId(String userId);
+  public AuthenKey getAuthenKeyByUserId(String userId);
 
-    public boolean isValidAuthenKey(String userId, String authenKey, LocalDateTime timeCheck);
+  public boolean isValidAuthenKey(String userId, String authenKey, LocalDateTime timeCheck);
 
-    public String createAuthenKey(AuthUser authUser);
+  public String createAuthenKey(AuthUser authUser);
 
-    public void useAuthenKey(AuthUser authUser);
-
+  public void useAuthenKey(AuthUser authUser);
 }

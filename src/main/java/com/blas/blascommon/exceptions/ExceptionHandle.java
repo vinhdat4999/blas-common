@@ -15,87 +15,87 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionHandle {
 
-    @ExceptionHandler
-    public ResponseEntity<ExceptionResponse> handleException(BadGatewayException exc) {
+  @ExceptionHandler
+  public ResponseEntity<ExceptionResponse> handleException(BadGatewayException exc) {
 
-        ExceptionResponse error = new ExceptionResponse();
+    ExceptionResponse error = new ExceptionResponse();
 
-        error.setStatus(HttpStatus.BAD_GATEWAY.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
+    error.setStatus(HttpStatus.BAD_GATEWAY.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
 
-        return new ResponseEntity<>(error, HttpStatus.BAD_GATEWAY);
-    }
+    return new ResponseEntity<>(error, HttpStatus.BAD_GATEWAY);
+  }
 
-    @ExceptionHandler
-    public ResponseEntity<ExceptionResponse> handleException(BadRequestException exc) {
+  @ExceptionHandler
+  public ResponseEntity<ExceptionResponse> handleException(BadRequestException exc) {
 
-        ExceptionResponse error = new ExceptionResponse();
+    ExceptionResponse error = new ExceptionResponse();
 
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
+    error.setStatus(HttpStatus.BAD_REQUEST.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
 
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
+    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+  }
 
-    @ExceptionHandler
-    public ResponseEntity<ExceptionResponse> handleException(ForbiddenException exc) {
+  @ExceptionHandler
+  public ResponseEntity<ExceptionResponse> handleException(ForbiddenException exc) {
 
-        ExceptionResponse error = new ExceptionResponse();
+    ExceptionResponse error = new ExceptionResponse();
 
-        error.setStatus(HttpStatus.FORBIDDEN.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
+    error.setStatus(HttpStatus.FORBIDDEN.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
 
-        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
-    }
+    return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+  }
 
-    @ExceptionHandler
-    public ResponseEntity<ExceptionResponse> handleException(GatewayTimeoutException exc) {
+  @ExceptionHandler
+  public ResponseEntity<ExceptionResponse> handleException(GatewayTimeoutException exc) {
 
-        ExceptionResponse error = new ExceptionResponse();
+    ExceptionResponse error = new ExceptionResponse();
 
-        error.setStatus(HttpStatus.GATEWAY_TIMEOUT.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
+    error.setStatus(HttpStatus.GATEWAY_TIMEOUT.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
 
-        return new ResponseEntity<>(error, HttpStatus.GATEWAY_TIMEOUT);
-    }
+    return new ResponseEntity<>(error, HttpStatus.GATEWAY_TIMEOUT);
+  }
 
-    @ExceptionHandler
-    public ResponseEntity<ExceptionResponse> handleException(NotFoundException exc) {
+  @ExceptionHandler
+  public ResponseEntity<ExceptionResponse> handleException(NotFoundException exc) {
 
-        ExceptionResponse error = new ExceptionResponse();
+    ExceptionResponse error = new ExceptionResponse();
 
-        error.setStatus(HttpStatus.NOT_FOUND.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
+    error.setStatus(HttpStatus.NOT_FOUND.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
 
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-    }
+    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+  }
 
-    @ExceptionHandler
-    public ResponseEntity<ExceptionResponse> handleException(ServiceUnavailableException exc) {
+  @ExceptionHandler
+  public ResponseEntity<ExceptionResponse> handleException(ServiceUnavailableException exc) {
 
-        ExceptionResponse error = new ExceptionResponse();
+    ExceptionResponse error = new ExceptionResponse();
 
-        error.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
+    error.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
 
-        return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
-    }
+    return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
+  }
 
-    @ExceptionHandler
-    public ResponseEntity<ExceptionResponse> handleException(UnauthorizedException exc) {
+  @ExceptionHandler
+  public ResponseEntity<ExceptionResponse> handleException(UnauthorizedException exc) {
 
-        ExceptionResponse error = new ExceptionResponse();
+    ExceptionResponse error = new ExceptionResponse();
 
-        error.setStatus(HttpStatus.UNAUTHORIZED.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
+    error.setStatus(HttpStatus.UNAUTHORIZED.value());
+    error.setMessage(exc.getMessage());
+    error.setTimeStamp(System.currentTimeMillis());
 
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-    }
+    return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+  }
 }

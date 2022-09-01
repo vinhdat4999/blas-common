@@ -18,35 +18,35 @@ import lombok.Data;
 @Table(name = "files")
 public class File {
 
-    @Id
-    @Column(name = "file_id", length = 50, nullable = false)
-    @NotEmpty
-    private String fileId;
+  @Id
+  @Column(name = "file_id", length = 50, nullable = false)
+  @NotEmpty
+  private String fileId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "	fk_files_1"))
-    @NotNull
-    private UserDetail userDetail;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "	fk_files_1"))
+  @NotNull
+  private UserDetail userDetail;
 
-    @Column(name = "file_name", length = 50, nullable = false)
-    @NotEmpty
-    private String fileName;
+  @Column(name = "file_name", length = 50, nullable = false)
+  @NotEmpty
+  private String fileName;
 
-    @Column(name = "file_path", length = 300, nullable = false)
-    @NotEmpty
-    private String filePath;
+  @Column(name = "file_path", length = 300, nullable = false)
+  @NotEmpty
+  private String filePath;
 
-    @Column(name = "time_upload", nullable = false)
-    private LocalDateTime timeUpload;
+  @Column(name = "time_upload", nullable = false)
+  private LocalDateTime timeUpload;
 
-    @Column(name = "description", length = 300, nullable = false)
-    private String description;
+  @Column(name = "description", length = 300, nullable = false)
+  private String description;
 
-    @Column(name = "is_delete")
-    @NotEmpty
-    private boolean isDelete;
+  @Column(name = "is_delete")
+  @NotEmpty
+  private boolean isDelete;
 
-    @Column(name = "is_share_everyone")
-    @NotEmpty
-    private boolean isShareEveryone;
+  @Column(name = "is_share_everyone")
+  @NotEmpty
+  private boolean isShareEveryone;
 }

@@ -18,37 +18,37 @@ import lombok.Data;
 @Table(name = "auth_users")
 public class AuthUser {
 
-    @Id
-    @Column(name = "user_id", length = 50, nullable = false)
-    @NotEmpty
-    private String userId;
+  @Id
+  @Column(name = "user_id", length = 50, nullable = false)
+  @NotEmpty
+  private String userId;
 
-    @Column(name = "username", length = 20, nullable = false)
-    @NotEmpty
-    private String username;
+  @Column(name = "username", length = 20, nullable = false)
+  @NotEmpty
+  private String username;
 
-    @OneToOne(mappedBy = "authUser")
-    @NotNull
-    private UserDetail userDetail;
+  @OneToOne(mappedBy = "authUser")
+  @NotNull
+  private UserDetail userDetail;
 
-    @Column(name = "password", length = 256, nullable = false)
-    @NotEmpty
-    private String password;
+  @Column(name = "password", length = 256, nullable = false)
+  @NotEmpty
+  private String password;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_auth_users_1"))
-    @NotNull
-    private Role role;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_auth_users_1"))
+  @NotNull
+  private Role role;
 
-    @Column(name = "count_login_failed")
-    @NotEmpty
-    private int countLoginFailed;
+  @Column(name = "count_login_failed")
+  @NotEmpty
+  private int countLoginFailed;
 
-    @Column(name = "is_block")
-    @NotEmpty
-    private boolean isBlock;
+  @Column(name = "is_block")
+  @NotEmpty
+  private boolean isBlock;
 
-    @Column(name = "is_active")
-    @NotEmpty
-    private boolean isActive;
+  @Column(name = "is_active")
+  @NotEmpty
+  private boolean isActive;
 }
