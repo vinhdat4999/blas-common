@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 1.15.0  | 06/10/2022   | Support more FileUtils, ImageUtils, ResponseUtils methods                       |
 | 1.14.1  | 01/09/2022   | Refactor code                                                                   |
 | 1.13.1  | 05/07/2022   | Add block user and reformat code                                                |
 | 1.12.2  | 27/06/2022   | Add new service: Create help                                                    |

@@ -5,14 +5,18 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
+import org.springframework.core.io.InputStreamResource;
 
 public class FileUtils {
 
@@ -56,6 +60,41 @@ public class FileUtils {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public static InputStream getInputStream(String path) {
+    try {
+      return new FileInputStream(path);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public static InputStreamResource getInputStreamResource(String path) {
+    try {
+      return new InputStreamResource(new FileInputStream(path));
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public static long getFileSize(String path) {
+    return new File(path).length();
+  }
+
+  public static byte[] readBytesRange(String filePath, long start, long end) {
+    try {
+      Path path = Paths.get(filePath);
+      byte[] data = Files.readAllBytes(path);
+      byte[] result = new byte[(int) (end - start) + 1];
+      System.arraycopy(data, (int) start, result, 0, (int) (end - start) + 1);
+      return result;
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   public static void writeBufferImageToFile(BufferedImage image, String formatName, String path) {

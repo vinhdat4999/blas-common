@@ -3,7 +3,9 @@ package com.blas.blascommon.security.hash;
 import static com.blas.blascommon.security.SecurityUtils.sha512Encode;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Sha512Encoder implements PasswordEncoder {
 
   @Override
