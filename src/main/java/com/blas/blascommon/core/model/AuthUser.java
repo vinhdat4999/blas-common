@@ -1,5 +1,6 @@
 package com.blas.blascommon.core.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,7 +28,7 @@ public class AuthUser {
   @NotEmpty
   private String username;
 
-  @OneToOne(mappedBy = "authUser")
+  @OneToOne(mappedBy = "authUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @NotNull
   private UserDetail userDetail;
 

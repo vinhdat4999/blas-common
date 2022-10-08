@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "authen_keys")
-public class AuthenKey implements Serializable {
+public class AuthenKey {
 
   @Id
   @Column(name = "authen_id", length = 50, nullable = false)
@@ -27,7 +27,7 @@ public class AuthenKey implements Serializable {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_authen_keys_1"))
   @NotNull
-  private transient AuthUser authUser;
+  private AuthUser authUser;
 
   @Column(name = "key", length = 256, nullable = false)
   @NotEmpty
