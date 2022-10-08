@@ -2,6 +2,7 @@ package com.blas.blascommon.utils.httprequest;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPut;
@@ -18,206 +19,114 @@ public class PutRequest {
   }
 
   public static String sendPutRequestWithJsonObjectPayloadGetStringResponse(String hostUrl,
-      Map<String, String> parameterList,
-      Map<String, String> headerList, JSONObject payload) {
-    String urlEndpoint = hostUrl;
-    StringBuilder sb;
-    if (parameterList != null) {
-      sb = new StringBuilder("");
-      for (String key : parameterList.keySet()) {
-        sb.append(key).append("=").append(parameterList.get(key)).append("&");
-      }
-      urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
-    }
-    String response = null;
-    try {
-      HttpPut httpPut = new HttpPut(urlEndpoint);
-      if (headerList != null) {
-        for (String headerKey : headerList.keySet()) {
-          httpPut.setHeader(headerKey, headerList.get(headerKey));
-        }
-      }
-      StringEntity entity = new StringEntity(payload.toString(),
-          ContentType.APPLICATION_JSON);
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-      httpPut.setEntity(entity);
-      CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      response = IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return response;
+      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload) {
+    return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
-  public static JSONObject sendPutRequestWithJsonObjectPayloadGetJsonObjectResponse(
-      String hostUrl,
-      Map<String, String> parameterList,
-      Map<String, String> headerList, JSONObject payload) {
-    String urlEndpoint = hostUrl;
-    StringBuilder sb;
-    if (parameterList != null) {
-      sb = new StringBuilder("");
-      for (String key : parameterList.keySet()) {
-        sb.append(key).append("=").append(parameterList.get(key)).append("&");
-      }
-      urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
-    }
-    JSONObject response = null;
-    try {
-      HttpPut httpPut = new HttpPut(urlEndpoint);
-      if (headerList != null) {
-        for (String headerKey : headerList.keySet()) {
-          httpPut.setHeader(headerKey, headerList.get(headerKey));
-        }
-      }
-      StringEntity entity = new StringEntity(payload.toString(),
-          ContentType.APPLICATION_JSON);
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-      httpPut.setEntity(entity);
-      CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      response = new JSONObject(
-          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return response;
+  public static JSONObject sendPutRequestWithJsonObjectPayloadGetJsonObjectResponse(String hostUrl,
+      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload) {
+    return sendRequestGetJsonObjectResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   public static JSONArray sendPutRequestWithJsonObjectPayloadGetJsonArrayResponse(String hostUrl,
-      Map<String, String> parameterList,
-      Map<String, String> headerList, JSONObject payload) {
-    String urlEndpoint = hostUrl;
-    StringBuilder sb;
-    if (parameterList != null) {
-      sb = new StringBuilder("");
-      for (String key : parameterList.keySet()) {
-        sb.append(key).append("=").append(parameterList.get(key)).append("&");
-      }
-      urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
-    }
-    JSONArray response = null;
-    try {
-      HttpPut httpPut = new HttpPut(urlEndpoint);
-      if (headerList != null) {
-        for (String headerKey : headerList.keySet()) {
-          httpPut.setHeader(headerKey, headerList.get(headerKey));
-        }
-      }
-      StringEntity entity = new StringEntity(payload.toString(),
-          ContentType.APPLICATION_JSON);
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-      httpPut.setEntity(entity);
-      CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      response = new JSONArray(
-          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return response;
+      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload) {
+    return sendRequestGetJsonArrayResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   public static String sendPutRequestWithJsonArrayPayloadGetStringResponse(String hostUrl,
-      Map<String, String> parameterList,
-      Map<String, String> headerList, JSONArray payload) {
-    payload = new JSONArray(payload.toString().replace("\\", "").replace("[\"", "[")
-        .replace("\"]", "]").replace("}\"", "}").replace("\"{", "{"));
-    String urlEndpoint = hostUrl;
-    StringBuilder sb;
-    if (parameterList != null) {
-      sb = new StringBuilder("");
-      for (String key : parameterList.keySet()) {
-        sb.append(key).append("=").append(parameterList.get(key)).append("&");
-      }
-      urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
-    }
-    String response = null;
-    try {
-      HttpPut httpPut = new HttpPut(urlEndpoint);
-      if (headerList != null) {
-        for (String headerKey : headerList.keySet()) {
-          httpPut.setHeader(headerKey, headerList.get(headerKey));
-        }
-      }
-      StringEntity entity = new StringEntity(payload.toString(),
-          ContentType.APPLICATION_JSON);
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-      httpPut.setEntity(entity);
-      CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      response = IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return response;
+      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload) {
+    payload = new JSONArray(
+        payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
+            .replace("}\"", "}").replace("\"{", "{"));
+    return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
-  public static JSONObject sendPutRequestWithJsonArrayPayloadGetJsonObjectResponse(
-      String hostUrl,
-      Map<String, String> parameterList,
-      Map<String, String> headerList, JSONArray payload) {
-    payload = new JSONArray(payload.toString().replace("\\", "").replace("[\"", "[")
-        .replace("\"]", "]").replace("}\"", "}").replace("\"{", "{"));
-    String urlEndpoint = hostUrl;
-    StringBuilder sb;
-    if (parameterList != null) {
-      sb = new StringBuilder("");
-      for (String key : parameterList.keySet()) {
-        sb.append(key).append("=").append(parameterList.get(key)).append("&");
-      }
-      urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
-    }
-    JSONObject response = null;
-    try {
-      HttpPut httpPut = new HttpPut(urlEndpoint);
-      if (headerList != null) {
-        for (String headerKey : headerList.keySet()) {
-          httpPut.setHeader(headerKey, headerList.get(headerKey));
-        }
-      }
-      StringEntity entity = new StringEntity(payload.toString(),
-          ContentType.APPLICATION_JSON);
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-      httpPut.setEntity(entity);
-      CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      response = new JSONObject(
-          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return response;
+  public static JSONObject sendPutRequestWithJsonArrayPayloadGetJsonObjectResponse(String hostUrl,
+      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload) {
+    payload = new JSONArray(
+        payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
+            .replace("}\"", "}").replace("\"{", "{"));
+    return sendRequestGetJsonObjectResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   public static JSONArray sendPutRequestWithJsonArrayPayloadGetJsonArrayResponse(String hostUrl,
-      Map<String, String> parameterList,
-      Map<String, String> headerList, JSONArray payload) {
-    payload = new JSONArray(payload.toString().replace("\\", "").replace("[\"", "[")
-        .replace("\"]", "]").replace("}\"", "}").replace("\"{", "{"));
-    String urlEndpoint = hostUrl;
-    StringBuilder sb;
+      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload) {
+    payload = new JSONArray(
+        payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
+            .replace("}\"", "}").replace("\"{", "{"));
+    return sendRequestGetJsonArrayResponse(hostUrl, parameterList, headerList, payload.toString());
+  }
+
+  private static String buildUrlEndpoint(String hostUrl, Map<String, String> parameterList) {
     if (parameterList != null) {
-      sb = new StringBuilder("");
-      for (String key : parameterList.keySet()) {
-        sb.append(key).append("=").append(parameterList.get(key)).append("&");
+      StringBuilder sb = new StringBuilder("");
+      for (Entry<String, String> entry : parameterList.entrySet()) {
+        sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
       }
-      urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
+      hostUrl += "?" + sb.substring(0, sb.toString().length() - 1);
     }
-    JSONArray response = null;
+    return hostUrl;
+  }
+
+  private static String sendRequestGetStringResponse(String hostUrl,
+      Map<String, String> parameterList, Map<String, String> headerList, String payload) {
     try {
-      HttpPut httpPut = new HttpPut(urlEndpoint);
+      HttpPut httpPut = new HttpPut(buildUrlEndpoint(hostUrl, parameterList));
       if (headerList != null) {
-        for (String headerKey : headerList.keySet()) {
-          httpPut.setHeader(headerKey, headerList.get(headerKey));
+        for (Entry<String, String> entry : headerList.entrySet()) {
+          httpPut.setHeader(entry.getKey(), entry.getValue());
         }
       }
-      StringEntity entity = new StringEntity(payload.toString(),
-          ContentType.APPLICATION_JSON);
+      StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
       CloseableHttpClient httpClient = HttpClientBuilder.create().build();
       httpPut.setEntity(entity);
       CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      response = new JSONArray(
+      return IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  private static JSONObject sendRequestGetJsonObjectResponse(String hostUrl,
+      Map<String, String> parameterList, Map<String, String> headerList, String payload) {
+    try {
+      HttpPut httpPut = new HttpPut(buildUrlEndpoint(hostUrl, parameterList));
+      if (headerList != null) {
+        for (Entry<String, String> entry : headerList.entrySet()) {
+          httpPut.setHeader(entry.getKey(), entry.getValue());
+        }
+      }
+      StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
+      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+      httpPut.setEntity(entity);
+      CloseableHttpResponse response2 = httpClient.execute(httpPut);
+      return new JSONObject(
           IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return response;
+    return null;
+  }
+
+  private static JSONArray sendRequestGetJsonArrayResponse(String hostUrl,
+      Map<String, String> parameterList, Map<String, String> headerList, String payload) {
+    try {
+      HttpPut httpPut = new HttpPut(buildUrlEndpoint(hostUrl, parameterList));
+      if (headerList != null) {
+        for (Entry<String, String> entry : headerList.entrySet()) {
+          httpPut.setHeader(entry.getKey(), entry.getValue());
+        }
+      }
+      StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
+      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+      httpPut.setEntity(entity);
+      CloseableHttpResponse response2 = httpClient.execute(httpPut);
+      return new JSONArray(
+          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }
