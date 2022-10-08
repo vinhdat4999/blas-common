@@ -2,6 +2,9 @@ package com.blas.blascommon.constants;
 
 public class HttpResponseConfiguration {
 
+  private HttpResponseConfiguration() {
+  }
+
   public static final String VIDEO = "/video";
   public static final String CONTENT_TYPE = "Content-Type";
   public static final String CONTENT_LENGTH = "Content-Length";

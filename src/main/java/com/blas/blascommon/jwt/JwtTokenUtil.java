@@ -37,8 +37,7 @@ public class JwtTokenUtil {
 
   // retrieve username from jwt token
   public String getUsernameFromToken(String token) {
-    String claim = getClaimFromToken(token, Claims::getSubject);
-    return claim;
+    return getClaimFromToken(token, Claims::getSubject);
   }
 
   // retrieve expiration date from jwt token
@@ -47,8 +46,8 @@ public class JwtTokenUtil {
   }// check if the token has expired
 
   private Boolean isTokenExpired(String token) {
-    final Date expiration = getExpirationDateFromToken(token);
-    return expiration.before(new Date());
+    final Date expirationDate = getExpirationDateFromToken(token);
+    return expirationDate.before(new Date());
   }
 
   // generate token for user

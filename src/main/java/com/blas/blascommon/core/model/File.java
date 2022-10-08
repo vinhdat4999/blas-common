@@ -24,7 +24,7 @@ public class File {
   private String fileId;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "	fk_files_1"))
+  @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_files_1"))
   @NotNull
   private UserDetail userDetail;
 

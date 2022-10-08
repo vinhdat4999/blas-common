@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 
 public class TimeUtils {
 
+  private TimeUtils() {
+  }
+
   public static String getTimeLabel(LocalDateTime datetime) {
     LocalDateTime now = LocalDateTime.now();
     if (now.minusSeconds(60).isBefore(datetime)) {

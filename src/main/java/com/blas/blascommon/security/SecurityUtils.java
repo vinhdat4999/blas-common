@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class SecurityUtils {
 
+  private SecurityUtils() {
+  }
+
   public static String getUsernameLoggedIn() {
     String username = "";
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -31,18 +34,22 @@ public class SecurityUtils {
   }
 
   public static String md5Encode(String rawPassword) {
+    MessageDigest md = null;
     try {
-      MessageDigest md = MessageDigest.getInstance("MD5");
-      byte[] messageDigest = md.digest(rawPassword.toString().getBytes());
-      BigInteger no = new BigInteger(1, messageDigest);
-      String hashText = no.toString(16);
-      while (hashText.length() < 32) {
-        hashText = "0" + hashText;
-      }
-      return hashText;
+      md = MessageDigest.getInstance("MD5");
     } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
+    if (md == null) {
+      return "";
+    }
+    byte[] messageDigest = md.digest(rawPassword.getBytes());
+    BigInteger no = new BigInteger(1, messageDigest);
+    StringBuilder hashText = new StringBuilder(no.toString(16));
+    while (hashText.length() < 32) {
+      hashText.append("0").append(hashText);
+    }
+    return hashText.toString();
   }
 
   public static String sha1Encode(String rawPassword) {
@@ -50,47 +57,51 @@ public class SecurityUtils {
     try {
       MessageDigest crypt = MessageDigest.getInstance("SHA-1");
       crypt.reset();
-      crypt.update(rawPassword.getBytes("UTF-8"));
+      crypt.update(rawPassword.getBytes(StandardCharsets.UTF_8));
       hashedPassword = byteToHex(crypt.digest());
     } catch (NoSuchAlgorithmException e) {
       e.printStackTrace();
-    } catch (UnsupportedEncodingException exception) {
-      exception.printStackTrace();
     }
     return hashedPassword;
   }
 
   public static String sha256Encode(String rawPassword) {
+    MessageDigest digest = null;
+    byte[] hash = new byte[0];
     try {
-      final MessageDigest digest = MessageDigest.getInstance("SHA-256");
-      final byte[] hash = digest.digest(rawPassword.getBytes("UTF-8"));
-      final StringBuilder hexString = new StringBuilder();
-      for (int i = 0; i < hash.length; i++) {
-        final String hex = Integer.toHexString(0xff & hash[i]);
-        if (hex.length() == 1) {
-          hexString.append('0');
-        }
-        hexString.append(hex);
-      }
-      return hexString.toString();
-    } catch (Exception ex) {
-      throw new RuntimeException(ex);
+      digest = MessageDigest.getInstance("SHA-256");
+      hash = digest.digest(rawPassword.getBytes(StandardCharsets.UTF_8));
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
     }
+    final StringBuilder hexString = new StringBuilder();
+    for (int i = 0; i < hash.length; i++) {
+      final String hex = Integer.toHexString(0xff & hash[i]);
+      if (hex.length() == 1) {
+        hexString.append('0');
+      }
+      hexString.append(hex);
+    }
+    return hexString.toString();
   }
 
   public static String sha512Encode(String rawPassword) {
+    MessageDigest md = null;
     try {
-      MessageDigest md = MessageDigest.getInstance("SHA-512");
-      byte[] messageDigest = md.digest(rawPassword.getBytes());
-      BigInteger no = new BigInteger(1, messageDigest);
-      String hashtext = no.toString(16);
-      while (hashtext.length() < 32) {
-        hashtext = "0" + hashtext;
-      }
-      return hashtext;
+      md = MessageDigest.getInstance("SHA-512");
     } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
+    if (md == null) {
+      return "";
+    }
+    byte[] messageDigest = md.digest(rawPassword.getBytes());
+    BigInteger no = new BigInteger(1, messageDigest);
+    StringBuilder hashtext = new StringBuilder(no.toString(16));
+    while (hashtext.length() < 32) {
+      hashtext.append("0").append(hashtext);
+    }
+    return hashtext.toString();
   }
 
   public static byte[] getSalt() {

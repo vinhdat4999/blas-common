@@ -8,6 +8,9 @@ import java.util.List;
 
 public class Csv {
 
+  private Csv() {
+  }
+
   public static void exportToCsv(String[] headers, List<String[]> data, String path) {
     List<String[]> list = new ArrayList<>();
     list.add(headers);
@@ -15,7 +18,7 @@ public class Csv {
     try (CSVWriter writer = new CSVWriter(new FileWriter(path))) {
       writer.writeAll(list);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
   }
 }

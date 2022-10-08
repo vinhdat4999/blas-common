@@ -25,7 +25,7 @@ public class JwtUserDetailsService implements UserDetailsService {
       throw new UsernameNotFoundException("User not found with username: " + username);
     }
     String userRole = authUser.getRole().getRoleName();
-    List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
+    List<GrantedAuthority> grantList = new ArrayList<>();
     GrantedAuthority authority = new SimpleGrantedAuthority(userRole);
     grantList.add(authority);
     boolean userIsActive = authUser.isActive();

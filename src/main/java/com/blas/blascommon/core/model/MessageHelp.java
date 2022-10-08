@@ -26,7 +26,7 @@ public class MessageHelp {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "ticket_id", foreignKey = @ForeignKey(name = "fk_message_helps_1"))
   @NotNull
-  private Help ticket_id;
+  private Help ticketId;
 
   @NotEmpty
   @Column(name = "create_time", nullable = false)

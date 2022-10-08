@@ -14,7 +14,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
   public void commence(HttpServletRequest request, HttpServletResponse response,
       AuthenticationException authException) throws IOException {
     final String expired = (String) request.getAttribute("expired");
-    System.out.println("expired: " + expired);
     if (expired != null) {
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED, expired);
     } else {

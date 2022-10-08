@@ -2,7 +2,6 @@ package com.blas.blascommon.utils.fileutils.importfile;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,9 +18,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Excel {
 
+  private Excel() {
+  }
+
   public static List<String[]> importFromExcel(String excelFilePath) {
+    List<String[]> data = new ArrayList<>();
     try {
-      List<String[]> data = new ArrayList<>();
       InputStream inputStream = new FileInputStream(new File(excelFilePath));
       Workbook workbook = getWorkbook(inputStream, excelFilePath);
       Sheet sheet = workbook.getSheetAt(0);
@@ -43,12 +45,10 @@ public class Excel {
       }
       workbook.close();
       inputStream.close();
-      return data;
-    } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
+    return data;
   }
 
   private static Workbook getWorkbook(InputStream inputStream, String excelFilePath)
