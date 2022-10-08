@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 
 public class ResponseUtils {
 
+  private ResponseUtils() {
+  }
+
   public static ResponseEntity<byte[]> prepareResponseVideo(final String path,
       final String fileType, final String range) {
     long rangeStart = 0;

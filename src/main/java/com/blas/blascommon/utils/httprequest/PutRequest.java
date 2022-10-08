@@ -1,5 +1,6 @@
 package com.blas.blascommon.utils.httprequest;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -12,6 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class PutRequest {
+
+  private PutRequest() {
+  }
 
   public static String sendPutRequestWithJsonObjectPayloadGetStringResponse(String hostUrl,
       Map<String, String> parameterList,
@@ -38,7 +42,7 @@ public class PutRequest {
       CloseableHttpClient httpClient = HttpClientBuilder.create().build();
       httpPut.setEntity(entity);
       CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      response = IOUtils.toString(response2.getEntity().getContent(), "UTF-8");
+      response = IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -72,7 +76,7 @@ public class PutRequest {
       httpPut.setEntity(entity);
       CloseableHttpResponse response2 = httpClient.execute(httpPut);
       response = new JSONObject(
-          IOUtils.toString(response2.getEntity().getContent(), "UTF-8"));
+          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -104,7 +108,8 @@ public class PutRequest {
       CloseableHttpClient httpClient = HttpClientBuilder.create().build();
       httpPut.setEntity(entity);
       CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      response = new JSONArray(IOUtils.toString(response2.getEntity().getContent(), "UTF-8"));
+      response = new JSONArray(
+          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -138,7 +143,7 @@ public class PutRequest {
       CloseableHttpClient httpClient = HttpClientBuilder.create().build();
       httpPut.setEntity(entity);
       CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      response = IOUtils.toString(response2.getEntity().getContent(), "UTF-8");
+      response = IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -174,7 +179,7 @@ public class PutRequest {
       httpPut.setEntity(entity);
       CloseableHttpResponse response2 = httpClient.execute(httpPut);
       response = new JSONObject(
-          IOUtils.toString(response2.getEntity().getContent(), "UTF-8"));
+          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -208,7 +213,8 @@ public class PutRequest {
       CloseableHttpClient httpClient = HttpClientBuilder.create().build();
       httpPut.setEntity(entity);
       CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      response = new JSONArray(IOUtils.toString(response2.getEntity().getContent(), "UTF-8"));
+      response = new JSONArray(
+          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
     } catch (Exception e) {
       e.printStackTrace();
     }

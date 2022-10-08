@@ -11,7 +11,10 @@ import java.util.List;
 
 public class Csv {
 
-  private static List<String[]> importFromCsv(String path) {
+  private Csv() {
+  }
+
+  public static List<String[]> importFromCsv(String path) {
     List<String[]> data = new ArrayList<>();
     Path pathToFile = Paths.get(path);
     try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {

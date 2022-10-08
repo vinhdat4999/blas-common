@@ -47,17 +47,12 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
   public boolean isValidAuthenKey(String userId, String authenKey, LocalDateTime timeCheck) {
     authenKey = sha256Encoder.encode(authenKey);
     AuthenKey authenKeyObject = authenKeyDao.getAuthenKeyByKey(authenKey);
-    if (authenKeyObject == null) {
-      return false;
-    }
-    if (authenKeyObject.isUsed()) {
-      return false;
-    }
-    if (getTimeNow().isAfter(
+    boolean isValid = true;
+    if (authenKeyObject == null || authenKeyObject.isUsed() || getTimeNow().isAfter(
         authenKeyObject.getTimeGenerate().plusMinutes(MINUTE_TO_EXPIRED))) {
-      return false;
+      isValid = false;
     }
-    return true;
+    return isValid;
   }
 
   @Override
@@ -67,19 +62,19 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
     if (authenKeyOld == null) {
       AuthenKey authenKey = new AuthenKey();
       authenKey.setAuthenId(genUUID());
-      authenKey.setAuthenKey(sha256Encoder.encode(key));
+      authenKey.setKey(sha256Encoder.encode(key));
       authenKey.setAuthUser(authUser);
       authenKey.setTimeGenerate(getTimeNow());
       authenKey.setUsed(false);
       authenKeyDao.save(authenKey);
-      return key;
+    } else {
+      authenKeyOld.setKey(sha256Encoder.encode(key));
+      authenKeyOld.setAuthUser(authUser);
+      authenKeyOld.setTimeGenerate(getTimeNow());
+      authenKeyOld.setUsed(false);
+      authenKeyOld.setTimeUsed(null);
+      authenKeyDao.save(authenKeyOld);
     }
-    authenKeyOld.setAuthenKey(sha256Encoder.encode(key));
-    authenKeyOld.setAuthUser(authUser);
-    authenKeyOld.setTimeGenerate(getTimeNow());
-    authenKeyOld.setUsed(false);
-    authenKeyOld.setTimeUsed(null);
-    authenKeyDao.save(authenKeyOld);
     return key;
   }
 

@@ -1,9 +1,14 @@
 package com.blas.blascommon.utils;
 
-import java.util.Random;
+import java.security.SecureRandom;
 import java.util.UUID;
 
 public class IdUtils {
+
+  private IdUtils() {
+  }
+
+  private static SecureRandom random = new SecureRandom();
 
   public static String genUUID() {
     return UUID.randomUUID().toString();
@@ -14,7 +19,6 @@ public class IdUtils {
     int rightLimit = 122; // letter 'z'
     int targetStringLength = 6;
     String generatedString = "";
-    Random random = new Random();
     generatedString = random.ints(leftLimit, rightLimit + 1)
         .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
         .limit(targetStringLength)
@@ -27,7 +31,6 @@ public class IdUtils {
     int leftLimit = 48; // numeral '0'
     int rightLimit = 122; // letter 'z'
     String generatedString = "";
-    Random random = new Random();
     generatedString = random.ints(leftLimit, rightLimit + 1)
         .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
         .limit(lengthOfId)
@@ -41,7 +44,6 @@ public class IdUtils {
     int rightLimit = 57; // numeral '9'
     int targetStringLength = 6;
     String generatedString = "";
-    Random random = new Random();
     generatedString = random.ints(leftLimit, rightLimit + 1)
         .filter(i -> (i <= 57))
         .limit(targetStringLength)
@@ -54,7 +56,6 @@ public class IdUtils {
     int leftLimit = 48; // numeral '0'
     int rightLimit = 57; // numeral '9'
     String generatedString = "";
-    Random random = new Random();
     generatedString = random.ints(leftLimit, rightLimit + 1)
         .filter(i -> (i <= 57))
         .limit(lengthOfId)

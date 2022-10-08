@@ -23,9 +23,15 @@ import net.coobird.thumbnailator.Thumbnails;
 
 public class ImageUtils {
 
+  private ImageUtils() {
+  }
+
   public static BufferedImage compressImage(String path, float scale) {
     try {
       BufferedImage bufferedImage = getBufferImage(path);
+      if (bufferedImage == null) {
+        return null;
+      }
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       Thumbnails.of(bufferedImage).outputFormat("JPG")
           .size(bufferedImage.getWidth(), bufferedImage.getHeight()).outputQuality(scale)
@@ -40,18 +46,22 @@ public class ImageUtils {
   }
 
   public static BufferedImage resizeImage(byte[] image, int targetWidth, int targetHeight) {
+    InputStream is = new ByteArrayInputStream(image);
+    BufferedImage originalImage = null;
     try {
-      InputStream is = new ByteArrayInputStream(image);
-      BufferedImage originalImage = ImageIO.read(is);
-      Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight,
-          Image.SCALE_AREA_AVERAGING);
-      BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight,
-          BufferedImage.TYPE_INT_RGB);
-      outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-      return outputImage;
+      originalImage = ImageIO.read(is);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
+    if (originalImage == null) {
+      return null;
+    }
+    Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight,
+        Image.SCALE_AREA_AVERAGING);
+    BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight,
+        BufferedImage.TYPE_INT_RGB);
+    outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+    return outputImage;
   }
 
   public static BufferedImage getBufferImage(String path) {
@@ -64,13 +74,14 @@ public class ImageUtils {
   }
 
   public static BufferedImage genQrCode(String content) {
+    QRCodeWriter qrCodeWriter = new QRCodeWriter();
+    BitMatrix matrix = null;
     try {
-      QRCodeWriter qrCodeWriter = new QRCodeWriter();
-      BitMatrix matrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, QR_WIDTH, QR_HEIGHT);
-      return MatrixToImageWriter.toBufferedImage(matrix);
+      matrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, QR_WIDTH, QR_HEIGHT);
     } catch (WriterException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
+    return MatrixToImageWriter.toBufferedImage(matrix);
   }
 
   public static BufferedImage genBarCode(String content) {

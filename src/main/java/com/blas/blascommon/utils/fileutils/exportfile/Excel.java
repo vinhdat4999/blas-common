@@ -19,6 +19,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Excel {
 
+  private Excel() {
+  }
+
   public static void exportToExcel(String[] headers, List<String[]> data, String path) {
     try {
       Workbook workbook = getWorkbook(path);
@@ -42,7 +45,7 @@ public class Excel {
     }
   }
 
-  private static Workbook getWorkbook(String excelFilePath) throws IOException {
+  private static Workbook getWorkbook(String excelFilePath) {
     Workbook workbook = null;
     if (excelFilePath.endsWith("xlsx")) {
       workbook = new XSSFWorkbook();

@@ -1,5 +1,6 @@
 package com.blas.blascommon.core.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "authen_keys")
-public class AuthenKey {
+public class AuthenKey implements Serializable {
 
   @Id
   @Column(name = "authen_id", length = 50, nullable = false)
@@ -24,13 +25,13 @@ public class AuthenKey {
   private String authenId;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "	fk_authen_keys_1"))
+  @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_authen_keys_1"))
   @NotNull
-  private AuthUser authUser;
+  private transient AuthUser authUser;
 
-  @Column(name = "authen_key", length = 256, nullable = false)
+  @Column(name = "key", length = 256, nullable = false)
   @NotEmpty
-  private String authenKey;
+  private String key;
 
   @Column(name = "is_used")
   private boolean isUsed;

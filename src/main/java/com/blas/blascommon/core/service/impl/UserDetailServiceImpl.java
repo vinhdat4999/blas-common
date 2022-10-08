@@ -52,11 +52,11 @@ public class UserDetailServiceImpl implements UserDetailService {
       throw new NotFoundException(USER_ID_NOT_FOUND);
     }
     UserDetail userDetailOld = userDetailDao.getUserDetailByPhone(userDetail.getPhoneNumber());
-    if (userDetail != null && !userDetail.getUserId().equals(userDetailOld.getUserId())) {
+    if (!userDetail.getUserId().equals(userDetailOld.getUserId())) {
       throw new BadRequestException(DUPLICATED_PHONE);
     }
     userDetailOld = userDetailDao.getUserDetailByEmail(userDetailOld.getEmail());
-    if (userDetail != null && !userDetail.getUserId().equals(userDetailOld.getUserId())) {
+    if (!userDetail.getUserId().equals(userDetailOld.getUserId())) {
       throw new BadRequestException(DUPLICATED_EMAIL);
     }
     userDetailDao.save(userDetail);
@@ -64,13 +64,11 @@ public class UserDetailServiceImpl implements UserDetailService {
 
   @Override
   public UserDetail findUserDetailByPhone(String phone) {
-    UserDetail userDetail = userDetailDao.getUserDetailByPhone(phone);
-    return userDetail;
+    return userDetailDao.getUserDetailByPhone(phone);
   }
 
   @Override
   public UserDetail findUserDetailByEmail(String email) {
-    UserDetail userDetail = userDetailDao.getUserDetailByEmail(email);
-    return userDetail;
+    return userDetailDao.getUserDetailByEmail(email);
   }
 }

@@ -20,46 +20,40 @@ import org.springframework.core.io.InputStreamResource;
 
 public class FileUtils {
 
+  private FileUtils() {
+  }
+
   public static boolean createBlankFile(String path) {
     boolean createFileSucceed = false;
+    File newFile = new File(path);
     try {
-      File newFile = new File(path);
       createFileSucceed = newFile.createNewFile();
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
     return createFileSucceed;
   }
 
   public static String readFile(String path) {
-    BufferedReader objReader = null;
-    String content = "";
-    try {
-      String tempStr = "";
-      objReader = new BufferedReader(new FileReader(path));
+    StringBuilder content = new StringBuilder("");
+    String tempStr;
+    try (BufferedReader objReader = new BufferedReader(new FileReader(path));) {
       while ((tempStr = objReader.readLine()) != null) {
-        content += tempStr + "\n";
+        content.append(tempStr).append("\n");
       }
     } catch (IOException e) {
       e.printStackTrace();
-    } finally {
-      try {
-        if (objReader != null) {
-          objReader.close();
-        }
-      } catch (IOException ex) {
-        ex.printStackTrace();
-      }
     }
-    return content;
+    return content.toString();
   }
 
   public static byte[] getByteArray(String path) {
     try {
       return Files.readAllBytes(Paths.get(path));
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
+    return new byte[0];
   }
 
   public static InputStream getInputStream(String path) {
@@ -94,49 +88,33 @@ public class FileUtils {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return null;
+    return new byte[0];
   }
 
   public static void writeBufferImageToFile(BufferedImage image, String formatName, String path) {
     try {
       ImageIO.write(image, formatName, new File(path));
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
   }
 
   public static void writeTextToFile(String content, String path) {
-    try {
-      FileWriter writer = new FileWriter(path);
-      BufferedWriter buffer = new BufferedWriter(writer);
+    try (FileWriter writer = new FileWriter(path); BufferedWriter buffer = new BufferedWriter(
+        writer);) {
       buffer.write(content);
-      buffer.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
   public static void writeByteArrayToFile(byte[] content, String path) {
-    try {
-      BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path));
+    try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path));) {
       bos.write(content);
       bos.flush();
-      bos.close();
     } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  public static boolean rename(String oldPath, String newPath) {
-    File oldFile = new File(oldPath);
-    File newFile = new File(newPath);
-    boolean moveSuccess = false;
-    try {
-      moveSuccess = oldFile.renameTo(newFile);
-    } catch (Exception e) {
       e.printStackTrace();
     }
-    return moveSuccess;
   }
 
   public static boolean move(String oldPath, String newPath) {
@@ -152,9 +130,9 @@ public class FileUtils {
   }
 
   public static void copy(String oldPath, String newPath) {
-    try {
-      BufferedReader br = new BufferedReader(new FileReader(oldPath));
-      BufferedWriter bw = new BufferedWriter(new FileWriter(newPath));
+    try (BufferedReader br = new BufferedReader(
+        new FileReader(oldPath)); BufferedWriter bw = new BufferedWriter(
+        new FileWriter(newPath));) {
       int i;
       do {
         i = br.read();
@@ -168,19 +146,18 @@ public class FileUtils {
           }
         }
       } while (i != -1);
-      br.close();
-      bw.close();
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
   }
 
-  public static boolean delete(String path) {
-    File file = new File(path);
-    boolean deletedFile = file.delete();
-    return deletedFile;
+  public static void delete(String pathStr) {
+    try {
+      Path path = Paths.get(pathStr);
+      Files.delete(path);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public static String convertByteToAppropriateType(long type) {

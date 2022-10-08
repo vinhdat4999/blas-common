@@ -39,9 +39,9 @@ public class Address {
   @NotEmpty
   private String ward;
 
-  @Column(name = "address", length = 200, nullable = false)
+  @Column(name = "address_detail", length = 200, nullable = false)
   @NotEmpty
-  private String address;
+  private String addressDetail;
 
   @Column(name = "is_default")
   @NotEmpty

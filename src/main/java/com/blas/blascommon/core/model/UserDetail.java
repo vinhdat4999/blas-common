@@ -27,7 +27,7 @@ public class UserDetail implements Serializable {
   @OneToOne
   @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_details_1"))
   @NotNull
-  private AuthUser authUser;
+  private transient AuthUser authUser;
 
   @Column(name = "first_name", length = 35, nullable = false)
   @NotEmpty
