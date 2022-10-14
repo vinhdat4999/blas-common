@@ -20,7 +20,6 @@ public class UrlUtils {
       'ổ', 'Ỗ', 'ỗ', 'Ộ', 'ộ', 'Ớ', 'ớ', 'Ờ', 'ờ', 'Ở', 'ở', 'Ỡ', 'ỡ', 'Ợ', 'ợ', 'Ụ', 'ụ',
       'Ủ', 'ủ', 'Ứ', 'ứ',
       'Ừ', 'ừ', 'Ử', 'ử', 'Ữ', 'ữ', 'Ự', 'ự',};
-
   private static final char[] DESTINATION_CHARACTERS = {'A', 'A', 'A', 'A', 'E', 'E', 'E', 'I',
       'I', 'O', 'O', 'O',
       'O', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'i', 'i', 'o', 'o', 'o', 'o',
@@ -34,6 +33,9 @@ public class UrlUtils {
       'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'U',
       'u', 'U', 'u', 'U',
       'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u',};
+
+  private UrlUtils() {
+  }
 
   private static char removeAccent(char ch) {
     int index = Arrays.binarySearch(SOURCE_CHARACTERS, ch);

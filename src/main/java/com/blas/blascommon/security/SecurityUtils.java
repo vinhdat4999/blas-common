@@ -1,7 +1,6 @@
 package com.blas.blascommon.security;
 
 import com.blas.blascommon.core.service.AuthUserService;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
