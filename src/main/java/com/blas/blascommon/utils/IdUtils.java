@@ -5,10 +5,10 @@ import java.util.UUID;
 
 public class IdUtils {
 
+  private static SecureRandom random = new SecureRandom();
+
   private IdUtils() {
   }
-
-  private static SecureRandom random = new SecureRandom();
 
   public static String genUUID() {
     return UUID.randomUUID().toString();

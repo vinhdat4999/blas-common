@@ -15,30 +15,23 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "authen_keys")
-public class AuthenKey {
+@Table(name = "statistic_logs")
+public class StatisticLog {
 
   @Id
-  @Column(name = "authen_id", length = 50, nullable = false)
+  @Column(name = "statistic_log_id", length = 50, nullable = false)
   @NotEmpty
-  private String authenId;
+  private String statisticLogId;
+
+  @NotEmpty
+  @Column(name = "export_time", nullable = false)
+  private LocalDateTime exportTime;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_authen_keys_1"))
+  @JoinColumn(name = "report_by", foreignKey = @ForeignKey(name = "fk_statistic_logs_1"))
   @NotNull
   private AuthUser authUser;
 
-  @Column(name = "key", length = 256, nullable = false)
-  @NotEmpty
-  private String key;
-
-  @Column(name = "is_used")
-  private boolean isUsed;
-
-  @Column(name = "time_generate")
-  @NotEmpty
-  private LocalDateTime timeGenerate;
-
-  @Column(name = "time_used")
-  private LocalDateTime timeUsed;
+  @Column(name = "report")
+  private String report;
 }

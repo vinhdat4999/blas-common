@@ -4,9 +4,6 @@ import java.util.Arrays;
 
 public class UrlUtils {
 
-  private UrlUtils() {
-  }
-
   private static final char[] SOURCE_CHARACTERS = {'À', 'Á', 'Â', 'Ã', 'È', 'É', 'Ê', 'Ì', 'Í',
       'Ò', 'Ó', 'Ô', 'Õ',
       'Ù', 'Ú', 'Ý', 'à', 'á', 'â', 'ã', 'è', 'é', 'ê', 'ì', 'í', 'ò', 'ó', 'ô', 'õ', 'ù',
@@ -20,7 +17,6 @@ public class UrlUtils {
       'ổ', 'Ỗ', 'ỗ', 'Ộ', 'ộ', 'Ớ', 'ớ', 'Ờ', 'ờ', 'Ở', 'ở', 'Ỡ', 'ỡ', 'Ợ', 'ợ', 'Ụ', 'ụ',
       'Ủ', 'ủ', 'Ứ', 'ứ',
       'Ừ', 'ừ', 'Ử', 'ử', 'Ữ', 'ữ', 'Ự', 'ự',};
-
   private static final char[] DESTINATION_CHARACTERS = {'A', 'A', 'A', 'A', 'E', 'E', 'E', 'I',
       'I', 'O', 'O', 'O',
       'O', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'i', 'i', 'o', 'o', 'o', 'o',
@@ -34,6 +30,9 @@ public class UrlUtils {
       'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'U',
       'u', 'U', 'u', 'U',
       'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u',};
+
+  private UrlUtils() {
+  }
 
   private static char removeAccent(char ch) {
     int index = Arrays.binarySearch(SOURCE_CHARACTERS, ch);
