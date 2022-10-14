@@ -1,5 +1,6 @@
 package com.blas.blascommon.core.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;

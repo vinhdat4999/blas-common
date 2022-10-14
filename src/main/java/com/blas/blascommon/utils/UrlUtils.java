@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 public class UrlUtils {
 
+  private UrlUtils() {
+  }
+
   private static final char[] SOURCE_CHARACTERS = {'À', 'Á', 'Â', 'Ã', 'È', 'É', 'Ê', 'Ì', 'Í',
       'Ò', 'Ó', 'Ô', 'Õ',
       'Ù', 'Ú', 'Ý', 'à', 'á', 'â', 'ã', 'è', 'é', 'ê', 'ì', 'í', 'ò', 'ó', 'ô', 'õ', 'ù',
