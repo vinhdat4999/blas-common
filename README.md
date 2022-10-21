@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 1.18.0  | 21/10/2022   | Support convert calendar to lunar calendar                                      |
 | 1.17.0  | 14/10/2022   | Add Statistic Log entity and Role enum                                          |
 | 1.16.0  | 08/10/2022   | Fix Sonarqube issues                                                            |
 | 1.15.0  | 06/10/2022   | Support more FileUtils, ImageUtils, ResponseUtils methods                       |
