@@ -1,4 +1,4 @@
-package com.blas.blascommon.utils;
+package com.blas.blascommon.utils.timeutils;
 
 import java.time.LocalDateTime;
 

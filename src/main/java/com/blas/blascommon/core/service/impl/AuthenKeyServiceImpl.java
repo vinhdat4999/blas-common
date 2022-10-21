@@ -4,7 +4,7 @@ import static com.blas.blascommon.constants.Configuration.MINUTE_TO_EXPIRED;
 import static com.blas.blascommon.constants.Response.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genMixID;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
-import static com.blas.blascommon.utils.TimeUtils.getTimeNow;
+import static com.blas.blascommon.utils.timeutils.TimeUtils.getTimeNow;
 
 import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.dao.AuthenKeyDao;

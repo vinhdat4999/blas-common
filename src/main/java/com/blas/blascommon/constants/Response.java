@@ -2,9 +2,6 @@ package com.blas.blascommon.constants;
 
 public class Response {
 
-  private Response() {
-  }
-
   public static final String USER_ID_NOT_FOUND = "User ID not found";
   public static final String USERNAME_NOT_FOUND = "Username not found";
   public static final String ADDRESS_ID_NOT_FOUND = "Address ID not found";
