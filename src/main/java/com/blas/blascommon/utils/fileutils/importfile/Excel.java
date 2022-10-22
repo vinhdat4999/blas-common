@@ -1,6 +1,5 @@
 package com.blas.blascommon.utils.fileutils.importfile;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,8 +22,7 @@ public class Excel {
 
   public static List<String[]> importFromExcel(String excelFilePath) {
     List<String[]> data = new ArrayList<>();
-    try {
-      InputStream inputStream = new FileInputStream(new File(excelFilePath));
+    try (InputStream inputStream = new FileInputStream(excelFilePath)) {
       Workbook workbook = getWorkbook(inputStream, excelFilePath);
       Sheet sheet = workbook.getSheetAt(0);
       Iterator<Row> iterator = sheet.iterator();
@@ -44,7 +42,6 @@ public class Excel {
         data.add(dataLineList.toArray(dataLine));
       }
       workbook.close();
-      inputStream.close();
     } catch (IOException e) {
       e.printStackTrace();
     }

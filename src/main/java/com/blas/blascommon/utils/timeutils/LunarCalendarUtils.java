@@ -13,80 +13,6 @@ public class LunarCalendarUtils {
       "Nhâm", "Quý"};
   private static String[] branchNames = {"Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi",
       "Thân", "Dậu", "Tuất", "Hợi"};
-
-  public static LunarCalendar getLunarCalendar(LocalDate gregorianDate) {
-    LunarCalendar lunarCalendar = new LunarCalendar();
-    LunarCalendarUtils lunarCalendarUtils = new LunarCalendarUtils(lunarCalendar);
-    lunarCalendarUtils.setGregorian(lunarCalendar, gregorianDate.getYear(), gregorianDate.getMonthValue(),
-        gregorianDate.getDayOfMonth());
-    lunarCalendarUtils.computeLunarFields(lunarCalendar);
-    lunarCalendarUtils.computeSolarTerms(lunarCalendar);
-    return lunarCalendar;
-  }
-
-  public LunarCalendarUtils(LunarCalendar lunarCalendar) {
-    setGregorian(lunarCalendar, 1901, 1, 1);
-  }
-
-  private void setGregorian(LunarCalendar lunarCalendar, int y, int m, int d) {
-    lunarCalendar.setGregorianYear(y);
-    lunarCalendar.setGregorianMonth(m);
-    lunarCalendar.setGregorianDate(d);
-    lunarCalendar.setGregorianLeap(isGregorianLeapYear(y));
-    lunarCalendar.setDayOfYear(dayOfYear(y, m, d));
-    lunarCalendar.setDayOfWeek(dayOfWeek(y, m, d));
-    lunarCalendar.setLunarYear(0);
-    lunarCalendar.setLunarMonth(0);
-    lunarCalendar.setLunarDate(0);
-    lunarCalendar.setSectionalTerm(0);
-    lunarCalendar.setPrincipleTerm(0);
-  }
-
-  private static boolean isGregorianLeapYear(int year) {
-    boolean isLeap = false;
-    if (year % 4 == 0) {
-      isLeap = true;
-    }
-    if (year % 100 == 0) {
-      isLeap = false;
-    }
-    if (year % 400 == 0) {
-      isLeap = true;
-    }
-    return isLeap;
-  }
-
-  private static int daysInGregorianMonth(int y, int m) {
-    int d = daysInGregorianMonth[m - 1];
-    if (m == 2 && isGregorianLeapYear(y)) {
-      d++; // Leap year adjustment
-    }
-    return d;
-  }
-
-  private static int dayOfYear(int y, int m, int d) {
-    int c = 0;
-    for (int i = 1; i < m; i++) { // Number of months passed
-      c = c + daysInGregorianMonth(y, i);
-    }
-    c = c + d;
-    return c;
-  }
-
-  private static int dayOfWeek(int y, int m, int d) {
-    int w = 1; // 01-Jan-0001 is Monday, so base is Sunday
-    y = (y - 1) % 400 + 1; // Gregorian calendar cycle is 400 years
-    int ly = (y - 1) / 4; // Leap years passed
-    ly = ly - (y - 1) / 100; // Adjustment
-    ly = ly + (y - 1) / 400; // Adjustment
-    int ry = y - 1 - ly; // Regular years passed
-    w = w + ry; // Regular year has one extra week day
-    w = w + 2 * ly; // Leap year has two extra week days
-    w = w + dayOfYear(y, m, d);
-    w = (w - 1) % 7 + 1;
-    return w;
-  }
-
   private static char[] lunarMonths = {
       //Lunar month map, 2 bytes per year, from 1900 to 2100, 402 bytes.
       //The first 4 bits represents the leap month of the year.
@@ -127,120 +53,9 @@ public class LunarCalendarUtils {
   private static int baseLunarYear = 4598 - 1;
   private static int baseLunarMonth = 11;
   private static int baseLunarDate = 11;
-
-  private int computeLunarFields(LunarCalendar lunarCalendar) {
-    // Gregorian year out of the computation range
-    if (lunarCalendar.getGregorianYear() < 1901 || lunarCalendar.getGregorianYear() > 2100) {
-      return 1;
-    }
-    int startYear = baseYear;
-    int startMonth = baseMonth;
-    int startDate = baseDate;
-    lunarCalendar.setLunarYear(baseLunarYear);
-    lunarCalendar.setLunarMonth(baseLunarMonth);
-    lunarCalendar.setLunarDate(baseLunarDate);
-    // Switching to the second base to reduce the calculation process
-    // Second base date: 01-Jan-2000, 4697/11/25 in Lunar calendar
-    if (lunarCalendar.getGregorianYear() >= 2000) {
-      startYear = baseYear + 99;
-      startMonth = 1;
-      startDate = 1;
-      lunarCalendar.setLunarYear(baseLunarYear + 99);
-      lunarCalendar.setLunarMonth(11);
-      lunarCalendar.setLunarDate(25);
-    }
-    // Calculating the number of days
-    //    between the start date and the current date
-    // The following algorithm only works
-    //    for startMonth = 1 and startDate = 1
-    int daysDiff = 0;
-    for (int i = startYear; i < lunarCalendar.getGregorianYear(); i++) {
-      daysDiff += 365;
-      if (isGregorianLeapYear(i)) {
-        daysDiff += 1; // leap year
-      }
-    }
-    for (int i = startMonth; i < lunarCalendar.getGregorianMonth(); i++) {
-      daysDiff += daysInGregorianMonth(lunarCalendar.getGregorianYear(), i);
-    }
-    daysDiff += lunarCalendar.getGregorianDate() - startDate;
-
-    // Adding that number of days to the Lunar date
-    // Then bring Lunar date into the correct range.
-    // one Lunar month at a time
-    lunarCalendar.setLunarDate(lunarCalendar.getLunarDate() + daysDiff);
-    int lastDate = daysInLunarMonth(lunarCalendar.getLunarYear(), lunarCalendar.getLunarMonth());
-    int nextMonth = nextLunarMonth(lunarCalendar.getLunarYear(), lunarCalendar.getLunarMonth());
-    while (lunarCalendar.getLunarDate() > lastDate) {
-      if (Math.abs(nextMonth) < Math.abs(lunarCalendar.getLunarMonth())) {
-        lunarCalendar.setLunarYear(lunarCalendar.getLunarYear() + 1);
-      }
-      lunarCalendar.setLunarMonth(nextMonth);
-      lunarCalendar.setLunarDate(lunarCalendar.getLunarDate() - lastDate);
-      lastDate = daysInLunarMonth(lunarCalendar.getLunarYear(), lunarCalendar.getLunarMonth());
-      nextMonth = nextLunarMonth(lunarCalendar.getLunarYear(), lunarCalendar.getLunarMonth());
-    }
-    return 0;
-  }
-
   private static int[] bigLeapMonthYears = {
       // The leap months in the following years have 30 days
       6, 14, 19, 25, 33, 36, 38, 41, 44, 52, 55, 79, 117, 136, 147, 150, 155, 158, 185, 193};
-
-  private static int daysInLunarMonth(int y, int m) {
-    // Regular month: m > 0
-    // Leap month: m < 0
-    int index = y - baseLunarYear + baseIndex;
-    int v = 0;
-    int l = 0;
-    int d = 30; // normal month
-    if (1 <= m && m <= 8) {
-      v = lunarMonths[2 * index];
-      l = m - 1;
-      if (((v >> l) & 0x01) == 1) {
-        d = 29;
-      }
-    } else if (9 <= m && m <= 12) {
-      v = lunarMonths[2 * index + 1];
-      l = m - 9;
-      if (((v >> l) & 0x01) == 1) {
-        d = 29;
-      }
-    } else { // leap month
-      v = lunarMonths[2 * index + 1];
-      v = (v >> 4) & 0x0F;
-      if (v != Math.abs(m)) {
-        d = 0; // wrong m specified
-      } else {
-        d = 29;
-        for (int i = 0; i < bigLeapMonthYears.length; i++) {
-          if (bigLeapMonthYears[i] == index) {
-            d = 30;
-            break;
-          }
-        }
-      }
-    }
-    return d;
-  }
-
-  private static int nextLunarMonth(int y, int m) {
-    int n = Math.abs(m) + 1; // normal behavior
-    if (m > 0) {
-      // need to find out if we are in a leap year or not
-      int index = y - baseLunarYear + baseIndex;
-      int v = lunarMonths[2 * index + 1];
-      v = (v >> 4) & 0x0F;
-      if (v == m) {
-        n = -m; // next month is a leap month
-      }
-    }
-    if (n == 13) {
-      n = 1; //roll into next year
-    }
-    return n;
-  }
-
   private static char[][] sectionalTermMap = {
       {7, 6, 6, 6, 6, 6, 6, 6, 6, 5, 6, 6, 6, 5, 5, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 5},   // Jan
       {5, 4, 5, 5, 5, 4, 4, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 3, 3, 4, 4, 3, 3, 3},   // Feb
@@ -317,18 +132,120 @@ public class LunarCalendarUtils {
       {17, 53, 88, 120, 156, 188, 200, 201}  // Dec
   };
 
-  private int computeSolarTerms(LunarCalendar lunarCalendar) {
-    // Gregorian year out of the computation range
-    if (lunarCalendar.getGregorianYear() < 1901 || lunarCalendar.getGregorianYear() > 2100) {
-      return 1;
+  public LunarCalendarUtils(LunarCalendar lunarCalendar) {
+    setGregorian(lunarCalendar, 1901, 1, 1);
+  }
+
+  public static LunarCalendar getLunarCalendar(LocalDate gregorianDate) {
+    LunarCalendar lunarCalendar = new LunarCalendar();
+    LunarCalendarUtils lunarCalendarUtils = new LunarCalendarUtils(lunarCalendar);
+    lunarCalendarUtils.setGregorian(lunarCalendar, gregorianDate.getYear(),
+        gregorianDate.getMonthValue(), gregorianDate.getDayOfMonth());
+    lunarCalendarUtils.computeLunarFields(lunarCalendar);
+    lunarCalendarUtils.computeSolarTerms(lunarCalendar);
+    return lunarCalendar;
+  }
+
+  private static boolean isGregorianLeapYear(int year) {
+    boolean isLeap = false;
+    if (year % 4 == 0) {
+      isLeap = true;
     }
-    lunarCalendar.setSectionalTerm(sectionalTerm(lunarCalendar.getGregorianYear(),
-        lunarCalendar.getGregorianMonth()));
-    lunarCalendar.setPrincipleTerm(principleTerm(lunarCalendar.getGregorianYear(),
-        lunarCalendar.getGregorianMonth()));
-    lunarCalendar.setHeaven(heavenName[((lunarCalendar.getLunarYear() - 1) % 10)]);
-    lunarCalendar.setBranchName(branchNames[((lunarCalendar.getLunarYear() - 1) % 12)]);
-    return 0;
+    if (year % 100 == 0) {
+      isLeap = false;
+    }
+    if (year % 400 == 0) {
+      isLeap = true;
+    }
+    return isLeap;
+  }
+
+  private static int daysInGregorianMonth(int y, int m) {
+    int d = daysInGregorianMonth[m - 1];
+    if (m == 2 && isGregorianLeapYear(y)) {
+      d++; // Leap year adjustment
+    }
+    return d;
+  }
+
+  private static int dayOfYear(int y, int m, int d) {
+    int c = 0;
+    for (int i = 1; i < m; i++) { // Number of months passed
+      c = c + daysInGregorianMonth(y, i);
+    }
+    c = c + d;
+    return c;
+  }
+
+  private static int dayOfWeek(int y, int m, int d) {
+    int w = 1; // 01-Jan-0001 is Monday, so base is Sunday
+    y = (y - 1) % 400 + 1; // Gregorian calendar cycle is 400 years
+    int ly = (y - 1) / 4; // Leap years passed
+    ly = ly - (y - 1) / 100; // Adjustment
+    ly = ly + (y - 1) / 400; // Adjustment
+    int ry = y - 1 - ly; // Regular years passed
+    w = w + ry; // Regular year has one extra week day
+    w = w + 2 * ly; // Leap year has two extra week days
+    w = w + dayOfYear(y, m, d);
+    w = (w - 1) % 7 + 1;
+    return w;
+  }
+
+  private static int daysInLunarMonth(int y, int m) {
+    // Regular month: m > 0
+    // Leap month: m < 0
+    int index = y - baseLunarYear + baseIndex;
+    int v = 0;
+    int l = 0;
+    int d = 30; // normal month
+    if (1 <= m && m <= 8) {
+      v = lunarMonths[2 * index];
+      l = m - 1;
+      if (((v >> l) & 0x01) == 1) {
+        d = 29;
+      }
+    } else if (9 <= m && m <= 12) {
+      v = lunarMonths[2 * index + 1];
+      l = m - 9;
+      if (((v >> l) & 0x01) == 1) {
+        d = 29;
+      }
+    } else { // leap month
+      v = lunarMonths[2 * index + 1];
+      v = (v >> 4) & 0x0F;
+      if (v != Math.abs(m)) {
+        d = 0; // wrong m specified
+      } else {
+        d = getDayWhenMonthSpecified(index);
+      }
+    }
+    return d;
+  }
+
+  private static int getDayWhenMonthSpecified(int index) {
+    for (int i = 0; i < bigLeapMonthYears.length; i++) {
+      if (bigLeapMonthYears[i] == index) {
+        return 30;
+      }
+    }
+    return 29;
+  }
+
+  private static int nextLunarMonth(int y, int m) {
+    int n = Math.abs(m) + 1; // normal behavior
+    if (m > 0) {
+      // need to find out if we are in a leap year or not
+      int index = y - baseLunarYear + baseIndex;
+      int v = lunarMonths[2 * index + 1];
+      v = (v >> 4) & 0x0F;
+      if (v == m) {
+        n = -m; // next month is a leap month
+      }
+    }
+    if (n == 13) {
+      n = 1; //roll into next year
+    }
+    return n;
   }
 
   private static int sectionalTerm(int y, int m) {
@@ -340,8 +257,7 @@ public class LunarCalendarUtils {
     while (ry >= sectionalTermYear[m - 1][index]) {
       index++;
     }
-    int term = sectionalTermMap[m - 1][4 * index + ry % 4];
-    return term;
+    return sectionalTermMap[m - 1][4 * index + ry % 4];
   }
 
   private static int principleTerm(int y, int m) {
@@ -353,8 +269,99 @@ public class LunarCalendarUtils {
     while (ry >= principleTermYear[m - 1][index]) {
       index++;
     }
-    int term = principleTermMap[m - 1][4 * index + ry % 4];
-    return term;
+    return principleTermMap[m - 1][4 * index + ry % 4];
+  }
+
+  private static String getTextLine(int s, String t) {
+    String str = "                                         " + "  "
+        + "                                         ";
+    if (t != null && s < str.length() && s + t.length() < str.length()) {
+      str = str.substring(0, s) + t + str.substring(s + t.length());
+    }
+    return str;
+  }
+
+  private void setGregorian(LunarCalendar lunarCalendar, int y, int m, int d) {
+    lunarCalendar.setGregorianYear(y);
+    lunarCalendar.setGregorianMonth(m);
+    lunarCalendar.setGregorianDate(d);
+    lunarCalendar.setGregorianLeap(isGregorianLeapYear(y));
+    lunarCalendar.setDayOfYear(dayOfYear(y, m, d));
+    lunarCalendar.setDayOfWeek(dayOfWeek(y, m, d));
+    lunarCalendar.setLunarYear(0);
+    lunarCalendar.setLunarMonth(0);
+    lunarCalendar.setLunarDate(0);
+    lunarCalendar.setSectionalTerm(0);
+    lunarCalendar.setPrincipleTerm(0);
+  }
+
+  private int computeLunarFields(LunarCalendar lunarCalendar) {
+    // Gregorian year out of the computation range
+    if (lunarCalendar.getGregorianYear() < 1901 || lunarCalendar.getGregorianYear() > 2100) {
+      return 1;
+    }
+    int startYear = baseYear;
+    int startMonth = baseMonth;
+    int startDate = baseDate;
+    lunarCalendar.setLunarYear(baseLunarYear);
+    lunarCalendar.setLunarMonth(baseLunarMonth);
+    lunarCalendar.setLunarDate(baseLunarDate);
+    // Switching to the second base to reduce the calculation process
+    // Second base date: 01-Jan-2000, 4697/11/25 in Lunar calendar
+    if (lunarCalendar.getGregorianYear() >= 2000) {
+      startYear = baseYear + 99;
+      startMonth = 1;
+      startDate = 1;
+      lunarCalendar.setLunarYear(baseLunarYear + 99);
+      lunarCalendar.setLunarMonth(11);
+      lunarCalendar.setLunarDate(25);
+    }
+    // Calculating the number of days
+    //    between the start date and the current date
+    // The following algorithm only works
+    //    for startMonth = 1 and startDate = 1
+    int daysDiff = 0;
+    for (int i = startYear; i < lunarCalendar.getGregorianYear(); i++) {
+      daysDiff += 365;
+      if (isGregorianLeapYear(i)) {
+        daysDiff += 1; // leap year
+      }
+    }
+    for (int i = startMonth; i < lunarCalendar.getGregorianMonth(); i++) {
+      daysDiff += daysInGregorianMonth(lunarCalendar.getGregorianYear(), i);
+    }
+    daysDiff += lunarCalendar.getGregorianDate() - startDate;
+
+    // Adding that number of days to the Lunar date
+    // Then bring Lunar date into the correct range.
+    // one Lunar month at a time
+    lunarCalendar.setLunarDate(lunarCalendar.getLunarDate() + daysDiff);
+    int lastDate = daysInLunarMonth(lunarCalendar.getLunarYear(), lunarCalendar.getLunarMonth());
+    int nextMonth = nextLunarMonth(lunarCalendar.getLunarYear(), lunarCalendar.getLunarMonth());
+    while (lunarCalendar.getLunarDate() > lastDate) {
+      if (Math.abs(nextMonth) < Math.abs(lunarCalendar.getLunarMonth())) {
+        lunarCalendar.setLunarYear(lunarCalendar.getLunarYear() + 1);
+      }
+      lunarCalendar.setLunarMonth(nextMonth);
+      lunarCalendar.setLunarDate(lunarCalendar.getLunarDate() - lastDate);
+      lastDate = daysInLunarMonth(lunarCalendar.getLunarYear(), lunarCalendar.getLunarMonth());
+      nextMonth = nextLunarMonth(lunarCalendar.getLunarYear(), lunarCalendar.getLunarMonth());
+    }
+    return 0;
+  }
+
+  private int computeSolarTerms(LunarCalendar lunarCalendar) {
+    // Gregorian year out of the computation range
+    if (lunarCalendar.getGregorianYear() < 1901 || lunarCalendar.getGregorianYear() > 2100) {
+      return 1;
+    }
+    lunarCalendar.setSectionalTerm(
+        sectionalTerm(lunarCalendar.getGregorianYear(), lunarCalendar.getGregorianMonth()));
+    lunarCalendar.setPrincipleTerm(
+        principleTerm(lunarCalendar.getGregorianYear(), lunarCalendar.getGregorianMonth()));
+    lunarCalendar.setHeaven(heavenName[((lunarCalendar.getLunarYear() - 1) % 10)]);
+    lunarCalendar.setBranchName(branchNames[((lunarCalendar.getLunarYear() - 1) % 12)]);
+    return 0;
   }
 
   public String[] getYearTable(LunarCalendar lunarCalendar) {
@@ -365,8 +372,8 @@ public class LunarCalendarUtils {
     table[0] = getTextLine(27, "Gregorian Calendar Year: " + lunarCalendar.getGregorianYear());
     table[1] = getTextLine(27,
         "Lunar Calendar Year: " + (lunarCalendar.getLunarYear() + 1) + " (" + stemNames[
-            (lunarCalendar.getLunarYear() + 1 - 1) % 10] + "-"
-            + branchNames[(lunarCalendar.getLunarYear() + 1 - 1) % 12] + ")");
+            (lunarCalendar.getLunarYear() + 1 - 1) % 10] + "-" + branchNames[
+            (lunarCalendar.getLunarYear() + 1 - 1) % 12] + ")");
     int ln = 2;
     String[] mLeft = null;
     String[] mRight = null;
@@ -387,21 +394,12 @@ public class LunarCalendarUtils {
         "##/## - Gregorian date/Lunar date," + " (*)CM## - (Leap) Lunar month first day");
     ln++;
     table[ln] = getTextLine(0, "ST## - Sectional term, PT## - Principle term");
-    ln++;
     return table;
   }
 
-  private static String getTextLine(int s, String t) {
-    String str = "                                         " + "  "
-        + "                                         ";
-    if (t != null && s < str.length() && s + t.length() < str.length()) {
-      str = str.substring(0, s) + t + str.substring(s + t.length());
-    }
-    return str;
-  }
-
   private String[] getMonthTable(LunarCalendar lunarCalendar) {
-    setGregorian(lunarCalendar, lunarCalendar.getGregorianYear(), lunarCalendar.getGregorianMonth(), 1);
+    setGregorian(lunarCalendar, lunarCalendar.getGregorianYear(), lunarCalendar.getGregorianMonth(),
+        1);
     computeLunarFields(lunarCalendar);
     computeSolarTerms(lunarCalendar);
     String[] table = new String[8];
@@ -412,37 +410,36 @@ public class LunarCalendarUtils {
     table[0] = title;
     table[1] = header;
     int wk = 2;
-    String line = "";
+    StringBuilder line = new StringBuilder("");
     for (int i = 1; i < lunarCalendar.getDayOfWeek(); i++) {
-      line += "     " + ' ';
+      line.append("     ").append(' ');
     }
     int days = daysInGregorianMonth(lunarCalendar.getGregorianYear(),
         lunarCalendar.getGregorianMonth());
     for (int i = lunarCalendar.getGregorianDate(); i <= days; i++) {
-      line += getDateString(lunarCalendar) + ' ';
+      line.append(getDateString(lunarCalendar)).append(' ');
       rollUpOneDay(lunarCalendar);
       if (lunarCalendar.getDayOfWeek() == 1) {
-        table[wk] = line;
-        line = "";
+        table[wk] = line.toString();
+        line = new StringBuilder("");
         wk++;
       }
     }
     for (int i = lunarCalendar.getDayOfWeek(); i <= 7; i++) {
-      line += "     " + ' ';
+      line.append("     ").append(' ');
     }
-    table[wk] = line;
+    table[wk] = line.toString();
     for (int i = wk + 1; i < table.length; i++) {
       table[i] = blank;
     }
     for (int i = 0; i < table.length; i++) {
       table[i] = table[i].substring(0, table[i].length() - 1);
     }
-
     return table;
   }
 
   private String getDateString(LunarCalendar lunarCalendar) {
-    String str = "*  /  ";
+    String str;
     String gm = String.valueOf((lunarCalendar.getGregorianMonth() - 1 + 11) % 12 + 1);
     if (gm.length() == 1) {
       gm = ' ' + gm;
