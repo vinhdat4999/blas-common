@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 1.20.0  | 22/10/2022   | Add email payload                                                               |
 | 1.19.0  | 22/10/2022   | Support valid utilities                                                         |
 | 1.18.0  | 21/10/2022   | Support convert calendar to lunar calendar                                      |
 | 1.17.0  | 14/10/2022   | Add Statistic Log entity and Role enum                                          |
