@@ -1,5 +1,6 @@
 package com.blas.blascommon.utils.httprequest;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class DeleteRequest {
   }
 
   public static String sendDeleteRequestGetStringResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList) {
+      Map<String, String> parameterList, Map<String, String> headerList) throws IOException {
     String urlEndpoint = hostUrl;
     StringBuilder sb;
     if (parameterList != null) {
@@ -36,17 +37,14 @@ public class DeleteRequest {
         httpDelete.setHeader(entry.getKey(), entry.getValue());
       }
     }
-    try (CloseableHttpClient client = HttpClients.createDefault();) {
-      HttpResponse httpResponse = client.execute(httpDelete);
-      response = IOUtils.toString(httpResponse.getEntity().getContent(), StandardCharsets.UTF_8);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    CloseableHttpClient client = HttpClients.createDefault();
+    HttpResponse httpResponse = client.execute(httpDelete);
+    response = IOUtils.toString(httpResponse.getEntity().getContent(), StandardCharsets.UTF_8);
     return response;
   }
 
   public static JSONObject sendDeleteRequestGetJsonObjectResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList) {
+      Map<String, String> parameterList, Map<String, String> headerList) throws IOException {
     String urlEndpoint = hostUrl;
     StringBuilder sb;
     if (parameterList != null) {
@@ -63,19 +61,15 @@ public class DeleteRequest {
         httpDelete.setHeader(entry.getKey(), entry.getValue());
       }
     }
-    try (CloseableHttpClient client = HttpClients.createDefault();) {
-      HttpResponse httpResponse = client.execute(httpDelete);
-      String responseStr = IOUtils.toString(httpResponse.getEntity().getContent(),
-          StandardCharsets.UTF_8);
-      response = new JSONObject(responseStr);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return response;
+    CloseableHttpClient client = HttpClients.createDefault();
+    HttpResponse httpResponse = client.execute(httpDelete);
+    String responseStr = IOUtils.toString(httpResponse.getEntity().getContent(),
+        StandardCharsets.UTF_8);
+    return new JSONObject(responseStr);
   }
 
   public static JSONArray sendDeleteRequestGetJsonArrayResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList) {
+      Map<String, String> parameterList, Map<String, String> headerList) throws IOException {
     String urlEndpoint = hostUrl;
     StringBuilder sb;
     if (parameterList != null) {
@@ -92,19 +86,15 @@ public class DeleteRequest {
         httpDelete.setHeader(entry.getKey(), entry.getValue());
       }
     }
-    try (CloseableHttpClient client = HttpClients.createDefault();) {
-      HttpResponse httpResponse = client.execute(httpDelete);
-      String responseStr = IOUtils.toString(httpResponse.getEntity().getContent(),
-          StandardCharsets.UTF_8);
-      response = new JSONArray(responseStr);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return response;
+    CloseableHttpClient client = HttpClients.createDefault();
+    HttpResponse httpResponse = client.execute(httpDelete);
+    String responseStr = IOUtils.toString(httpResponse.getEntity().getContent(),
+        StandardCharsets.UTF_8);
+    return new JSONArray(responseStr);
   }
 
   public static List<JSONObject> sendDeleteRequestGetListJsonObjectResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList) {
+      Map<String, String> parameterList, Map<String, String> headerList) throws IOException {
     String urlEndpoint = hostUrl;
     StringBuilder sb;
     if (parameterList != null) {
@@ -121,17 +111,14 @@ public class DeleteRequest {
         httpDelete.setHeader(entry.getKey(), entry.getValue());
       }
     }
-    try (CloseableHttpClient client = HttpClients.createDefault();) {
-      HttpResponse httpResponse = client.execute(httpDelete);
-      String responseStr = IOUtils.toString(httpResponse.getEntity().getContent(),
-          StandardCharsets.UTF_8);
-      JSONArray data = new JSONArray(responseStr);
-      for (int i = 0; i < data.length(); i++) {
-        JSONObject jsonObject = data.getJSONObject(i);
-        jsonObjectList.add(jsonObject);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+    CloseableHttpClient client = HttpClients.createDefault();
+    HttpResponse httpResponse = client.execute(httpDelete);
+    String responseStr = IOUtils.toString(httpResponse.getEntity().getContent(),
+        StandardCharsets.UTF_8);
+    JSONArray data = new JSONArray(responseStr);
+    for (int i = 0; i < data.length(); i++) {
+      JSONObject jsonObject = data.getJSONObject(i);
+      jsonObjectList.add(jsonObject);
     }
     return jsonObjectList;
   }

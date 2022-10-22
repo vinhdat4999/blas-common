@@ -1,5 +1,6 @@
 package com.blas.blascommon.utils.httprequest;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,22 +20,26 @@ public class PutRequest {
   }
 
   public static String sendPutRequestWithJsonObjectPayloadGetStringResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload)
+      throws IOException {
     return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   public static JSONObject sendPutRequestWithJsonObjectPayloadGetJsonObjectResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload)
+      throws IOException {
     return sendRequestGetJsonObjectResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   public static JSONArray sendPutRequestWithJsonObjectPayloadGetJsonArrayResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload)
+      throws IOException {
     return sendRequestGetJsonArrayResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   public static String sendPutRequestWithJsonArrayPayloadGetStringResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
+      throws IOException {
     payload = new JSONArray(
         payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
             .replace("}\"", "}").replace("\"{", "{"));
@@ -42,7 +47,8 @@ public class PutRequest {
   }
 
   public static JSONObject sendPutRequestWithJsonArrayPayloadGetJsonObjectResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
+      throws IOException {
     payload = new JSONArray(
         payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
             .replace("}\"", "}").replace("\"{", "{"));
@@ -50,7 +56,8 @@ public class PutRequest {
   }
 
   public static JSONArray sendPutRequestWithJsonArrayPayloadGetJsonArrayResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
+      throws IOException {
     payload = new JSONArray(
         payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
             .replace("}\"", "}").replace("\"{", "{"));
@@ -69,64 +76,52 @@ public class PutRequest {
   }
 
   private static String sendRequestGetStringResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, String payload) {
-    try {
-      HttpPut httpPut = new HttpPut(buildUrlEndpoint(hostUrl, parameterList));
-      if (headerList != null) {
-        for (Entry<String, String> entry : headerList.entrySet()) {
-          httpPut.setHeader(entry.getKey(), entry.getValue());
-        }
+      Map<String, String> parameterList, Map<String, String> headerList, String payload)
+      throws IOException {
+    HttpPut httpPut = new HttpPut(buildUrlEndpoint(hostUrl, parameterList));
+    if (headerList != null) {
+      for (Entry<String, String> entry : headerList.entrySet()) {
+        httpPut.setHeader(entry.getKey(), entry.getValue());
       }
-      StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-      httpPut.setEntity(entity);
-      CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      return IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8);
-    } catch (Exception e) {
-      e.printStackTrace();
     }
-    return null;
+    StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
+    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    httpPut.setEntity(entity);
+    CloseableHttpResponse response2 = httpClient.execute(httpPut);
+    return IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8);
   }
 
   private static JSONObject sendRequestGetJsonObjectResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, String payload) {
-    try {
-      HttpPut httpPut = new HttpPut(buildUrlEndpoint(hostUrl, parameterList));
-      if (headerList != null) {
-        for (Entry<String, String> entry : headerList.entrySet()) {
-          httpPut.setHeader(entry.getKey(), entry.getValue());
-        }
+      Map<String, String> parameterList, Map<String, String> headerList, String payload)
+      throws IOException {
+    HttpPut httpPut = new HttpPut(buildUrlEndpoint(hostUrl, parameterList));
+    if (headerList != null) {
+      for (Entry<String, String> entry : headerList.entrySet()) {
+        httpPut.setHeader(entry.getKey(), entry.getValue());
       }
-      StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-      httpPut.setEntity(entity);
-      CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      return new JSONObject(
-          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
-    } catch (Exception e) {
-      e.printStackTrace();
     }
-    return null;
+    StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
+    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    httpPut.setEntity(entity);
+    CloseableHttpResponse response2 = httpClient.execute(httpPut);
+    return new JSONObject(
+        IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
   }
 
   private static JSONArray sendRequestGetJsonArrayResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, String payload) {
-    try {
-      HttpPut httpPut = new HttpPut(buildUrlEndpoint(hostUrl, parameterList));
-      if (headerList != null) {
-        for (Entry<String, String> entry : headerList.entrySet()) {
-          httpPut.setHeader(entry.getKey(), entry.getValue());
-        }
+      Map<String, String> parameterList, Map<String, String> headerList, String payload)
+      throws IOException {
+    HttpPut httpPut = new HttpPut(buildUrlEndpoint(hostUrl, parameterList));
+    if (headerList != null) {
+      for (Entry<String, String> entry : headerList.entrySet()) {
+        httpPut.setHeader(entry.getKey(), entry.getValue());
       }
-      StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-      httpPut.setEntity(entity);
-      CloseableHttpResponse response2 = httpClient.execute(httpPut);
-      return new JSONArray(
-          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
-    } catch (Exception e) {
-      e.printStackTrace();
     }
-    return null;
+    StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
+    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    httpPut.setEntity(entity);
+    CloseableHttpResponse response2 = httpClient.execute(httpPut);
+    return new JSONArray(
+        IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
   }
 }

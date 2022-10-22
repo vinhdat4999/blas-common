@@ -1,5 +1,6 @@
 package com.blas.blascommon.utils.httprequest;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -27,22 +28,26 @@ public class PostRequest {
   }
 
   public static String sendPostRequestWithJsonObjectPayloadGetStringResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload)
+      throws IOException {
     return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   public static JSONObject sendPostRequestWithJsonObjectPayloadGetJsonObjectResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload)
+      throws IOException {
     return sendRequestGetJsonObjectResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   public static JSONArray sendPostRequestWithJsonObjectPayloadGetJsonArrayResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload)
+      throws IOException {
     return sendRequestGetJsonArrayResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   public static String sendPostRequestWithJsonArrayPayloadGetStringResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
+      throws IOException {
     payload = new JSONArray(
         payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
             .replace("}\"", "}").replace("\"{", "{"));
@@ -50,7 +55,8 @@ public class PostRequest {
   }
 
   public static JSONObject sendPostRequestWithJsonArrayPayloadGetJsonObjectResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
+      throws IOException {
     payload = new JSONArray(
         payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
             .replace("}\"", "}").replace("\"{", "{"));
@@ -58,7 +64,8 @@ public class PostRequest {
   }
 
   public static JSONArray sendPostRequestWithJsonArrayPayloadGetJsonArrayResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload) {
+      Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
+      throws IOException {
     payload = new JSONArray(
         payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
             .replace("}\"", "}").replace("\"{", "{"));
@@ -67,26 +74,20 @@ public class PostRequest {
 
   public static JSONObject sendPostRequestWithFormUrlEncodedPayloadGetJsonObjectResponse(
       String hostUrl, Map<String, String> parameterList, Map<String, String> headerList,
-      Map<String, String> payload) {
-    try (CloseableHttpClient httpClient = HttpClients.createDefault(); CloseableHttpResponse res = httpClient.execute(
-        genHttpPost(hostUrl, parameterList, headerList, payload));) {
-      return new JSONObject(EntityUtils.toString(res.getEntity()));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return null;
+      Map<String, String> payload) throws IOException {
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    CloseableHttpResponse res = httpClient.execute(
+        genHttpPost(hostUrl, parameterList, headerList, payload));
+    return new JSONObject(EntityUtils.toString(res.getEntity()));
   }
 
   public static String sendPostRequestWithFormUrlEncodedPayloadGetStringResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList,
-      Map<String, String> payload) {
-    try (CloseableHttpClient httpClient = HttpClients.createDefault(); CloseableHttpResponse res = httpClient.execute(
-        genHttpPost(hostUrl, parameterList, headerList, payload));) {
-      return EntityUtils.toString(res.getEntity());
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return null;
+      Map<String, String> payload) throws IOException {
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    CloseableHttpResponse res = httpClient.execute(
+        genHttpPost(hostUrl, parameterList, headerList, payload));
+    return EntityUtils.toString(res.getEntity());
   }
 
   private static String buildUrlEndpoint(String hostUrl, Map<String, String> parameterList) {
@@ -101,69 +102,58 @@ public class PostRequest {
   }
 
   private static String sendRequestGetStringResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, String payload) {
-    try {
-      HttpPost httpPost = new HttpPost(buildUrlEndpoint(hostUrl, parameterList));
-      if (headerList != null) {
-        for (Entry<String, String> entry : headerList.entrySet()) {
-          httpPost.setHeader(entry.getKey(), entry.getValue());
-        }
+      Map<String, String> parameterList, Map<String, String> headerList, String payload)
+      throws IOException {
+    HttpPost httpPost = new HttpPost(buildUrlEndpoint(hostUrl, parameterList));
+    if (headerList != null) {
+      for (Entry<String, String> entry : headerList.entrySet()) {
+        httpPost.setHeader(entry.getKey(), entry.getValue());
       }
-      StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-      httpPost.setEntity(entity);
-      CloseableHttpResponse response2 = httpClient.execute(httpPost);
-      return IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8);
-    } catch (Exception e) {
-      e.printStackTrace();
     }
-    return null;
+    StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
+    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    httpPost.setEntity(entity);
+    CloseableHttpResponse response2 = httpClient.execute(httpPost);
+    return IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8);
   }
 
   private static JSONObject sendRequestGetJsonObjectResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, String payload) {
-    try {
-      HttpPost httpPost = new HttpPost(buildUrlEndpoint(hostUrl, parameterList));
-      if (headerList != null) {
-        for (Entry<String, String> entry : headerList.entrySet()) {
-          httpPost.setHeader(entry.getKey(), entry.getValue());
-        }
+      Map<String, String> parameterList, Map<String, String> headerList, String payload)
+      throws IOException {
+    HttpPost httpPost = new HttpPost(buildUrlEndpoint(hostUrl, parameterList));
+    if (headerList != null) {
+      for (Entry<String, String> entry : headerList.entrySet()) {
+        httpPost.setHeader(entry.getKey(), entry.getValue());
       }
-      StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-      httpPost.setEntity(entity);
-      CloseableHttpResponse response2 = httpClient.execute(httpPost);
-      return new JSONObject(
-          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
-    } catch (Exception e) {
-      e.printStackTrace();
     }
-    return null;
+    StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
+    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    httpPost.setEntity(entity);
+    CloseableHttpResponse response2 = httpClient.execute(httpPost);
+    return new JSONObject(
+        IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
   }
 
   private static JSONArray sendRequestGetJsonArrayResponse(String hostUrl,
-      Map<String, String> parameterList, Map<String, String> headerList, String payload) {
-    try {
-      HttpPost httpPost = new HttpPost(buildUrlEndpoint(hostUrl, parameterList));
-      if (headerList != null) {
-        for (Entry<String, String> entry : headerList.entrySet()) {
-          httpPost.setHeader(entry.getKey(), entry.getValue());
-        }
+      Map<String, String> parameterList, Map<String, String> headerList, String payload)
+      throws IOException {
+    HttpPost httpPost = new HttpPost(buildUrlEndpoint(hostUrl, parameterList));
+    if (headerList != null) {
+      for (Entry<String, String> entry : headerList.entrySet()) {
+        httpPost.setHeader(entry.getKey(), entry.getValue());
       }
-      StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
-      CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-      httpPost.setEntity(entity);
-      CloseableHttpResponse response2 = httpClient.execute(httpPost);
-      return new JSONArray(
-          IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
-    } catch (Exception e) {
-      e.printStackTrace();
     }
-    return null;
+    StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
+    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    httpPost.setEntity(entity);
+    CloseableHttpResponse response2 = httpClient.execute(httpPost);
+    return new JSONArray(
+        IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8));
   }
 
   private static HttpPost genHttpPost(String hostUrl, Map<String, String> parameterList,
-      Map<String, String> headerList, Map<String, String> payload) {
+      Map<String, String> headerList, Map<String, String> payload)
+      throws UnsupportedEncodingException {
     HttpPost httpPost = new HttpPost(buildUrlEndpoint(hostUrl, parameterList));
     if (headerList != null) {
       for (Entry<String, String> entry : headerList.entrySet()) {
@@ -174,11 +164,7 @@ public class PostRequest {
     for (Entry<String, String> entry : payload.entrySet()) {
       urlParameters.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
     }
-    try {
-      httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
+    httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
     return httpPost;
   }
 }
