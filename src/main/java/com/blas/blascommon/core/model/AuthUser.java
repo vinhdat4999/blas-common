@@ -52,4 +52,8 @@ public class AuthUser {
   @Column(name = "is_active")
   @NotEmpty
   private boolean isActive;
+
+  @Column(name = "provider", length = 20, nullable = false)
+  @NotEmpty
+  private String provider;
 }

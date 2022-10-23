@@ -62,10 +62,10 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
     if (authenKeyOld == null) {
       AuthenKey authenKey = new AuthenKey();
       authenKey.setAuthenId(genUUID());
-      authenKey.setKey(sha256Encoder.encode(key));
       authenKey.setAuthUser(authUser);
-      authenKey.setTimeGenerate(getTimeNow());
+      authenKey.setKey(sha256Encoder.encode(key));
       authenKey.setUsed(false);
+      authenKey.setTimeGenerate(getTimeNow());
       authenKeyDao.save(authenKey);
     } else {
       authenKeyOld.setKey(sha256Encoder.encode(key));
