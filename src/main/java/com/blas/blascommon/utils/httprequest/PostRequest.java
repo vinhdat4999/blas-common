@@ -48,27 +48,27 @@ public class PostRequest {
   public static String sendPostRequestWithJsonArrayPayloadGetStringResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
       throws IOException {
-    payload = new JSONArray(
-        payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
-            .replace("}\"", "}").replace("\"{", "{"));
+//    payload = new JSONArray(
+//        payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
+//            .replace("}\"", "}").replace("\"{", "{"));
     return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   public static JSONObject sendPostRequestWithJsonArrayPayloadGetJsonObjectResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
       throws IOException {
-    payload = new JSONArray(
-        payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
-            .replace("}\"", "}").replace("\"{", "{"));
+//    payload = new JSONArray(
+//        payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
+//            .replace("}\"", "}").replace("\"{", "{"));
     return sendRequestGetJsonObjectResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   public static JSONArray sendPostRequestWithJsonArrayPayloadGetJsonArrayResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
       throws IOException {
-    payload = new JSONArray(
-        payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
-            .replace("}\"", "}").replace("\"{", "{"));
+//    payload = new JSONArray(
+//        payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
+//            .replace("}\"", "}").replace("\"{", "{"));
     return sendRequestGetJsonArrayResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 

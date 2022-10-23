@@ -28,7 +28,7 @@ public class AuthenKey {
   @NotNull
   private AuthUser authUser;
 
-  @Column(name = "key", length = 256, nullable = false)
+  @Column(name = "`key`", length = 256, nullable = false)
   @NotEmpty
   private String key;
 
