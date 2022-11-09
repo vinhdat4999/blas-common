@@ -2,13 +2,12 @@ package com.blas.blascommon.utils;
 
 import java.security.SecureRandom;
 import java.util.UUID;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class IdUtils {
 
   private static SecureRandom random = new SecureRandom();
-
-  private IdUtils() {
-  }
 
   public static String genUUID() {
     return UUID.randomUUID().toString();

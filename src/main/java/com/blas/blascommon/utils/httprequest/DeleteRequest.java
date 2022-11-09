@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpDelete;
@@ -14,10 +15,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@UtilityClass
 public class DeleteRequest {
-
-  private DeleteRequest() {
-  }
 
   public static String sendDeleteRequestGetStringResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList) throws IOException {

@@ -19,12 +19,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
+import lombok.experimental.UtilityClass;
 import net.coobird.thumbnailator.Thumbnails;
 
+@UtilityClass
 public class ImageUtils {
-
-  private ImageUtils() {
-  }
 
   public static BufferedImage compressImage(String path, float scale) {
     try {

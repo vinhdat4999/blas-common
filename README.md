@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 1.22.0  | 10/11/2022   | Update Statictis Log entity                                                     |
 | 1.21.0  | 23/10/2022   | Update AuthenKey entity and HTTP services                                       |
 | 1.20.0  | 22/10/2022   | Add email payload                                                               |
 | 1.19.0  | 22/10/2022   | Support valid utilities                                                         |

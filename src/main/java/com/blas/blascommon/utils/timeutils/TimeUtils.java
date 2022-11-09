@@ -1,11 +1,13 @@
 package com.blas.blascommon.utils.timeutils;
 
 import java.time.LocalDateTime;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class TimeUtils {
 
-  private TimeUtils() {
-  }
+  public static final String STANDARD_DATE_TIME_FORMAT_1 = "dd/MM/yyyy HH:mm:ss";
+  public static final String STANDARD_DATE_TIME_FORMAT_2 = "HH:mm:ss dd/MM/yyyy";
 
   public static String getTimeLabel(LocalDateTime datetime) {
     LocalDateTime now = LocalDateTime.now();

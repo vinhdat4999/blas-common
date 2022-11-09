@@ -1,5 +1,8 @@
 package com.blas.blascommon.constants;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class HttpResponseConfiguration {
 
   public static final String VIDEO = "/video";
@@ -11,7 +14,4 @@ public class HttpResponseConfiguration {
   public static final String BYTES = "bytes";
   public static final int CHUNK_SIZE = 314700;
   public static final int BYTE_RANGE = 1024;
-
-  private HttpResponseConfiguration() {
-  }
 }

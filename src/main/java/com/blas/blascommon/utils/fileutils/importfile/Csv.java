@@ -8,11 +8,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class Csv {
-
-  private Csv() {
-  }
 
   public static List<String[]> importFromCsv(String path) {
     List<String[]> data = new ArrayList<>();
