@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPut;
@@ -14,10 +15,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@UtilityClass
 public class PutRequest {
-
-  private PutRequest() {
-  }
 
   public static String sendPutRequestWithJsonObjectPayloadGetStringResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload)

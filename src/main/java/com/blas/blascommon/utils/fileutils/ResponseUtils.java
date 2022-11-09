@@ -10,13 +10,12 @@ import static com.blas.blascommon.constants.HttpResponseConfiguration.VIDEO_CONT
 import static com.blas.blascommon.utils.fileutils.FileUtils.getFileSize;
 import static com.blas.blascommon.utils.fileutils.FileUtils.readBytesRange;
 
+import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+@UtilityClass
 public class ResponseUtils {
-
-  private ResponseUtils() {
-  }
 
   public static ResponseEntity<byte[]> prepareResponseVideo(final String path,
       final String fileType, final String range) {

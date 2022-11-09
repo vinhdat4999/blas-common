@@ -16,12 +16,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
+import lombok.experimental.UtilityClass;
 import org.springframework.core.io.InputStreamResource;
 
+@UtilityClass
 public class FileUtils {
-
-  private FileUtils() {
-  }
 
   public static boolean createBlankFile(String path) {
     boolean createFileSucceed = false;

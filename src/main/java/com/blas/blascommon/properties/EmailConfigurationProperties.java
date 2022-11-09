@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "email")
+@ConfigurationProperties(prefix = "blas.blas-email")
 public class EmailConfigurationProperties {
 
   private String emailSender;

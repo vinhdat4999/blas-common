@@ -5,11 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class Csv {
-
-  private Csv() {
-  }
 
   public static void exportToCsv(String[] headers, List<String[]> data, String path) {
     List<String[]> list = new ArrayList<>();

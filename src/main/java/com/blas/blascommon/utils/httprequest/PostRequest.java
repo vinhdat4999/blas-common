@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -22,10 +23,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@UtilityClass
 public class PostRequest {
-
-  private PostRequest() {
-  }
 
   public static String sendPostRequestWithJsonObjectPayloadGetStringResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload)

@@ -1,9 +1,9 @@
 package com.blas.blascommon.utils;
 
-public class StringUtils {
+import lombok.experimental.UtilityClass;
 
-  private StringUtils() {
-  }
+@UtilityClass
+public class StringUtils {
 
   public static boolean isBlank(String s) {
     return s == null || s.trim().length() == 0;

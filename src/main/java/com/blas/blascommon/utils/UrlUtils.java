@@ -1,7 +1,9 @@
 package com.blas.blascommon.utils;
 
 import java.util.Arrays;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class UrlUtils {
 
   private static final char[] SOURCE_CHARACTERS = {'À', 'Á', 'Â', 'Ã', 'È', 'É', 'Ê', 'Ì', 'Í',
@@ -30,9 +32,6 @@ public class UrlUtils {
       'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'U',
       'u', 'U', 'u', 'U',
       'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u',};
-
-  private UrlUtils() {
-  }
 
   private static char removeAccent(char ch) {
     int index = Arrays.binarySearch(SOURCE_CHARACTERS, ch);
