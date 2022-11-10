@@ -15,7 +15,7 @@ public class Response {
   public static final String NOTIFICATION_ID_NOT_FOUND = "Notification ID not found.";
   public static final String ROLE_ID_NOT_FOUND = "Role ID not found.";
   public static final String BLAS_LOG_ID_NOT_FOUND = "Statistic log ID not found.";
-  public static final String CENTRALIZED_LOG_ID_NOT_FOUND = "Statistic log ID not found.";
+  public static final String CENTRALIZED_LOG_ID_NOT_FOUND = "Centralized log ID not found.";
   public static final String HELP_TICKET_ID_NOT_FOUND = "Help ticket ID not found.";
   public static final String MESSAGE_HELP_ID_NOT_FOUND = "Message help ID not found.";
   public static final String DUPLICATED_USERNAME = "Username is existed. Please choose another.";
