@@ -1,4 +1,4 @@
-package com.blas.blascommon.constants;
+package com.blas.blascommon.enums;
 
 public enum Role {
   ADMIN,
