@@ -8,6 +8,7 @@ import com.blas.blascommon.core.model.CentralizedLog;
 import com.blas.blascommon.core.service.CentralizedLogService;
 import com.blas.blascommon.enums.LogType;
 import com.blas.blascommon.exceptions.types.NotFoundException;
+import com.blas.blascommon.utils.email.SendEmail;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
 
   @Override
   public CentralizedLog saveLog(String serviceName, LogType logType, String exception, String cause,
-      String requestData1, String requestData2, String requestData3, String logContent) {
+      String requestData1, String requestData2, String requestData3, String logContent,
+      boolean isSendEmailAlert) {
     CentralizedLog centralizedLog = new CentralizedLog();
     centralizedLog.setCentralizedLogId(genUUID());
     centralizedLog.setLogTime(LocalDateTime.now());
@@ -35,6 +37,9 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
     centralizedLog.setRequestData2(requestData2);
     centralizedLog.setRequestData3(requestData3);
     centralizedLog.setLogContent(logContent);
+    if (isSendEmailAlert) {
+      sendAlertEmail(serviceName, logType, exception);
+    }
     return centralizedLogDao.save(centralizedLog);
   }
 
@@ -54,4 +59,15 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
     centralizedLogDao.save(centralizedLog);
   }
 
+  private void sendAlertEmail(String serviceName, LogType logType, String exception) {
+    final String adminEmail = "vinhdat4999@gmail.com";
+    StringBuilder emailContent = new StringBuilder();
+    emailContent.append("1 error have logged. ").append("</br>").append("Service: ")
+        .append(serviceName).append("</br>").append("Log type: ").append(logType).append("</br>")
+        .append("Exception: ").append(exception);
+    SendEmail sendEmail = new SendEmail("[BLAS][CENTRALIZED LOG]ERROR ALERT",
+        emailContent.toString(), adminEmail);
+    Thread thread = new Thread(sendEmail);
+    thread.start();
+  }
 }

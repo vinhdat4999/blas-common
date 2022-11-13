@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 1.24.0  | 13/11/2022   | Add send email for internal application                                         |
 | 1.23.0  | 10/11/2022   | Add Centralized Logger                                                          |
 | 1.22.0  | 10/11/2022   | Update Statictis Log entity                                                     |
 | 1.21.0  | 23/10/2022   | Update AuthenKey entity and HTTP services                                       |

@@ -6,7 +6,8 @@ import com.blas.blascommon.enums.LogType;
 public interface CentralizedLogService {
 
   public CentralizedLog saveLog(String serviceName, LogType logType, String exception, String cause,
-      String requestData1, String requestData2, String requestData3, String logContent);
+      String requestData1, String requestData2, String requestData3, String logContent,
+      boolean isSendEmailAlert);
 
   public CentralizedLog createCentralizedLog(CentralizedLog centralizedLog);
 
