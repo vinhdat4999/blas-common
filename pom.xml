@@ -14,10 +14,14 @@
   </parent>
   <groupId>com.blas</groupId>
   <artifactId>blas-common</artifactId>
-  <version>1.23.0</version>
+  <version>1.24.0</version>
   <packaging>jar</packaging>
 
   <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-mail</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.google.zxing</groupId>
       <artifactId>core</artifactId>
