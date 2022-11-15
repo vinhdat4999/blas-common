@@ -8,13 +8,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Formatter;
+import lombok.experimental.UtilityClass;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@UtilityClass
 public class SecurityUtils {
 
-  private SecurityUtils() {
-  }
+  public static final String BASIC_SPACE = "Basic ";
 
   public static String getUsernameLoggedIn() {
     String username = "";
