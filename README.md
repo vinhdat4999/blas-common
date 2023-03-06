@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 1.26.0  | 06/03/2023   | Support custom secret JWT                                                       |
 | 1.25.0  | 16/11/2022   | Add Blas Configuration system                                                   |
 | 1.24.0  | 13/11/2022   | Add send email for internal application                                         |
 | 1.23.0  | 10/11/2022   | Add Centralized Logger                                                          |
