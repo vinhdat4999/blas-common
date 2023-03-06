@@ -100,7 +100,7 @@ public class FileUtils {
 
   public static void writeTextToFile(String content, String path) {
     try (FileWriter writer = new FileWriter(path); BufferedWriter buffer = new BufferedWriter(
-        writer);) {
+        writer)) {
       buffer.write(content);
     } catch (IOException e) {
       e.printStackTrace();

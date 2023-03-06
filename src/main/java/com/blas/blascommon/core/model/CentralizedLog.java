@@ -6,11 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "centralized_logs")
+@AllArgsConstructor
+@NoArgsConstructor
 public class CentralizedLog {
 
   @Id

@@ -19,11 +19,11 @@ public class JwtTokenUtil {
   @Autowired
   private JwtConfigurationProperties jwtConfigurationProperties;
 
-  @Value("jwt.secret")
+  @Value("${jwt.secret}")
   private String secret;
 
-  @Value("jwt.expiration")
-  private String expiration;
+  @Value("${jwt.timeToExpired}")
+  private String timeToExpired;
 
   // for retrieving any information from token we will need the secret key
   private Claims getAllClaimsFromToken(String token) {
