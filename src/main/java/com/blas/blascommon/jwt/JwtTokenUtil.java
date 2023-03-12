@@ -19,10 +19,10 @@ public class JwtTokenUtil {
   @Autowired
   private JwtConfigurationProperties jwtConfigurationProperties;
 
-  @Value("${jwt.secret}")
+  @Value("${blas.blas-idp.jwt.secret}")
   private String secret;
 
-  @Value("${jwt.timeToExpired}")
+  @Value("${blas.blas-idp.jwt.timeToExpired}")
   private String timeToExpired;
 
   // for retrieving any information from token we will need the secret key
