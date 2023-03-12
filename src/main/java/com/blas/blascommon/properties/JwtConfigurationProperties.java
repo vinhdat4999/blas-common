@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component;
 @Setter
 @ToString
 @Component
-@ConfigurationProperties(prefix = "jwt")
+@ConfigurationProperties(prefix = "blas.blas-idp.jwt")
 public class JwtConfigurationProperties {
 
+  private String secret;
   private long timeToExpired;
 }
