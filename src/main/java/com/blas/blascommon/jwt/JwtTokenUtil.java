@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -19,15 +18,10 @@ public class JwtTokenUtil {
   @Autowired
   private JwtConfigurationProperties jwtConfigurationProperties;
 
-  @Value("${blas.blas-idp.jwt.secret}")
-  private String secret;
-
-  @Value("${blas.blas-idp.jwt.timeToExpired}")
-  private String timeToExpired;
-
   // for retrieving any information from token we will need the secret key
   private Claims getAllClaimsFromToken(String token) {
-    return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+    return Jwts.parser().setSigningKey(jwtConfigurationProperties.getSecret()).parseClaimsJws(token)
+        .getBody();
   }
 
   public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
@@ -66,7 +60,7 @@ public class JwtTokenUtil {
         .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis()
             + jwtConfigurationProperties.getTimeToExpired() * 1000))
-        .signWith(SignatureAlgorithm.HS512, secret).compact();
+        .signWith(SignatureAlgorithm.HS512, jwtConfigurationProperties.getSecret()).compact();
   }
 
   // validate token
