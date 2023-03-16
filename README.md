@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 1.29.0  | 17/03/2023   | Support email template                                                          |
 | 1.28.0  | 16/03/2023   | Fix Sonarqube issues                                                            |
 | 1.27.0  | 13/03/2023   | Update config JWT                                                               |
 | 1.26.0  | 06/03/2023   | Support custom secret JWT                                                       |
