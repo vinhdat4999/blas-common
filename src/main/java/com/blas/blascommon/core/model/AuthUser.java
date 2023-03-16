@@ -1,5 +1,6 @@
 package com.blas.blascommon.core.model;
 
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "auth_users")
-public class AuthUser {
+public class AuthUser implements Serializable {
 
   @Id
   @Column(name = "user_id", length = 50, nullable = false)

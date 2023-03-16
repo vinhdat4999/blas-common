@@ -1,5 +1,6 @@
 package com.blas.blascommon.core.model;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +11,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements Serializable {
 
   @Id
   @Column(name = "role_id", length = 50, nullable = false)

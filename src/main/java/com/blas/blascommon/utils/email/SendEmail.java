@@ -1,8 +1,5 @@
 package com.blas.blascommon.utils.email;
 
-import com.blas.blascommon.payload.HtmlEmailRequest;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.mail.Message;
@@ -46,6 +43,7 @@ public class SendEmail implements Runnable {
     props.put("mail.smtp.starttls.required", "true");
     props.put("mail.smtp.ssl.protocols", "TLSv1.2");
     props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+    props.put("mail.smtp.ssl.checkserveridentity", "true");
 
     Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
       @Override
@@ -61,7 +59,6 @@ public class SendEmail implements Runnable {
     }
     MimeBodyPart messageBodyPartContent = new MimeBodyPart();
     AtomicInteger sentEmailNum = new AtomicInteger();
-    List<HtmlEmailRequest> htmlEmailRequestFailedList = new ArrayList<>();
     try {
       message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.receiverEmail));
       message.setSubject(this.subject, "utf8");
