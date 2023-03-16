@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 1.28.0  | 16/03/2023   | Fix Sonarqube issues                                                            |
 | 1.27.0  | 13/03/2023   | Update config JWT                                                               |
 | 1.26.0  | 06/03/2023   | Support custom secret JWT                                                       |
 | 1.25.0  | 16/11/2022   | Add Blas Configuration system                                                   |

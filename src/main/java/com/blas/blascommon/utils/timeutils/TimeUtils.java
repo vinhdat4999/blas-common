@@ -9,6 +9,7 @@ public class TimeUtils {
   public static final String STANDARD_DATE_TIME_FORMAT_1 = "dd/MM/yyyy HH:mm:ss";
   public static final String STANDARD_DATE_TIME_FORMAT_2 = "HH:mm:ss dd/MM/yyyy";
   public static final String DATE_DASH_FORMAT_1 = "yyyy-MM-dd";
+  public static final String DATE_SLASH_FORMAT = "yyyy/MM/dd";
 
   public static String getTimeLabel(LocalDateTime datetime) {
     LocalDateTime now = LocalDateTime.now();
