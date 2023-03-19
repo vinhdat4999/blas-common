@@ -6,6 +6,8 @@ import lombok.Data;
 @Data
 public class HtmlEmailResponse {
 
+  private int failedEmailNum;
+  private List<HtmlEmailRequest> failedEmailList;
   private int sentEmailNum;
-  private List<HtmlEmailRequest> htmlEmailRequestFailedList;
+  private List<HtmlEmailRequest> sentEmailList;
 }
