@@ -6,6 +6,8 @@ import lombok.Data;
 @Data
 public class HtmlEmailWithAttachmentResponse {
 
+  private int failedEmailNum;
+  private List<HtmlEmailWithAttachmentRequest> failedEmailList;
   private int sentEmailNum;
-  private List<HtmlEmailWithAttachmentRequest> htmlEmailWithAttachmentRequestFailedList;
+  private List<HtmlEmailWithAttachmentRequest> sentEmailList;
 }

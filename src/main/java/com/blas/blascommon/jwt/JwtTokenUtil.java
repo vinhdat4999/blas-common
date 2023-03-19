@@ -1,5 +1,8 @@
 package com.blas.blascommon.jwt;
 
+import static com.blas.blascommon.enums.Role.SYSTEM;
+import static java.lang.System.currentTimeMillis;
+
 import com.blas.blascommon.properties.JwtConfigurationProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -47,19 +50,25 @@ public class JwtTokenUtil {
   // generate token for user
   public String generateToken(UserDetails userDetails) {
     Map<String, Object> claims = new HashMap<>();
-    return doGenerateToken(claims, userDetails.getUsername());
+    return doGenerateToken(claims, userDetails.getUsername(),
+        jwtConfigurationProperties.getTimeToExpired());
+  }
+
+  // generate token for internal system
+  public Map<String, String> generateInternalSystemToken() {
+    Map<String, Object> claims = new HashMap<>();
+    return Map.of("Authorization", "Bearer " + doGenerateToken(claims, SYSTEM.toString(),
+        jwtConfigurationProperties.getTimeToExpiredInternalToken()));
   }
 
   // while creating the token -
   // 1. Define claims of the token, like Issuer, Expiration, Subject, and the ID
   // 2. Sign the JWT using the HS512 algorithm and secret key.
   // 3. According to JWS Compact
-  private String doGenerateToken(Map<String, Object> claims, String subject) {
-
+  private String doGenerateToken(Map<String, Object> claims, String subject, long timeToExpired) {
     return Jwts.builder().setClaims(claims).setSubject(subject)
-        .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis()
-            + jwtConfigurationProperties.getTimeToExpired() * 1000))
+        .setIssuedAt(new Date(currentTimeMillis()))
+        .setExpiration(new Date(currentTimeMillis() + timeToExpired * 1000))
         .signWith(SignatureAlgorithm.HS512, jwtConfigurationProperties.getSecret()).compact();
   }
 
