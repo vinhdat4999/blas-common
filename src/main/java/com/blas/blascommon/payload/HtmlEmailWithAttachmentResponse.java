@@ -1,13 +1,18 @@
 package com.blas.blascommon.payload;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class HtmlEmailWithAttachmentResponse {
 
   private int failedEmailNum;
-  private List<HtmlEmailWithAttachmentRequest> failedEmailList;
+  private List<EmailRequest> failedEmailList;
   private int sentEmailNum;
-  private List<HtmlEmailWithAttachmentRequest> sentEmailList;
+  private List<EmailRequest> sentEmailList;
+  private LocalDateTime generatedTime;
+  private String generatedBy;
 }

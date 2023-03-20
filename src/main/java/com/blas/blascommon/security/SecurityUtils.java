@@ -1,5 +1,12 @@
 package com.blas.blascommon.security;
 
+import static com.blas.blascommon.enums.Role.ADMIN;
+import static com.blas.blascommon.enums.Role.BOD;
+import static com.blas.blascommon.enums.Role.MAINTAINER;
+import static com.blas.blascommon.enums.Role.MANAGER;
+import static com.blas.blascommon.enums.Role.SYSTEM;
+import static com.blas.blascommon.utils.StringUtils.UNDERSCORE;
+
 import com.blas.blascommon.core.service.AuthUserService;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -8,7 +15,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Formatter;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -149,5 +160,12 @@ public class SecurityUtils {
 
   public static byte[] base64Decode(String base64Content) {
     return Base64.getDecoder().decode(base64Content);
+  }
+
+  public boolean isPrioritizedRole(Authentication authentication) {
+    List<String> prioritizedRole = Stream.of(SYSTEM, ADMIN, BOD, MAINTAINER, MANAGER)
+        .map(Enum::toString).collect(Collectors.toList());
+    return prioritizedRole.contains(
+        authentication.getAuthorities().iterator().next().toString().split(UNDERSCORE)[1]);
   }
 }
