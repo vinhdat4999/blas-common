@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 1.31.0  | 20/03/2023   | Support handlers exception blas-email                                           |
 | 1.30.0  | 19/03/2023   | Support monitoring blas-email                                                   |
 | 1.29.0  | 17/03/2023   | Support email template                                                          |
 | 1.28.0  | 16/03/2023   | Fix Sonarqube issues                                                            |
@@ -12,7 +13,7 @@
 | 1.25.0  | 16/11/2022   | Add Blas Configuration system                                                   |
 | 1.24.0  | 13/11/2022   | Add send email for internal application                                         |
 | 1.23.0  | 10/11/2022   | Add Centralized Logger                                                          |
-| 1.22.0  | 10/11/2022   | Update Statictis Log entity                                                     |
+| 1.22.0  | 10/11/2022   | Update Statistic Log entity                                                     |
 | 1.21.0  | 23/10/2022   | Update AuthenKey entity and HTTP services                                       |
 | 1.20.0  | 22/10/2022   | Add email payload                                                               |
 | 1.19.0  | 22/10/2022   | Support valid utilities                                                         |

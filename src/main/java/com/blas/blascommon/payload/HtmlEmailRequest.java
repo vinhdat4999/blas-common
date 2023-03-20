@@ -1,13 +1,13 @@
 package com.blas.blascommon.payload;
 
 import java.util.Map;
-import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
-public class HtmlEmailRequest {
+@NoArgsConstructor
+public class HtmlEmailRequest extends EmailRequest {
 
-  private String emailTo;
-  private String title;
-  private String emailTemplateName;
-  private Map<String, String> data;
+  public HtmlEmailRequest(String emailTo, String title, String emailTemplateName,
+      Map<String, String> data, String reasonSendFailed) {
+    super(emailTo, title, emailTemplateName, data, reasonSendFailed);
+  }
 }
