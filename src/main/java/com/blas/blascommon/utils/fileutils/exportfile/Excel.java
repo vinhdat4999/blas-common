@@ -21,27 +21,22 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 @UtilityClass
 public class Excel {
 
-  public static void exportToExcel(String[] headers, List<String[]> data, String path) {
-    try {
-      Workbook workbook = getWorkbook(path);
-      short format = (short) BuiltinFormats.getBuiltinFormat("#,##0");
-      CellStyle cellStyleFormatNumber = workbook.createCellStyle();
-      cellStyleFormatNumber.setDataFormat(format);
-      Sheet sheet = workbook.createSheet("Sheet1");
-      writeHeader(sheet, 0, headers);
-
-      int rowIndex = 1;
-      for (String[] dataLine : data) {
-        Row row = sheet.createRow(rowIndex);
-        writeDataLine(dataLine, row, cellStyleFormatNumber);
-        rowIndex++;
-      }
-
-      autosizeColumn(sheet, headers.length);
-      createOutputFile(workbook, path);
-    } catch (IOException e) {
-      e.printStackTrace();
+  public static void exportToExcel(String[] headers, List<String[]> data, String path)
+      throws IOException {
+    Workbook workbook = getWorkbook(path);
+    short format = (short) BuiltinFormats.getBuiltinFormat("#,##0");
+    CellStyle cellStyleFormatNumber = workbook.createCellStyle();
+    cellStyleFormatNumber.setDataFormat(format);
+    Sheet sheet = workbook.createSheet("Sheet1");
+    writeHeader(sheet, 0, headers);
+    int rowIndex = 1;
+    for (String[] dataLine : data) {
+      Row row = sheet.createRow(rowIndex);
+      writeDataLine(dataLine, row, cellStyleFormatNumber);
+      rowIndex++;
     }
+    autosizeColumn(sheet, headers.length);
+    createOutputFile(workbook, path);
   }
 
   private static Workbook getWorkbook(String excelFilePath) {

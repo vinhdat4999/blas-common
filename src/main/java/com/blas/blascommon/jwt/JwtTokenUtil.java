@@ -1,5 +1,7 @@
 package com.blas.blascommon.jwt;
 
+import static com.blas.blascommon.constants.SecurityConstant.AUTHORIZATION;
+import static com.blas.blascommon.constants.SecurityConstant.BEARER_SPACE;
 import static com.blas.blascommon.enums.Role.SYSTEM;
 import static java.lang.System.currentTimeMillis;
 
@@ -57,7 +59,7 @@ public class JwtTokenUtil {
   // generate token for internal system
   public Map<String, String> generateInternalSystemToken() {
     Map<String, Object> claims = new HashMap<>();
-    return Map.of("Authorization", "Bearer " + doGenerateToken(claims, SYSTEM.toString(),
+    return Map.of(AUTHORIZATION, BEARER_SPACE + doGenerateToken(claims, SYSTEM.toString(),
         jwtConfigurationProperties.getTimeToExpiredInternalToken()));
   }
 

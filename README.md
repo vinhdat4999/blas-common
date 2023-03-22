@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 1.32.0  | dd/03/2023   | Support JsonUtils and refactor with new syntax                                  |
 | 1.31.0  | 20/03/2023   | Support handlers exception blas-email                                           |
 | 1.30.0  | 19/03/2023   | Support monitoring blas-email                                                   |
 | 1.29.0  | 17/03/2023   | Support email template                                                          |

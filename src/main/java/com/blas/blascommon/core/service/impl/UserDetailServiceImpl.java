@@ -11,7 +11,6 @@ import com.blas.blascommon.core.service.UserDetailService;
 import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +29,8 @@ public class UserDetailServiceImpl implements UserDetailService {
 
   @Override
   public UserDetail getUserDetailByUserId(String userId) {
-    Optional<UserDetail> userDetail = userDetailDao.findById(userId);
-    if (userDetail.isEmpty()) {
-      throw new NotFoundException(USER_ID_NOT_FOUND);
-    }
-    return userDetail.get();
+    return userDetailDao.findById(userId)
+        .orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
   }
 
   @Override
@@ -48,9 +44,8 @@ public class UserDetailServiceImpl implements UserDetailService {
 
   @Override
   public void updateUserDetail(UserDetail userDetail) {
-    if (userDetailDao.findById(userDetail.getUserId()).isEmpty()) {
-      throw new NotFoundException(USER_ID_NOT_FOUND);
-    }
+    userDetailDao.findById(userDetail.getUserId())
+        .orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
     UserDetail userDetailOld = userDetailDao.getUserDetailByPhone(userDetail.getPhoneNumber());
     if (!userDetail.getUserId().equals(userDetailOld.getUserId())) {
       throw new BadRequestException(DUPLICATED_PHONE);

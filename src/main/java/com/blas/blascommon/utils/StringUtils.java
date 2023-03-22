@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
 public class StringUtils {
 
   public static final String PLUS = "+";
-  public static final String DASH = "-";
+  public static final String HYPHEN = "-";
   public static final String ASTERISK = "*";
   public static final String SLASH = "/";
   public static final String COLON = ":";

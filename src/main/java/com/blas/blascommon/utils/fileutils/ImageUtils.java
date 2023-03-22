@@ -25,33 +25,25 @@ import net.coobird.thumbnailator.Thumbnails;
 @UtilityClass
 public class ImageUtils {
 
-  public static BufferedImage compressImage(String path, float scale) {
-    try {
-      BufferedImage bufferedImage = getBufferImage(path);
-      if (bufferedImage == null) {
-        return null;
-      }
-      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-      Thumbnails.of(bufferedImage).outputFormat("JPG")
-          .size(bufferedImage.getWidth(), bufferedImage.getHeight()).outputQuality(scale)
-          .toOutputStream(outputStream);
-      byte[] data = outputStream.toByteArray();
-      ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
-      return ImageIO.read(inputStream);
-    } catch (IOException e) {
-      e.printStackTrace();
+  public static BufferedImage compressImage(String path, float scale) throws IOException {
+    BufferedImage bufferedImage = getBufferImage(path);
+    if (bufferedImage == null) {
+      return null;
     }
-    return null;
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    Thumbnails.of(bufferedImage).outputFormat("JPG")
+        .size(bufferedImage.getWidth(), bufferedImage.getHeight()).outputQuality(scale)
+        .toOutputStream(outputStream);
+    byte[] data = outputStream.toByteArray();
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
+    return ImageIO.read(inputStream);
   }
 
-  public static BufferedImage resizeImage(byte[] image, int targetWidth, int targetHeight) {
+  public static BufferedImage resizeImage(byte[] image, int targetWidth, int targetHeight)
+      throws IOException {
     InputStream is = new ByteArrayInputStream(image);
-    BufferedImage originalImage = null;
-    try {
-      originalImage = ImageIO.read(is);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    BufferedImage originalImage;
+    originalImage = ImageIO.read(is);
     if (originalImage == null) {
       return null;
     }
@@ -63,23 +55,13 @@ public class ImageUtils {
     return outputImage;
   }
 
-  public static BufferedImage getBufferImage(String path) {
-    try {
-      return ImageIO.read(new File(path));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return null;
+  public static BufferedImage getBufferImage(String path) throws IOException {
+    return ImageIO.read(new File(path));
   }
 
-  public static BufferedImage genQrCode(String content) {
+  public static BufferedImage genQrCode(String content) throws WriterException {
     QRCodeWriter qrCodeWriter = new QRCodeWriter();
-    BitMatrix matrix = null;
-    try {
-      matrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, QR_WIDTH, QR_HEIGHT);
-    } catch (WriterException e) {
-      e.printStackTrace();
-    }
+    BitMatrix matrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, QR_WIDTH, QR_HEIGHT);
     return MatrixToImageWriter.toBufferedImage(matrix);
   }
 

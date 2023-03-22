@@ -1,5 +1,9 @@
 package com.blas.blascommon.utils.timeutils;
 
+import static com.blas.blascommon.utils.StringUtils.HYPHEN;
+import static com.blas.blascommon.utils.StringUtils.SLASH;
+import static com.blas.blascommon.utils.StringUtils.SPACE;
+
 import java.time.LocalDateTime;
 import lombok.experimental.UtilityClass;
 
@@ -23,8 +27,8 @@ public class TimeUtils {
       return (now.getHour() - datetime.getHour()) + " hour ago";
     }
     String[] temp = datetime.toString().split("T");
-    String[] temp2 = temp[0].split("-");
-    return temp2[2] + "/" + temp2[1] + "/" + temp2[0] + " " + temp[1];
+    String[] temp2 = temp[0].split(HYPHEN);
+    return temp2[2] + SLASH + temp2[1] + SLASH + temp2[0] + SPACE + temp[1];
   }
 
   public static LocalDateTime getTimeNow() {

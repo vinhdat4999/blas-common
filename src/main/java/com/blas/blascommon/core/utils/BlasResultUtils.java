@@ -11,11 +11,11 @@ public class BlasResultUtils {
 
   public BlasResult buildBlasResult(LocalDateTime timeNow, AuthUser authUser, String report,
       ReportType reportType) {
-    BlasResult blasResult = new BlasResult();
-    blasResult.setExportTime(timeNow);
-    blasResult.setAuthUser(authUser);
-    blasResult.setReport(report);
-    blasResult.setReportType(reportType.name());
-    return blasResult;
+    return BlasResult.builder()
+        .exportTime(timeNow)
+        .authUser(authUser)
+        .report(report)
+        .reportType(reportType.name())
+        .build();
   }
 }

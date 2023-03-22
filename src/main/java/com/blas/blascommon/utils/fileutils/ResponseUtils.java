@@ -7,9 +7,13 @@ import static com.blas.blascommon.constants.HttpResponseConfiguration.CONTENT_LE
 import static com.blas.blascommon.constants.HttpResponseConfiguration.CONTENT_RANGE;
 import static com.blas.blascommon.constants.HttpResponseConfiguration.CONTENT_TYPE;
 import static com.blas.blascommon.constants.HttpResponseConfiguration.VIDEO_CONTENT;
+import static com.blas.blascommon.utils.StringUtils.HYPHEN;
+import static com.blas.blascommon.utils.StringUtils.SLASH;
+import static com.blas.blascommon.utils.StringUtils.SPACE;
 import static com.blas.blascommon.utils.fileutils.FileUtils.getFileSize;
 import static com.blas.blascommon.utils.fileutils.FileUtils.readBytesRange;
 
+import java.io.IOException;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +22,7 @@ import org.springframework.http.ResponseEntity;
 public class ResponseUtils {
 
   public static ResponseEntity<byte[]> prepareResponseVideo(final String path,
-      final String fileType, final String range) {
+      final String fileType, final String range) throws IOException {
     long rangeStart = 0;
     long rangeEnd = CHUNK_SIZE;
     final long fileSize = getFileSize(path);
@@ -26,11 +30,11 @@ public class ResponseUtils {
       return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
           .header(CONTENT_TYPE, VIDEO_CONTENT + fileType).header(ACCEPT_RANGES, BYTES)
           .header(CONTENT_LENGTH, String.valueOf(rangeEnd))
-          .header(CONTENT_RANGE, BYTES + " " + rangeStart + "-" + rangeEnd + "/" + fileSize)
+          .header(CONTENT_RANGE, BYTES + SPACE + rangeStart + HYPHEN + rangeEnd + SLASH + fileSize)
           .header(CONTENT_LENGTH, String.valueOf(fileSize))
           .body(readBytesRange(path, rangeStart, rangeEnd));
     }
-    String[] ranges = range.split("-");
+    String[] ranges = range.split(HYPHEN);
     rangeStart = Long.parseLong(ranges[0].substring(6));
     if (ranges.length > 1) {
       rangeEnd = Long.parseLong(ranges[1]);
@@ -46,7 +50,7 @@ public class ResponseUtils {
     }
     return ResponseEntity.status(httpStatus).header(CONTENT_TYPE, VIDEO_CONTENT + fileType)
         .header(ACCEPT_RANGES, BYTES).header(CONTENT_LENGTH, contentLength)
-        .header(CONTENT_RANGE, BYTES + " " + rangeStart + "-" + rangeEnd + "/" + fileSize)
+        .header(CONTENT_RANGE, BYTES + SPACE + rangeStart + HYPHEN + rangeEnd + SLASH + fileSize)
         .body(data);
   }
 }

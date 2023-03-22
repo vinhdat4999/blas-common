@@ -7,7 +7,6 @@ import com.blas.blascommon.core.dao.RoleDao;
 import com.blas.blascommon.core.model.Role;
 import com.blas.blascommon.core.service.RoleService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +20,7 @@ public class RoleServiceImpl implements RoleService {
 
   @Override
   public Role getRoleByRoleId(String roleId) {
-    Optional<Role> role = roleDao.findById(roleId);
-    if (role.isEmpty()) {
-      throw new NotFoundException(ROLE_ID_NOT_FOUND);
-    }
-    return role.get();
+    return roleDao.findById(roleId).orElseThrow(() -> new NotFoundException(ROLE_ID_NOT_FOUND));
   }
 
   @Override
@@ -36,10 +31,7 @@ public class RoleServiceImpl implements RoleService {
 
   @Override
   public void updateRole(Role role) {
-    Optional<Role> roleOld = roleDao.findById(role.getRoleId());
-    if (roleOld.isEmpty()) {
-      throw new NotFoundException(ROLE_ID_NOT_FOUND);
-    }
+    roleDao.findById(role.getRoleId()).orElseThrow(() -> new NotFoundException(ROLE_ID_NOT_FOUND));
     roleDao.save(role);
   }
 }

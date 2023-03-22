@@ -10,14 +10,13 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Csv {
 
-  public static void exportToCsv(String[] headers, List<String[]> data, String path) {
+  public static void exportToCsv(String[] headers, List<String[]> data, String path)
+      throws IOException {
     List<String[]> list = new ArrayList<>();
     list.add(headers);
     list.addAll(data);
     try (CSVWriter writer = new CSVWriter(new FileWriter(path))) {
       writer.writeAll(list);
-    } catch (IOException e) {
-      e.printStackTrace();
     }
   }
 }

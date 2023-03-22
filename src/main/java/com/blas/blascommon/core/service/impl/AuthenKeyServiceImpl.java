@@ -10,7 +10,6 @@ import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.dao.AuthenKeyDao;
 import com.blas.blascommon.core.model.AuthUser;
 import com.blas.blascommon.core.model.AuthenKey;
-import com.blas.blascommon.core.service.AuthUserService;
 import com.blas.blascommon.core.service.AuthenKeyService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import com.blas.blascommon.security.hash.Sha256Encoder;
@@ -32,14 +31,9 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
   @Autowired
   private Sha256Encoder sha256Encoder;
 
-  @Autowired
-  private AuthUserService authUserService;
-
   @Override
   public AuthenKey getAuthenKeyByUserId(String userId) {
-    if (authUserDao.findById(userId).isEmpty()) {
-      throw new NotFoundException(USER_ID_NOT_FOUND);
-    }
+    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
     return authenKeyDao.getAuthenKeyByUserId(userId);
   }
 
@@ -47,12 +41,8 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
   public boolean isValidAuthenKey(String userId, String authenKey, LocalDateTime timeCheck) {
     authenKey = sha256Encoder.encode(authenKey);
     AuthenKey authenKeyObject = authenKeyDao.getAuthenKeyByKey(authenKey);
-    boolean isValid = true;
-    if (authenKeyObject == null || authenKeyObject.isUsed() || getTimeNow().isAfter(
-        authenKeyObject.getTimeGenerate().plusMinutes(MINUTE_TO_EXPIRED))) {
-      isValid = false;
-    }
-    return isValid;
+    return authenKeyObject != null && !authenKeyObject.isUsed() && !getTimeNow().isAfter(
+        authenKeyObject.getTimeGenerate().plusMinutes(MINUTE_TO_EXPIRED));
   }
 
   @Override
@@ -60,13 +50,14 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
     AuthenKey authenKeyOld = authenKeyDao.getAuthenKeyByUserId(authUser.getUserId());
     String key = genMixID();
     if (authenKeyOld == null) {
-      AuthenKey authenKey = new AuthenKey();
-      authenKey.setAuthenId(genUUID());
-      authenKey.setAuthUser(authUser);
-      authenKey.setKey(sha256Encoder.encode(key));
-      authenKey.setUsed(false);
-      authenKey.setTimeGenerate(getTimeNow());
-      authenKeyDao.save(authenKey);
+      authenKeyDao.save(
+          AuthenKey.builder()
+              .authenId(genUUID())
+              .authUser(authUser)
+              .key(sha256Encoder.encode(key))
+              .isUsed(false)
+              .timeGenerate(getTimeNow())
+              .build());
     } else {
       authenKeyOld.setKey(sha256Encoder.encode(key));
       authenKeyOld.setAuthUser(authUser);

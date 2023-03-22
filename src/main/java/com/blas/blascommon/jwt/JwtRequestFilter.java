@@ -1,5 +1,8 @@
 package com.blas.blascommon.jwt;
 
+import static com.blas.blascommon.constants.SecurityConstant.AUTHORIZATION;
+import static com.blas.blascommon.constants.SecurityConstant.BEARER_SPACE;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import java.io.IOException;
 import javax.servlet.FilterChain;
@@ -29,12 +32,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain)
       throws ServletException, IOException {
-
-    String requestTokenHeader = request.getHeader("Authorization");
-
+    String requestTokenHeader = request.getHeader(AUTHORIZATION);
     String username = null;
     String jwtToken = null;
-    if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+    if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER_SPACE)) {
       jwtToken = requestTokenHeader.substring(7);
       try {
         username = jwtTokenUtil.getUsernameFromToken(jwtToken);
@@ -46,10 +47,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
       UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
-      boolean isValidToken = jwtTokenUtil.validateToken(jwtToken, userDetails);
-      if (isValidToken) {
+      if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
             userDetails, null, userDetails.getAuthorities());
         usernamePasswordAuthenticationToken
