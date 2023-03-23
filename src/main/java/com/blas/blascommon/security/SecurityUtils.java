@@ -48,22 +48,7 @@ public class SecurityUtils {
   }
 
   public static String md5Encode(String rawPassword) {
-    MessageDigest md = null;
-    try {
-      md = MessageDigest.getInstance(MD5);
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    }
-    if (md == null) {
-      return EMPTY;
-    }
-    byte[] messageDigest = md.digest(rawPassword.getBytes());
-    BigInteger no = new BigInteger(1, messageDigest);
-    StringBuilder hashText = new StringBuilder(no.toString(16));
-    while (hashText.length() < 32) {
-      hashText.append("0").append(hashText);
-    }
-    return hashText.toString();
+    return getHashedString(rawPassword, MD5);
   }
 
   public static String sha1Encode(String rawPassword) {
@@ -100,22 +85,7 @@ public class SecurityUtils {
   }
 
   public static String sha512Encode(String rawPassword) {
-    MessageDigest md = null;
-    try {
-      md = MessageDigest.getInstance(SHA512);
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    }
-    if (md == null) {
-      return EMPTY;
-    }
-    byte[] messageDigest = md.digest(rawPassword.getBytes());
-    BigInteger no = new BigInteger(1, messageDigest);
-    StringBuilder hashText = new StringBuilder(no.toString(16));
-    while (hashText.length() < 32) {
-      hashText.append("0").append(hashText);
-    }
-    return hashText.toString();
+    return getHashedString(rawPassword, SHA512);
   }
 
   public static byte[] getSalt() {
@@ -137,8 +107,8 @@ public class SecurityUtils {
       md.update(salt);
       byte[] bytes = md.digest(rawPassword.getBytes(UTF_8));
       StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < bytes.length; i++) {
-        sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+      for (byte aByte : bytes) {
+        sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
       }
       generatedPassword = sb.toString();
     } catch (NoSuchAlgorithmException e) {
@@ -170,5 +140,24 @@ public class SecurityUtils {
         .map(Enum::toString).collect(Collectors.toList());
     return prioritizedRole.contains(
         authentication.getAuthorities().iterator().next().toString().split(UNDERSCORE)[1]);
+  }
+
+  private static String getHashedString(String rawPassword, String hashType) {
+    MessageDigest md = null;
+    try {
+      md = MessageDigest.getInstance(hashType);
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
+    if (md == null) {
+      return EMPTY;
+    }
+    byte[] messageDigest = md.digest(rawPassword.getBytes());
+    BigInteger no = new BigInteger(1, messageDigest);
+    StringBuilder hashText = new StringBuilder(no.toString(16));
+    while (hashText.length() < 32) {
+      hashText.append("0").append(hashText);
+    }
+    return hashText.toString();
   }
 }
