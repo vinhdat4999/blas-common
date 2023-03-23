@@ -17,7 +17,6 @@ import javax.mail.internet.MimeMultipart;
   !!Warning: This utility class used for sending internal email, not through service blas-email.
   Only use this utility when really needed.
  */
-//TODO: need to improve process send email
 public class SendEmail implements Runnable {
 
   private static final String EMAIL_SENDER = "blasvietnam@gmail.com";
