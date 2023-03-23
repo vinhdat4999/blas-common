@@ -8,7 +8,6 @@ import com.blas.blascommon.core.model.BlasResult;
 import com.blas.blascommon.core.service.BlasResultService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.time.LocalDate;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +21,8 @@ public class BlasResultServiceImpl implements BlasResultService {
 
   @Override
   public BlasResult getBlasResultByLogId(String logId) {
-    Optional<BlasResult> blasResult = blasResultDao.findById(logId);
-    if (blasResult.isEmpty()) {
-      throw new NotFoundException(BLAS_LOG_ID_NOT_FOUND);
-    }
-    return blasResult.get();
+    return blasResultDao.findById(logId)
+        .orElseThrow(() -> new NotFoundException(BLAS_LOG_ID_NOT_FOUND));
   }
 
   @Override
@@ -42,10 +38,8 @@ public class BlasResultServiceImpl implements BlasResultService {
 
   @Override
   public void updateBlasResult(BlasResult blasResult) {
-    Optional<BlasResult> blasResultOld = blasResultDao.findById(blasResult.getLogId());
-    if (blasResultOld.isEmpty()) {
-      throw new NotFoundException(BLAS_LOG_ID_NOT_FOUND);
-    }
+    blasResultDao.findById(blasResult.getLogId())
+        .orElseThrow(() -> new NotFoundException(BLAS_LOG_ID_NOT_FOUND));
     blasResultDao.save(blasResult);
   }
 }

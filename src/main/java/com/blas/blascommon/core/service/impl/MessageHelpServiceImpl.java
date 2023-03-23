@@ -10,7 +10,6 @@ import com.blas.blascommon.core.model.MessageHelp;
 import com.blas.blascommon.core.service.MessageHelpService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,19 +26,14 @@ public class MessageHelpServiceImpl implements MessageHelpService {
 
   @Override
   public List<MessageHelp> getAllMessageHelpByHelpTicketId(String ticketId) {
-    if (helpDao.findById(ticketId).isEmpty()) {
-      throw new NotFoundException(HELP_TICKET_ID_NOT_FOUND);
-    }
+    helpDao.findById(ticketId).orElseThrow(() -> new NotFoundException(HELP_TICKET_ID_NOT_FOUND));
     return messageHelpDao.getMessageHelpListByHelpTicketId(ticketId);
   }
 
   @Override
   public MessageHelp getMessageHelpById(String id) {
-    Optional<MessageHelp> messageHelp = messageHelpDao.findById(id);
-    if (messageHelp.isEmpty()) {
-      throw new NotFoundException(MESSAGE_HELP_ID_NOT_FOUND);
-    }
-    return messageHelp.get();
+    return messageHelpDao.findById(id)
+        .orElseThrow(() -> new NotFoundException(MESSAGE_HELP_ID_NOT_FOUND));
   }
 
   @Override
@@ -50,9 +44,8 @@ public class MessageHelpServiceImpl implements MessageHelpService {
 
   @Override
   public void updateMessageHelp(MessageHelp messageHelp) {
-    if (messageHelpDao.findById(messageHelp.getId()).isEmpty()) {
-      throw new NotFoundException(MESSAGE_HELP_ID_NOT_FOUND);
-    }
+    messageHelpDao.findById(messageHelp.getId())
+        .orElseThrow(() -> new NotFoundException(MESSAGE_HELP_ID_NOT_FOUND));
     messageHelpDao.save(messageHelp);
   }
 }

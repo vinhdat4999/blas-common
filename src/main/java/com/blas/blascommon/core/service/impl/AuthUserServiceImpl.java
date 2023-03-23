@@ -15,7 +15,6 @@ import com.blas.blascommon.core.service.AuthUserService;
 import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,11 +36,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
   @Override
   public AuthUser getAuthUserByUserId(String userId) {
-    Optional<AuthUser> authUser = authUserDao.findById(userId);
-    if (authUser.isEmpty()) {
-      throw new NotFoundException(USER_ID_NOT_FOUND);
-    }
-    return authUser.get();
+    return authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
   }
 
   @Override
@@ -74,9 +69,8 @@ public class AuthUserServiceImpl implements AuthUserService {
 
   @Override
   public void updateAuthUser(AuthUser authUser) {
-    if (authUserDao.findById(authUser.getUserId()).isEmpty()) {
-      throw new NotFoundException(USER_ID_NOT_FOUND);
-    }
+    authUserDao.findById(authUser.getUserId())
+        .orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
     UserDetail userDetail = userDetailDao.getUserDetailByPhone(
         authUser.getUserDetail().getPhoneNumber());
     if (userDetail != null && !userDetail.getUserId().equals(authUser.getUserId())) {

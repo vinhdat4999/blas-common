@@ -10,7 +10,6 @@ import com.blas.blascommon.core.model.Help;
 import com.blas.blascommon.core.service.HelpService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +26,7 @@ public class HelpServiceImpl implements HelpService {
 
   @Override
   public List<Help> getAllHelpByUser(String userId) {
-    if (authUserDao.findById(userId).isEmpty()) {
-      throw new NotFoundException(USER_ID_NOT_FOUND);
-    }
+    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
     return helpDao.getHelpListByUserId(userId);
   }
 
@@ -40,19 +37,14 @@ public class HelpServiceImpl implements HelpService {
 
   @Override
   public List<Help> getAllHelpByUserAndStatus(String userId, String status) {
-    if (authUserDao.findById(userId).isEmpty()) {
-      throw new NotFoundException(USER_ID_NOT_FOUND);
-    }
+    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
     return helpDao.getHelpListByStatus(userId);
   }
 
   @Override
   public Help getHelpByHelpTicketId(String ticketId) {
-    Optional<Help> help = helpDao.findById(ticketId);
-    if (help.isEmpty()) {
-      throw new NotFoundException(HELP_TICKET_ID_NOT_FOUND);
-    }
-    return help.get();
+    return helpDao.findById(ticketId)
+        .orElseThrow(() -> new NotFoundException(HELP_TICKET_ID_NOT_FOUND));
   }
 
   @Override
@@ -67,9 +59,8 @@ public class HelpServiceImpl implements HelpService {
 
   @Override
   public void updateHelp(Help help) {
-    if (helpDao.findById(help.getTicketId()).isEmpty()) {
-      throw new NotFoundException(HELP_TICKET_ID_NOT_FOUND);
-    }
+    helpDao.findById(help.getTicketId())
+        .orElseThrow(() -> new NotFoundException(HELP_TICKET_ID_NOT_FOUND));
     helpDao.save(help);
   }
 }

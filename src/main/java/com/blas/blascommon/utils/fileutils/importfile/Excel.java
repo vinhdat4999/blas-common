@@ -19,7 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 @UtilityClass
 public class Excel {
 
-  public static List<String[]> importFromExcel(String excelFilePath) {
+  public static List<String[]> importFromExcel(String excelFilePath) throws IOException {
     List<String[]> data = new ArrayList<>();
     try (InputStream inputStream = new FileInputStream(excelFilePath)) {
       Workbook workbook = getWorkbook(inputStream, excelFilePath);
@@ -41,8 +41,6 @@ public class Excel {
         data.add(dataLineList.toArray(dataLine));
       }
       workbook.close();
-    } catch (IOException e) {
-      e.printStackTrace();
     }
     return data;
   }

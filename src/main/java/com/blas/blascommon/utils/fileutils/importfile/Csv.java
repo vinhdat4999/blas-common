@@ -13,7 +13,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Csv {
 
-  public static List<String[]> importFromCsv(String path) {
+  public static List<String[]> importFromCsv(String path) throws IOException {
     List<String[]> data = new ArrayList<>();
     Path pathToFile = Paths.get(path);
     try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {
@@ -23,8 +23,6 @@ public class Csv {
         data.add(attributes);
         line = br.readLine();
       }
-    } catch (IOException e) {
-      e.printStackTrace();
     }
     return data;
   }

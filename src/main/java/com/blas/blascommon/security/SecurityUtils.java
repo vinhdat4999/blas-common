@@ -1,15 +1,20 @@
 package com.blas.blascommon.security;
 
+import static com.blas.blascommon.constants.SecurityConstant.MD5;
+import static com.blas.blascommon.constants.SecurityConstant.SHA1;
+import static com.blas.blascommon.constants.SecurityConstant.SHA256;
+import static com.blas.blascommon.constants.SecurityConstant.SHA512;
 import static com.blas.blascommon.enums.Role.ADMIN;
 import static com.blas.blascommon.enums.Role.BOD;
 import static com.blas.blascommon.enums.Role.MAINTAINER;
 import static com.blas.blascommon.enums.Role.MANAGER;
 import static com.blas.blascommon.enums.Role.SYSTEM;
+import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import static com.blas.blascommon.utils.StringUtils.UNDERSCORE;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.blas.blascommon.core.service.AuthUserService;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -26,10 +31,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @UtilityClass
 public class SecurityUtils {
 
-  public static final String BASIC_SPACE = "Basic ";
-
   public static String getUsernameLoggedIn() {
-    String username = "";
+    String username;
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     if (principal instanceof UserDetails) {
       username = ((UserDetails) principal).getUsername();
@@ -45,30 +48,15 @@ public class SecurityUtils {
   }
 
   public static String md5Encode(String rawPassword) {
-    MessageDigest md = null;
-    try {
-      md = MessageDigest.getInstance("MD5");
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    }
-    if (md == null) {
-      return "";
-    }
-    byte[] messageDigest = md.digest(rawPassword.getBytes());
-    BigInteger no = new BigInteger(1, messageDigest);
-    StringBuilder hashText = new StringBuilder(no.toString(16));
-    while (hashText.length() < 32) {
-      hashText.append("0").append(hashText);
-    }
-    return hashText.toString();
+    return getHashedString(rawPassword, MD5);
   }
 
   public static String sha1Encode(String rawPassword) {
     String hashedPassword = "";
     try {
-      MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+      MessageDigest crypt = MessageDigest.getInstance(SHA1);
       crypt.reset();
-      crypt.update(rawPassword.getBytes(StandardCharsets.UTF_8));
+      crypt.update(rawPassword.getBytes(UTF_8));
       hashedPassword = byteToHex(crypt.digest());
     } catch (NoSuchAlgorithmException e) {
       e.printStackTrace();
@@ -77,11 +65,11 @@ public class SecurityUtils {
   }
 
   public static String sha256Encode(String rawPassword) {
-    MessageDigest digest = null;
+    MessageDigest digest;
     byte[] hash = new byte[0];
     try {
-      digest = MessageDigest.getInstance("SHA-256");
-      hash = digest.digest(rawPassword.getBytes(StandardCharsets.UTF_8));
+      digest = MessageDigest.getInstance(SHA256);
+      hash = digest.digest(rawPassword.getBytes(UTF_8));
     } catch (NoSuchAlgorithmException e) {
       e.printStackTrace();
     }
@@ -97,22 +85,7 @@ public class SecurityUtils {
   }
 
   public static String sha512Encode(String rawPassword) {
-    MessageDigest md = null;
-    try {
-      md = MessageDigest.getInstance("SHA-512");
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    }
-    if (md == null) {
-      return "";
-    }
-    byte[] messageDigest = md.digest(rawPassword.getBytes());
-    BigInteger no = new BigInteger(1, messageDigest);
-    StringBuilder hashtext = new StringBuilder(no.toString(16));
-    while (hashtext.length() < 32) {
-      hashtext.append("0").append(hashtext);
-    }
-    return hashtext.toString();
+    return getHashedString(rawPassword, SHA512);
   }
 
   public static byte[] getSalt() {
@@ -130,12 +103,12 @@ public class SecurityUtils {
 
     String generatedPassword = null;
     try {
-      MessageDigest md = MessageDigest.getInstance("SHA-512");
+      MessageDigest md = MessageDigest.getInstance(SHA512);
       md.update(salt);
-      byte[] bytes = md.digest(rawPassword.getBytes(StandardCharsets.UTF_8));
+      byte[] bytes = md.digest(rawPassword.getBytes(UTF_8));
       StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < bytes.length; i++) {
-        sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+      for (byte aByte : bytes) {
+        sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
       }
       generatedPassword = sb.toString();
     } catch (NoSuchAlgorithmException e) {
@@ -167,5 +140,24 @@ public class SecurityUtils {
         .map(Enum::toString).collect(Collectors.toList());
     return prioritizedRole.contains(
         authentication.getAuthorities().iterator().next().toString().split(UNDERSCORE)[1]);
+  }
+
+  private static String getHashedString(String rawPassword, String hashType) {
+    MessageDigest md = null;
+    try {
+      md = MessageDigest.getInstance(hashType);
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
+    if (md == null) {
+      return EMPTY;
+    }
+    byte[] messageDigest = md.digest(rawPassword.getBytes());
+    BigInteger no = new BigInteger(1, messageDigest);
+    StringBuilder hashText = new StringBuilder(no.toString(16));
+    while (hashText.length() < 32) {
+      hashText.append("0").append(hashText);
+    }
+    return hashText.toString();
   }
 }

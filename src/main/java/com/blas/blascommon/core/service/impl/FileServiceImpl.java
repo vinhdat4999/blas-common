@@ -14,7 +14,6 @@ import com.blas.blascommon.core.service.FileService;
 import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,25 +47,19 @@ public class FileServiceImpl implements FileService {
 
   @Override
   public List<File> getAllActiveFileByUser(String userId) {
-    if (authUserDao.findById(userId).isEmpty()) {
-      throw new NotFoundException(USER_ID_NOT_FOUND);
-    }
+    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
     return fileDao.getAllActiveFileByUser(userId);
   }
 
   @Override
   public List<File> searchAllActiveFileByUser(String userId, String keyword) {
-    if (authUserDao.findById(userId).isEmpty()) {
-      throw new NotFoundException(USER_ID_NOT_FOUND);
-    }
+    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
     return fileDao.searchAllActiveFileByUser(userId, keyword);
   }
 
   @Override
   public List<File> getAllFileDeletedByUser(String userId) {
-    if (authUserDao.findById(userId).isEmpty()) {
-      throw new NotFoundException(USER_ID_NOT_FOUND);
-    }
+    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
     return fileDao.getAllDeletedFileByUser(userId);
   }
 
@@ -86,10 +79,7 @@ public class FileServiceImpl implements FileService {
 
   @Override
   public void updateFile(String userId, File file) {
-    Optional<File> fileOld = fileDao.findById(file.getFileId());
-    if (fileOld.isEmpty()) {
-      throw new NotFoundException(FILE_ID_NOT_FOUND);
-    }
+    fileDao.findById(file.getFileId()).orElseThrow(() -> new NotFoundException(FILE_ID_NOT_FOUND));
     File fileOldObject = getFileByUserIdAndFilePath(userId, file.getFilePath());
     if (fileOldObject != null && !fileOldObject.getFileId().equals(file.getFileId())) {
       throw new BadRequestException(DUPLICATED_FILE);
@@ -99,10 +89,7 @@ public class FileServiceImpl implements FileService {
 
   @Override
   public void deletePhysicalFile(String fileId) {
-    Optional<File> file = fileDao.findById(fileId);
-    if (file.isEmpty()) {
-      throw new NotFoundException(FILE_ID_NOT_FOUND);
-    }
-    fileDao.delete(file.get());
+    fileDao.delete(
+        fileDao.findById(fileId).orElseThrow(() -> new NotFoundException(FILE_ID_NOT_FOUND)));
   }
 }

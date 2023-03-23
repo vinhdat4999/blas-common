@@ -19,10 +19,9 @@ public class IdUtils {
     int targetStringLength = 6;
     String generatedString = "";
     generatedString = random.ints(leftLimit, rightLimit + 1)
-        .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-        .limit(targetStringLength)
-        .collect(StringBuilder::new, StringBuilder::appendCodePoint,
-            StringBuilder::append).toString();
+        .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
+        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+        .toString();
     return generatedString.toUpperCase();
   }
 
@@ -31,10 +30,9 @@ public class IdUtils {
     int rightLimit = 122; // letter 'z'
     String generatedString = "";
     generatedString = random.ints(leftLimit, rightLimit + 1)
-        .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-        .limit(lengthOfId)
-        .collect(StringBuilder::new, StringBuilder::appendCodePoint,
-            StringBuilder::append).toString();
+        .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(lengthOfId)
+        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+        .toString();
     return generatedString.toUpperCase();
   }
 
@@ -42,24 +40,20 @@ public class IdUtils {
     int leftLimit = 48; // numeral '0'
     int rightLimit = 57; // numeral '9'
     int targetStringLength = 6;
-    String generatedString = "";
-    generatedString = random.ints(leftLimit, rightLimit + 1)
-        .filter(i -> (i <= 57))
+    String generatedString = random.ints(leftLimit, rightLimit + 1).filter(i -> (i <= 57))
         .limit(targetStringLength)
-        .collect(StringBuilder::new, StringBuilder::appendCodePoint,
-            StringBuilder::append).toString();
+        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+        .toString();
     return generatedString.toUpperCase();
   }
 
   public static String genNumericID(int lengthOfId) {
     int leftLimit = 48; // numeral '0'
     int rightLimit = 57; // numeral '9'
-    String generatedString = "";
-    generatedString = random.ints(leftLimit, rightLimit + 1)
-        .filter(i -> (i <= 57))
+    String generatedString = random.ints(leftLimit, rightLimit + 1).filter(i -> (i <= 57))
         .limit(lengthOfId)
-        .collect(StringBuilder::new, StringBuilder::appendCodePoint,
-            StringBuilder::append).toString();
+        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+        .toString();
     return generatedString.toUpperCase();
   }
 }

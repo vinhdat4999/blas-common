@@ -23,9 +23,9 @@ public class SendEmail implements Runnable {
   private static final String PASSWORD = "pdaifcxvnvsqyums";
   private static final int PORT_SENDER = 465;
 
-  private String subject;
-  private String htmlContent;
-  private String receiverEmail;
+  private final String subject;
+  private final String htmlContent;
+  private final String receiverEmail;
 
   public SendEmail(String subject, String htmlContent, String receiverEmail) {
     this.subject = subject;
