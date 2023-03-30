@@ -24,7 +24,7 @@ public enum FileType {
   CSV("csv"),
   EXE("exe");
 
-  private String postfix;
+  private final String postfix;
 
   FileType(String postfix) {
     this.postfix = postfix;

@@ -21,7 +21,6 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Formatter;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
@@ -32,19 +31,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class SecurityUtils {
 
   public static String getUsernameLoggedIn() {
-    String username;
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    if (principal instanceof UserDetails) {
-      username = ((UserDetails) principal).getUsername();
-    } else {
-      username = principal.toString();
-    }
-    return username;
+    return principal instanceof UserDetails userDetails ? userDetails.getUsername()
+        : principal.toString();
   }
 
   public static String getUserIdLoggedIn(AuthUserService authUserService) {
-    String username = getUsernameLoggedIn();
-    return authUserService.getAuthUserByUsername(username).getUserId();
+    return authUserService.getAuthUserByUsername(getUsernameLoggedIn()).getUserId();
   }
 
   public static String md5Encode(String rawPassword) {
@@ -52,7 +45,7 @@ public class SecurityUtils {
   }
 
   public static String sha1Encode(String rawPassword) {
-    String hashedPassword = "";
+    String hashedPassword = EMPTY;
     try {
       MessageDigest crypt = MessageDigest.getInstance(SHA1);
       crypt.reset();
@@ -137,7 +130,7 @@ public class SecurityUtils {
 
   public boolean isPrioritizedRole(Authentication authentication) {
     List<String> prioritizedRole = Stream.of(SYSTEM, ADMIN, BOD, MAINTAINER, MANAGER)
-        .map(Enum::toString).collect(Collectors.toList());
+        .map(Enum::toString).toList();
     return prioritizedRole.contains(
         authentication.getAuthorities().iterator().next().toString().split(UNDERSCORE)[1]);
   }

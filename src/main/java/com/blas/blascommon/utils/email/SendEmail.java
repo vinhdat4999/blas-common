@@ -1,17 +1,18 @@
 package com.blas.blascommon.utils.email;
 
+import static jakarta.mail.Transport.send;
+
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 
 /*
   !!Warning: This utility class used for sending internal email, not through service blas-email.
@@ -45,7 +46,7 @@ public class SendEmail implements Runnable {
     props.put("mail.smtp.ssl.checkserveridentity", "true");
     props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-    Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+    Session session = Session.getDefaultInstance(props, new jakarta.mail.Authenticator() {
       @Override
       protected PasswordAuthentication getPasswordAuthentication() {
         return new PasswordAuthentication(EMAIL_SENDER, PASSWORD);
@@ -60,13 +61,13 @@ public class SendEmail implements Runnable {
     MimeBodyPart messageBodyPartContent = new MimeBodyPart();
     AtomicInteger sentEmailNum = new AtomicInteger();
     try {
-      message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.receiverEmail));
+      message.addRecipient(RecipientType.TO, new InternetAddress(this.receiverEmail));
       message.setSubject(this.subject, "utf8");
       messageBodyPartContent.setContent(this.htmlContent, "text/html; charset=utf-8");
       Multipart multipart = new MimeMultipart();
       multipart.addBodyPart(messageBodyPartContent);
       message.setContent(multipart);
-      Transport.send(message);
+      send(message);
       sentEmailNum.getAndIncrement();
     } catch (MessagingException e) {
       e.printStackTrace();

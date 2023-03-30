@@ -8,6 +8,7 @@ import com.blas.blascommon.core.model.Role;
 import com.blas.blascommon.core.service.RoleService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class RoleServiceImpl implements RoleService {
 
+  @Lazy
   @Autowired
   private RoleDao roleDao;
 
+  @Lazy
   @Override
   public Role getRoleByRoleId(String roleId) {
     return roleDao.findById(roleId).orElseThrow(() -> new NotFoundException(ROLE_ID_NOT_FOUND));

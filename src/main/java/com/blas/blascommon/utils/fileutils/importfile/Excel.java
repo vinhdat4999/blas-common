@@ -76,9 +76,7 @@ public class Excel {
       case STRING:
         cellValue = cell.getStringCellValue();
         break;
-      case _NONE:
-      case BLANK:
-      case ERROR:
+      case _NONE, BLANK, ERROR:
       default:
         break;
     }

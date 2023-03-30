@@ -4,9 +4,9 @@ import static com.blas.blascommon.constants.SecurityConstant.EXPIRED;
 import static com.blas.blascommon.constants.SecurityConstant.UNAUTHORIZED;
 import static java.util.Objects.requireNonNullElse;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

@@ -7,7 +7,7 @@ public enum BlasService {
   BLAS_GROW("blas-grow"),
   BLAS_EMAIL("blas-email");
 
-  private String serviceName;
+  private final String serviceName;
 
   BlasService(String serviceName) {
     this.serviceName = serviceName;

@@ -17,6 +17,7 @@ import com.blas.blascommon.core.service.FileShareService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +25,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class FileShareServiceImpl implements FileShareService {
 
+  @Lazy
   @Autowired
   private AuthUserDao authUserDao;
 
+  @Lazy
   @Autowired
   private FileDao fileDao;
 
+  @Lazy
   @Autowired
   private FileShareDao fileShareDao;
 
+  @Lazy
   @Autowired
   private AuthUserService authUserService;
 

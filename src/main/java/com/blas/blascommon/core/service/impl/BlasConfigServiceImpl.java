@@ -9,6 +9,7 @@ import com.blas.blascommon.exceptions.types.NotFoundException;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class BlasConfigServiceImpl implements BlasConfigService {
 
+  @Lazy
   @Autowired
   private BlasConfigDao blasConfigDao;
 
