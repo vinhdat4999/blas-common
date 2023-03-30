@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 2.1.0   | dd/04/2023   | Support export to PDF                                                           |
 | 2.0.0   | 23/03/2023   | Support JsonUtils and refactor with new syntax                                  |
 | 1.31.0  | 20/03/2023   | Support handlers exception blas-email                                           |
 | 1.30.0  | 19/03/2023   | Support monitoring blas-email                                                   |
