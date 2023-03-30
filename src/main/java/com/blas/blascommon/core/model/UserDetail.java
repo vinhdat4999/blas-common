@@ -32,7 +32,6 @@ public class UserDetail implements Serializable {
 
   @OneToOne
   @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_details_1"))
-  @NotNull
   private AuthUser authUser;
 
   @Column(name = "first_name", length = 35, nullable = false)
@@ -53,7 +52,7 @@ public class UserDetail implements Serializable {
   private String email;
 
   @Column(name = "gender")
-  @NotEmpty
+  @NotNull
   private boolean gender;
 
   @Column(name = "birthday", nullable = false)

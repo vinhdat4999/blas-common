@@ -36,7 +36,6 @@ public class AuthUser implements Serializable {
   private String username;
 
   @OneToOne(mappedBy = "authUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @NotNull
   private UserDetail userDetail;
 
   @Column(name = "password", length = 256, nullable = false)

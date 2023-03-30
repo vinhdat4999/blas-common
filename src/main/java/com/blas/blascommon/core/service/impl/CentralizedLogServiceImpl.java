@@ -13,6 +13,7 @@ import com.blas.blascommon.utils.email.SendEmail;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class CentralizedLogServiceImpl implements CentralizedLogService {
 
+  @Lazy
   @Autowired
   private CentralizedLogDao centralizedLogDao;
 
