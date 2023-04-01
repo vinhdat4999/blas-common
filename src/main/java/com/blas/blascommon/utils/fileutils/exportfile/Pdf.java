@@ -31,7 +31,7 @@ public class Pdf {
     Document document = new Document();
     PdfWriter.getInstance(document, new FileOutputStream(path));
     document.open();
-    BaseFont unicode = BaseFont.createFont("font/arial.ttf", BaseFont.IDENTITY_H,
+    BaseFont unicode = BaseFont.createFont("font/segoeui.ttf", BaseFont.IDENTITY_H,
         BaseFont.EMBEDDED);
     Font font = new Font(unicode, 12);
     for (String paragraph : paragraphList) {
