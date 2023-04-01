@@ -4,7 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
-| 2.2.0   | 01/04/2023   | Support PDF utilities                                                           |
+| 2.2.0   | 02/04/2023   | Support PDF utilities and add email template                                    |
 | 2.1.0   | 30/03/2023   | Upgrade Spring boot 3.0.5                                                       |
 | 2.0.0   | 23/03/2023   | Support JsonUtils and refactor with new syntax                                  |
 | 1.31.0  | 20/03/2023   | Support handlers exception blas-email                                           |
