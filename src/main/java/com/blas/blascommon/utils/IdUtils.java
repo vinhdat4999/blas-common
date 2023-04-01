@@ -25,6 +25,10 @@ public class IdUtils {
     return generatedString.toUpperCase();
   }
 
+  private void a(){
+
+  }
+
   public static String genMixID(int lengthOfId) {
     int leftLimit = 48; // numeral '0'
     int rightLimit = 122; // letter 'z'
