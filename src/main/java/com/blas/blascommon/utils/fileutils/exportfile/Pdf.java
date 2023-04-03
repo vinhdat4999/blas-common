@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.OptionalInt;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -23,17 +24,18 @@ public class Pdf {
    *
    * @param paragraphList List of string, a string is a paragraph
    * @param path          Path of output PDF file
+   * @param size          Font size, pass null if use default font size
    * @throws IOException
    * @throws DocumentException
    */
-  public static void exportToPdf(List<String> paragraphList, String path)
+  public static void exportToPdf(List<String> paragraphList, String path, Integer size)
       throws IOException, DocumentException {
     Document document = new Document();
     PdfWriter.getInstance(document, new FileOutputStream(path));
     document.open();
     BaseFont unicode = BaseFont.createFont("font/segoeui.ttf", BaseFont.IDENTITY_H,
         BaseFont.EMBEDDED);
-    Font font = new Font(unicode, 12);
+    Font font = new Font(unicode, OptionalInt.of(size).orElse(12));
     for (String paragraph : paragraphList) {
       document.add(new Paragraph(paragraph, font));
     }
