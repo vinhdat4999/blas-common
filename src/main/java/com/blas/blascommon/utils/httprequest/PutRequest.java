@@ -39,17 +39,6 @@ public class PutRequest {
     return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
-  private static String buildUrlEndpoint(String hostUrl, Map<String, String> parameterList) {
-    if (parameterList != null) {
-      StringBuilder sb = new StringBuilder();
-      for (Entry<String, String> entry : parameterList.entrySet()) {
-        sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
-      }
-      hostUrl += "?" + sb.substring(0, sb.toString().length() - 1);
-    }
-    return hostUrl;
-  }
-
   private static String sendRequestGetStringResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, String payload)
       throws IOException {
