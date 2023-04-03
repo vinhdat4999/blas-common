@@ -9,25 +9,15 @@ import com.blas.blascommon.properties.BlasGateConfiguration;
 import com.blas.blascommon.properties.BlasServiceConfiguration;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-@Component
+@AllArgsConstructor
 public class BlasGateInterceptor implements HandlerInterceptor {
 
-  @Lazy
-  @Autowired
   private BlasServiceConfiguration blasServiceConfiguration;
-
-  @Lazy
-  @Autowired
   private BlasGateConfiguration blasGateConfiguration;
-
-  @Lazy
-  @Autowired
   private BlasGateInfoService blasGateInfoService;
 
   @Override
