@@ -5,6 +5,7 @@ import static com.blas.blascommon.utils.timeutils.TimeUtils.DATE_SLASH_FORMAT;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.experimental.UtilityClass;
@@ -37,5 +38,13 @@ public class ValidUtils {
       return false;
     }
     return true;
+  }
+
+  public boolean anyMatch(Pattern pattern, String... strings) {
+    return Arrays.stream(strings).anyMatch(pattern.asPredicate());
+  }
+
+  public boolean allMatch(Pattern pattern, String... strings) {
+    return Arrays.stream(strings).allMatch(pattern.asPredicate());
   }
 }

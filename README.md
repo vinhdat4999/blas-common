@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 2.4.0   | 04/04/2023   | Add backup validate step for BlasGateInterceptor                                |
 | 2.3.0   | 03/04/2023   | Add BlasGateInterceptor and improve features                                    |
 | 2.2.0   | 02/04/2023   | Support PDF utilities and add email template                                    |
 | 2.1.0   | 30/03/2023   | Upgrade Spring boot 3.0.5                                                       |

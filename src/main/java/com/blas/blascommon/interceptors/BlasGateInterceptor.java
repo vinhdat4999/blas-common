@@ -1,14 +1,16 @@
 package com.blas.blascommon.interceptors;
 
+import static com.blas.blascommon.exceptions.BlasErrorCode.POTENTIAL_DANGER_REQUEST;
 import static java.time.LocalDateTime.now;
-import static org.apache.commons.lang3.StringUtils.equalsAny;
 
 import com.blas.blascommon.core.model.BlasGateInfo;
 import com.blas.blascommon.core.service.BlasGateInfoService;
+import com.blas.blascommon.exceptions.types.BlasException;
 import com.blas.blascommon.properties.BlasGateConfiguration;
 import com.blas.blascommon.properties.BlasServiceConfiguration;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,8 +24,29 @@ public class BlasGateInterceptor implements HandlerInterceptor {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-      Object handler) {
-    if (blasGateConfiguration.isEnableLogRequest() && (!isLocalRequest(request)
+      Object handler) throws IOException {
+    logRequestInfo(request);
+    if (SecurityCheckUtils.isPotentialRiskRequest(request)) {
+      throw new BlasException(POTENTIAL_DANGER_REQUEST);
+    }
+    return true;
+  }
+
+  @Override
+  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+      ModelAndView modelAndView) {
+    // No action to check
+  }
+
+  @Override
+  public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
+      Object handler,
+      Exception ex) {
+    // No action to check
+  }
+
+  private void logRequestInfo(HttpServletRequest request) {
+    if (blasGateConfiguration.isEnableLogRequest() && (!SecurityCheckUtils.isLocalRequest(request)
         || blasGateConfiguration.isEnableLogLocalRequest())) {
       BlasGateInfo blasGateInfo = BlasGateInfo.builder()
           .service(blasServiceConfiguration.getServiceName())
@@ -37,23 +60,5 @@ public class BlasGateInterceptor implements HandlerInterceptor {
           .build();
       blasGateInfoService.createBlasGateInfo(blasGateInfo);
     }
-    return true;
-  }
-
-  @Override
-  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-      ModelAndView modelAndView) throws Exception {
-    // No action to check
-  }
-
-  @Override
-  public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
-      Object handler,
-      Exception ex) throws Exception {
-    // No action to check
-  }
-
-  private boolean isLocalRequest(HttpServletRequest request) {
-    return equalsAny(request.getRemoteAddr(), "127.0.0.1", "0:0:0:0:0:0:0:1");
   }
 }
