@@ -1,7 +1,7 @@
 package com.blas.blascommon.utils;
 
 import static com.blas.blascommon.utils.StringUtils.SLASH;
-import static com.blas.blascommon.utils.timeutils.TimeUtils.DATE_SLASH_FORMAT;
+import static com.blas.blascommon.utils.datetimeutils.DateTimeUtils.DATE_YYYYMMDD_SLASH_FORMAT;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,12 +28,10 @@ public class ValidUtils {
   }
 
   public static boolean isValidDate(int year, int month, int day) {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_SLASH_FORMAT);
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_YYYYMMDD_SLASH_FORMAT);
     simpleDateFormat.setLenient(false);
     try {
-      simpleDateFormat.parse(
-          new StringBuilder().append(year).append(SLASH).append(month).append(SLASH).append(day)
-              .toString());
+      simpleDateFormat.parse(year + SLASH + month + SLASH + day);
     } catch (ParseException e) {
       return false;
     }

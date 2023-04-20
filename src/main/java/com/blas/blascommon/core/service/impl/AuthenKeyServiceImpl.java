@@ -4,7 +4,6 @@ import static com.blas.blascommon.constants.Configuration.MINUTE_TO_EXPIRED;
 import static com.blas.blascommon.constants.Response.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genMixID;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
-import static com.blas.blascommon.utils.timeutils.TimeUtils.getTimeNow;
 
 import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.dao.AuthenKeyDao;
@@ -45,7 +44,7 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
   public boolean isValidAuthenKey(String userId, String authenKey, LocalDateTime timeCheck) {
     authenKey = sha256Encoder.encode(authenKey);
     AuthenKey authenKeyObject = authenKeyDao.getAuthenKeyByKey(authenKey);
-    return authenKeyObject != null && !authenKeyObject.isUsed() && !getTimeNow().isAfter(
+    return authenKeyObject != null && !authenKeyObject.isUsed() && !LocalDateTime.now().isAfter(
         authenKeyObject.getTimeGenerate().plusMinutes(MINUTE_TO_EXPIRED));
   }
 
@@ -60,12 +59,12 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
               .authUser(authUser)
               .key(sha256Encoder.encode(key))
               .isUsed(false)
-              .timeGenerate(getTimeNow())
+              .timeGenerate(LocalDateTime.now())
               .build());
     } else {
       authenKeyOld.setKey(sha256Encoder.encode(key));
       authenKeyOld.setAuthUser(authUser);
-      authenKeyOld.setTimeGenerate(getTimeNow());
+      authenKeyOld.setTimeGenerate(LocalDateTime.now());
       authenKeyOld.setUsed(false);
       authenKeyOld.setTimeUsed(null);
       authenKeyDao.save(authenKeyOld);
@@ -77,7 +76,7 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
   public void useAuthenKey(AuthUser authUser) {
     AuthenKey authenKeyOld = authenKeyDao.getAuthenKeyByUserId(authUser.getUserId());
     authenKeyOld.setUsed(true);
-    authenKeyOld.setTimeUsed(getTimeNow());
+    authenKeyOld.setTimeUsed(LocalDateTime.now());
     authenKeyDao.save(authenKeyOld);
   }
 }

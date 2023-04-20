@@ -1,4 +1,4 @@
-package com.blas.blascommon.utils.timeutils;
+package com.blas.blascommon.utils.datetimeutils;
 
 import lombok.Data;
 
