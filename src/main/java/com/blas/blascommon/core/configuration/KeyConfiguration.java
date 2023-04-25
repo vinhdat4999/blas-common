@@ -1,21 +1,17 @@
-package com.blas.blascommon.core.model;
+package com.blas.blascommon.core.configuration;
 
 import static com.blas.blascommon.constants.BlasConstant.BLAS_CERT_PASSWORD;
 import static com.blas.blascommon.security.SecurityUtils.base64Decode;
 
 import com.blas.blascommon.core.service.BlasConfigService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class KeyConfiguration {
 
-  @Autowired
-  private BlasConfigService blasConfigService;
-
   @Bean
-  public String getCertPassword() {
+  public String getCertPassword(BlasConfigService blasConfigService) {
     return new String(base64Decode(blasConfigService.getConfigValueFromKey(BLAS_CERT_PASSWORD)));
   }
 }

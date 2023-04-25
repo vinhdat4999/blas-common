@@ -28,6 +28,7 @@ import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.Arrays;
 import java.util.Base64;
@@ -211,7 +212,7 @@ public class SecurityUtils {
    * @param keyDataMap     Map store data, key is alias, value is key value
    * @param password       Password of certificate
    */
-  private static void createAesCertificate(String outputFilePath, Map<String, String> keyDataMap,
+  public static void createAesCertificate(String outputFilePath, Map<String, String> keyDataMap,
       String password)
       throws KeyStoreException, CertificateException, IOException, NoSuchAlgorithmException {
     KeyStore keyStore = KeyStore.getInstance("PKCS12");
@@ -230,7 +231,8 @@ public class SecurityUtils {
   }
 
   public static String getPrivateKeyAesFromCertificate(String certificatePath, String alias,
-      String password) throws Exception {
+      String password)
+      throws KeyStoreException, CertificateException, IOException, NoSuchAlgorithmException, UnrecoverableKeyException {
     KeyStore keyStore = KeyStore.getInstance("PKCS12");
     FileInputStream inputStream = new FileInputStream(certificatePath);
     keyStore.load(inputStream, password.toCharArray());
