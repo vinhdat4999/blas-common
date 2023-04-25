@@ -14,14 +14,35 @@ import static com.blas.blascommon.utils.StringUtils.UNDERSCORE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.blas.blascommon.core.service.AuthUserService;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.KeyStore.Entry;
+import java.security.KeyStore.SecretKeyEntry;
+import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Formatter;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -152,5 +173,72 @@ public class SecurityUtils {
       hashText.append("0").append(hashText);
     }
     return hashText.toString();
+  }
+
+  public static String aesEncrypt(String privateKey, String value)
+      throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
+    Key key = new SecretKeySpec(privateKey.getBytes(), "AES");
+    SecureRandom random = new SecureRandom();
+    byte[] iv = new byte[16];
+    random.nextBytes(iv);
+    IvParameterSpec ivSpec = new IvParameterSpec(iv);
+    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
+    byte[] ciphertext = cipher.doFinal(value.getBytes());
+    byte[] encrypted = new byte[iv.length + ciphertext.length];
+    System.arraycopy(iv, 0, encrypted, 0, iv.length);
+    System.arraycopy(ciphertext, 0, encrypted, iv.length, ciphertext.length);
+    return Base64.getEncoder().encodeToString(encrypted);
+  }
+
+  public static String aesDecrypt(String privateKey, String encryptedValue)
+      throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
+    Key key = new SecretKeySpec(privateKey.getBytes(), "AES");
+    byte[] encrypted = Base64.getDecoder().decode(encryptedValue);
+    byte[] iv = Arrays.copyOfRange(encrypted, 0, 16);
+    byte[] ciphertext = Arrays.copyOfRange(encrypted, 16, encrypted.length);
+    IvParameterSpec ivSpec = new IvParameterSpec(iv);
+    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
+    byte[] plaintext = cipher.doFinal(ciphertext);
+    return new String(plaintext);
+  }
+
+  /**
+   * Create certificate
+   *
+   * @param outputFilePath Path of output certificate (.p12)
+   * @param keyDataMap     Map store data, key is alias, value is key value
+   * @param password       Password of certificate
+   */
+  private static void createAesCertificate(String outputFilePath, Map<String, String> keyDataMap,
+      String password)
+      throws KeyStoreException, CertificateException, IOException, NoSuchAlgorithmException {
+    KeyStore keyStore = KeyStore.getInstance("PKCS12");
+    keyStore.load(null, null);
+    for (Map.Entry<String, String> entryKey : keyDataMap.entrySet()) {
+      String alias = entryKey.getKey();
+      KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+      keyGenerator.init(256);
+      SecretKey key = new SecretKeySpec(entryKey.getValue().getBytes(), "AES");
+      Entry entry = new SecretKeyEntry(key);
+      keyStore.setEntry(alias, entry, new KeyStore.PasswordProtection(password.toCharArray()));
+    }
+    FileOutputStream outputStream = new FileOutputStream(outputFilePath);
+    keyStore.store(outputStream, password.toCharArray());
+    outputStream.close();
+  }
+
+  public static String getPrivateKeyAesFromCertificate(String certificatePath, String alias,
+      String password) throws Exception {
+    KeyStore keyStore = KeyStore.getInstance("PKCS12");
+    FileInputStream inputStream = new FileInputStream(certificatePath);
+    keyStore.load(inputStream, password.toCharArray());
+    inputStream.close();
+    Key key = keyStore.getKey(alias, password.toCharArray());
+    if (key == null) {
+      return null;
+    }
+    return new String(key.getEncoded());
   }
 }
