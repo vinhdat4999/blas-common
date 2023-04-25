@@ -25,9 +25,12 @@ public class JwtTokenUtil {
   @Autowired
   private JwtConfigurationProperties jwtConfigurationProperties;
 
+  @Autowired
+  private String getJwtSecretKey;
+
   // for retrieving any information from token we will need the secret key
   private Claims getAllClaimsFromToken(String token) {
-    return Jwts.parser().setSigningKey(jwtConfigurationProperties.getSecret()).parseClaimsJws(token)
+    return Jwts.parser().setSigningKey(getJwtSecretKey).parseClaimsJws(token)
         .getBody();
   }
 
@@ -73,7 +76,7 @@ public class JwtTokenUtil {
     return Jwts.builder().setClaims(claims).setSubject(subject)
         .setIssuedAt(new Date(currentTimeMillis()))
         .setExpiration(new Date(currentTimeMillis() + timeToExpired * 1000))
-        .signWith(SignatureAlgorithm.HS512, jwtConfigurationProperties.getSecret()).compact();
+        .signWith(SignatureAlgorithm.HS512, getJwtSecretKey).compact();
   }
 
   // validate token
