@@ -38,6 +38,10 @@ public class ValidUtils {
     return true;
   }
 
+  public static boolean isAllDigitCharacter(String input) {
+    return input.chars().allMatch(Character::isDigit);
+  }
+
   public boolean anyMatch(Pattern pattern, String... strings) {
     return Arrays.stream(strings).anyMatch(pattern.asPredicate());
   }

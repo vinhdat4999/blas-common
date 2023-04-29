@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                   |
 |---------|--------------|---------------------------------------------------------------------------------|
+| 2.7.0   | 29/04/2023   | Add Blas payment gateway                                                        |
 | 2.6.0   | 25/04/2023   | Support AES encryption                                                          |
 | 2.5.0   | 20/04/2023   | Remove backup security check                                                    |
 | 2.4.0   | 04/04/2023   | Add backup validate step for BlasGateInterceptor                                |

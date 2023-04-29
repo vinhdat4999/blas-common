@@ -5,6 +5,10 @@ import static com.blas.blascommon.security.SecurityUtils.sha1Encode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * SHA-1 encryption can cause some security vulnerabilities
+ */
+@Deprecated
 @Component
 public class Sha1Encoder implements PasswordEncoder {
 

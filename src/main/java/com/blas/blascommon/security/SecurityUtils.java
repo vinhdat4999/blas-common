@@ -62,10 +62,17 @@ public class SecurityUtils {
     return authUserService.getAuthUserByUsername(getUsernameLoggedIn()).getUserId();
   }
 
+  /**
+   * MD5 encryption can cause some security vulnerabilities
+   */
+  @Deprecated
   public static String md5Encode(String rawPassword) {
     return getHashedString(rawPassword, MD5);
   }
 
+  /**
+   * SHA-1 encryption can cause some security vulnerabilities
+   */
   public static String sha1Encode(String rawPassword) {
     String hashedPassword = EMPTY;
     try {
@@ -89,8 +96,8 @@ public class SecurityUtils {
       e.printStackTrace();
     }
     final StringBuilder hexString = new StringBuilder();
-    for (int i = 0; i < hash.length; i++) {
-      final String hex = Integer.toHexString(0xff & hash[i]);
+    for (byte b : hash) {
+      final String hex = Integer.toHexString(0xff & b);
       if (hex.length() == 1) {
         hexString.append('0');
       }
@@ -190,6 +197,14 @@ public class SecurityUtils {
     System.arraycopy(iv, 0, encrypted, 0, iv.length);
     System.arraycopy(ciphertext, 0, encrypted, iv.length, ciphertext.length);
     return Base64.getEncoder().encodeToString(encrypted);
+  }
+
+  public static void main(String[] args)
+      throws InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+    String privateKey = "sk_test_51N24huL1cmxigSSttZeLnKBWte97NiZJ1PBjyZvrghYqsxuB9fMnOewDD5xMBVkUwtGbn9PyY8uxgQxTxexAyI4g00BJmedMTi";
+
+    String masked = aesEncrypt("NA$*R6$+_3@C^Ku8XH@#OW%4WRGVY3RM", privateKey);
+    System.out.println(masked);
   }
 
   public static String aesDecrypt(String privateKey, String encryptedValue)

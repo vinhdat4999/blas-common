@@ -5,6 +5,10 @@ import static com.blas.blascommon.security.SecurityUtils.md5Encode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * MD5 encryption can cause some security vulnerabilities
+ */
+@Deprecated
 @Component
 public class Md5Encoder implements PasswordEncoder {
 

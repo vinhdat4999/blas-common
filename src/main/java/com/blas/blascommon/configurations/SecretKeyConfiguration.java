@@ -1,4 +1,4 @@
-package com.blas.blascommon.core.configuration;
+package com.blas.blascommon.configurations;
 
 import static com.blas.blascommon.constants.BlasConstant.BLAS_CERT_PASSWORD;
 import static com.blas.blascommon.constants.BlasConstant.BLAS_JWT_SECRET_KEY_VALUE;
