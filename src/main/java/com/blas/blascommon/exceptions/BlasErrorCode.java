@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus.Series;
 @AllArgsConstructor
 public enum BlasErrorCode {
   POTENTIAL_DANGER_REQUEST(460, Series.CLIENT_ERROR, "Potential security risk detected"),
-  CARD_EXCEPTION(460, Series.CLIENT_ERROR, "Potential security risk detected"),
   BLAS_SYSTEM_FAILURE(520, Series.SERVER_ERROR, "Blas system failure");
 
   private final int errorCode;
