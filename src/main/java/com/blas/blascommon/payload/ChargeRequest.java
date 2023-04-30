@@ -9,10 +9,5 @@ public class ChargeRequest {
   private long amount;
   private Currency currency;
   private String cardId;
-  private String cardNumber;
-  private String cardHolder;
-  private String expMonth;
-  private String expYear;
-  private String cvc;
   private String description;
 }

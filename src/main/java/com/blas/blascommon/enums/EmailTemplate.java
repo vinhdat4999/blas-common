@@ -1,7 +1,8 @@
 package com.blas.blascommon.enums;
 
 public enum EmailTemplate {
-  RESEND_KEY("resend-key");
+  RESEND_KEY("resend-key"),
+  PAYMENT_RECEIPT("payment-receipt");
 
   private final String templateName;
 

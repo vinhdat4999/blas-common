@@ -15,7 +15,6 @@ public class ChargeResponse {
   private String cardType;
   private String username;
   private String amountCaptured;
-  private String receiptUrl;
   private String status;
   private String description;
 }

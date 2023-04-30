@@ -1,11 +1,15 @@
 package com.blas.blascommon.utils;
 
+import static com.blas.blascommon.enums.EmailTemplate.PAYMENT_RECEIPT;
 import static com.blas.blascommon.utils.StringUtils.SLASH;
 import static com.blas.blascommon.utils.datetimeutils.DateTimeUtils.DATE_YYYYMMDD_SLASH_FORMAT;
+import static java.time.LocalTime.now;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.experimental.UtilityClass;
@@ -48,5 +52,22 @@ public class ValidUtils {
 
   public boolean allMatch(Pattern pattern, String... strings) {
     return Arrays.stream(strings).allMatch(pattern.asPredicate());
+  }
+
+  public static void main(String[] args) throws IOException {
+    String content = new TemplateUtils().generateHtmlContent(PAYMENT_RECEIPT, Map.ofEntries(
+        Map.entry("email", "vinhdat4999@gmail.com"),
+        Map.entry("phone", "0965040999"),
+        Map.entry("name", "NGUYEN VINH DAT"),
+        Map.entry("transactionId", "a19ae6e8-7217-412b-bc25-43d988f28787"),
+        Map.entry("transactionTime", now().toString()),
+        Map.entry("cardType", "VISA"),
+        Map.entry("cardNumber", "************4242"),
+        Map.entry("status", "SUCCESS"),
+        Map.entry("description", "test description"),
+        Map.entry("amount", "100"),
+        Map.entry("currency", "USD")
+    ));
+    System.out.println(content);
   }
 }
