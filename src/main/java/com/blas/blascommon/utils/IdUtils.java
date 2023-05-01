@@ -19,7 +19,8 @@ public class IdUtils {
     int targetStringLength = 6;
     String generatedString = "";
     generatedString = random.ints(leftLimit, rightLimit + 1)
-        .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
+        .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97) && i != 79 && i != 111)
+        .limit(targetStringLength)
         .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
         .toString();
     return generatedString.toUpperCase();
@@ -30,7 +31,8 @@ public class IdUtils {
     int rightLimit = 122; // letter 'z'
     String generatedString = "";
     generatedString = random.ints(leftLimit, rightLimit + 1)
-        .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(lengthOfId)
+        .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97) && i != 79 && i != 111)
+        .limit(lengthOfId)
         .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
         .toString();
     return generatedString.toUpperCase();
