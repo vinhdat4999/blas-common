@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                    |
 |---------|--------------|----------------------------------------------------------------------------------|
+| 2.9.0   | 01/05/2023   | Add email template notify when add new card successfully                         |
 | 2.8.0   | 30/04/2023   | Support more log, Blas Payment gateway entity and payment receipt email template |
 | 2.7.0   | 29/04/2023   | Add Blas Payment Gateway                                                         |
 | 2.6.0   | 25/04/2023   | Support AES encryption                                                           |
