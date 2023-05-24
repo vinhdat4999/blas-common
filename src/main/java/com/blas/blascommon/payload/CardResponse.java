@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 public class CardResponse {
 
+  private String statusCode;
   private String cardId;
   private String maskedCardNumber;
   private String cardType;

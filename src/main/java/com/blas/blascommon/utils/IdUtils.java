@@ -28,7 +28,6 @@ public class IdUtils {
   public static String genMixID(int lengthOfId) {
     int leftLimit = 48; // numeral '0'
     int rightLimit = 122; // letter 'z'
-    String generatedString = "";
     return random.ints(leftLimit, rightLimit + 1)
         .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97) && i != 79 && i != 111)
         .limit(lengthOfId)

@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 public class ChargeResponse {
 
+  private String statusCode;
   private String transactionId;
   private LocalDateTime transactionTime;
   private String cardId;
