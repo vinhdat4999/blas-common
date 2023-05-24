@@ -4,7 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                    |
 |---------|--------------|----------------------------------------------------------------------------------|
-| 2.10.0  | 25/05/2023   | Support pay with card that has not been added before                             |
+| 2.10.0  | 25/05/2023   | Upgrade spring boot 3.1.0                                                        |
 | 2.9.0   | 01/05/2023   | Add email template notify when add new card successfully                         |
 | 2.8.0   | 30/04/2023   | Support more log, Blas Payment gateway entity and payment receipt email template |
 | 2.7.0   | 29/04/2023   | Add Blas Payment Gateway                                                         |
