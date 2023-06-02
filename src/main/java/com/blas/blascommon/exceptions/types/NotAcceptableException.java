@@ -7,19 +7,20 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class NotAcceptableException extends RuntimeException {
 
-  private String transactionId;
+  private final String transactionId;
 
-  public NotAcceptableException(String transactionId, String message, Throwable cause) {
+  public NotAcceptableException(final String transactionId, final String message,
+      final Throwable cause) {
     super(message, cause);
     this.transactionId = transactionId;
   }
 
-  public NotAcceptableException(String transactionId, String message) {
+  public NotAcceptableException(final String transactionId, final String message) {
     super(message);
     this.transactionId = transactionId;
   }
 
-  public NotAcceptableException(String transactionId, Throwable cause) {
+  public NotAcceptableException(final String transactionId, final Throwable cause) {
     super(cause);
     this.transactionId = transactionId;
   }

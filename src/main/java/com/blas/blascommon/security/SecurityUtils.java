@@ -199,14 +199,6 @@ public class SecurityUtils {
     return Base64.getEncoder().encodeToString(encrypted);
   }
 
-  public static void main(String[] args)
-      throws InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-    String privateKey = "sk_test_51N24huL1cmxigSSttZeLnKBWte97NiZJ1PBjyZvrghYqsxuB9fMnOewDD5xMBVkUwtGbn9PyY8uxgQxTxexAyI4g00BJmedMTi";
-
-    String masked = aesEncrypt("NA$*R6$+_3@C^Ku8XH@#OW%4WRGVY3RM", privateKey);
-    System.out.println(masked);
-  }
-
   public static String aesDecrypt(String privateKey, String encryptedValue)
       throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
     Key key = new SecretKeySpec(privateKey.getBytes(), "AES");

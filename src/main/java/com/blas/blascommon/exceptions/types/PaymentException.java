@@ -7,20 +7,20 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class PaymentException extends RuntimeException {
 
-  private String transactionId;
+  private final String transactionId;
 
-  public PaymentException(String transactionId, String message,
+  public PaymentException(final String transactionId, final String message,
       Throwable cause) {
     super(message, cause);
     this.transactionId = transactionId;
   }
 
-  public PaymentException(String transactionId, String message) {
+  public PaymentException(final String transactionId, final String message) {
     super(message);
     this.transactionId = transactionId;
   }
 
-  public PaymentException(String transactionId, Throwable cause) {
+  public PaymentException(final String transactionId, final Throwable cause) {
     super(cause);
     this.transactionId = transactionId;
   }

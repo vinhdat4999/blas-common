@@ -13,6 +13,7 @@ import com.blas.blascommon.core.service.AuthenKeyService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import com.blas.blascommon.security.hash.Sha256Encoder;
 import java.time.LocalDateTime;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,11 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
   public boolean isValidAuthenKey(String userId, String authenKey, LocalDateTime timeCheck) {
     authenKey = sha256Encoder.encode(authenKey);
     AuthenKey authenKeyObject = authenKeyDao.getAuthenKeyByKey(authenKey);
-    return authenKeyObject != null && !authenKeyObject.isUsed() && !LocalDateTime.now().isAfter(
-        authenKeyObject.getTimeGenerate().plusMinutes(MINUTE_TO_EXPIRED));
+    return authenKeyObject != null
+        && StringUtils.equals(authenKeyObject.getAuthUser().getUserId(), userId)
+        && !authenKeyObject.isUsed()
+        && !LocalDateTime.now()
+        .isAfter(authenKeyObject.getTimeGenerate().plusMinutes(MINUTE_TO_EXPIRED));
   }
 
   @Override

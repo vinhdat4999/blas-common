@@ -11,7 +11,8 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -56,9 +57,10 @@ public class PutRequest {
       }
     }
     StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
-    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    CloseableHttpClient httpClient = HttpClients.custom()
+        .setRedirectStrategy(new LaxRedirectStrategy()).build();
     httpPut.setEntity(entity);
-    CloseableHttpResponse response2 = httpClient.execute(httpPut);
-    return IOUtils.toString(response2.getEntity().getContent(), StandardCharsets.UTF_8);
+    CloseableHttpResponse response = httpClient.execute(httpPut);
+    return IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
   }
 }

@@ -7,24 +7,25 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CardException extends RuntimeException {
 
-  private String transactionId;
+  private final String transactionId;
 
-  public CardException(String transactionId, String message,
-      Throwable cause) {
+  public CardException(final String transactionId, final String message,
+      final Throwable cause) {
     super(message, cause);
     this.transactionId = transactionId;
   }
 
-  public CardException(String message) {
+  public CardException(final String message) {
     super(message);
+    this.transactionId = null;
   }
 
-  public CardException(String transactionId, String message) {
+  public CardException(final String transactionId, final String message) {
     super(message);
     this.transactionId = transactionId;
   }
 
-  public CardException(String transactionId, Throwable cause) {
+  public CardException(final String transactionId, final Throwable cause) {
     super(cause);
     this.transactionId = transactionId;
   }

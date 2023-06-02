@@ -19,8 +19,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -96,9 +96,10 @@ public class PostRequest {
       }
     }
     StringEntity entity = new StringEntity(payload, APPLICATION_JSON);
-    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    CloseableHttpClient httpClient = HttpClients.custom()
+        .setRedirectStrategy(new LaxRedirectStrategy()).build();
     httpPost.setEntity(entity);
-    CloseableHttpResponse response2 = httpClient.execute(httpPost);
-    return IOUtils.toString(response2.getEntity().getContent(), UTF_8);
+    CloseableHttpResponse response = httpClient.execute(httpPost);
+    return IOUtils.toString(response.getEntity().getContent(), UTF_8);
   }
 }
