@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                 |
 |---------|--------------|-----------------------------------------------------------------------------------------------|
+| 3.0.0   | 02/06/2023   | Add status code to blas http response                                                         |
 | 2.11.0  | 02/06/2023   | Add resend spending email template, set automatic redirect following for POST and PUT request |
 | 2.10.0  | 25/05/2023   | Upgrade spring boot 3.1.0                                                                     |
 | 2.9.0   | 01/05/2023   | Add email template notify when add new card successfully                                      |

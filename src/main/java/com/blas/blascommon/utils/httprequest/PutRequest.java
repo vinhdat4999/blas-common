@@ -1,5 +1,6 @@
 package com.blas.blascommon.utils.httprequest;
 
+import com.blas.blascommon.payload.HttpResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -19,19 +20,19 @@ import org.json.JSONObject;
 @UtilityClass
 public class PutRequest {
 
-  public static String sendPutRequestWithStringPayload(String hostUrl,
+  public static HttpResponse sendPutRequestWithStringPayload(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, String payload)
       throws IOException {
     return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload);
   }
 
-  public static String sendPutRequestWithJsonObjectPayload(String hostUrl,
+  public static HttpResponse sendPutRequestWithJsonObjectPayload(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload)
       throws IOException {
     return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
-  public static String sendPutRequestWithJsonArrayPayload(String hostUrl,
+  public static HttpResponse sendPutRequestWithJsonArrayPayload(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
       throws IOException {
     payload = new JSONArray(
@@ -40,7 +41,7 @@ public class PutRequest {
     return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
-  private static String sendRequestGetStringResponse(String hostUrl,
+  private static HttpResponse sendRequestGetStringResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, String payload)
       throws IOException {
     if (parameterList != null) {
@@ -61,6 +62,9 @@ public class PutRequest {
         .setRedirectStrategy(new LaxRedirectStrategy()).build();
     httpPut.setEntity(entity);
     CloseableHttpResponse response = httpClient.execute(httpPut);
-    return IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8);
+    return HttpResponse.builder()
+        .statusCode(response.getStatusLine().getStatusCode())
+        .response(IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8))
+        .build();
   }
 }

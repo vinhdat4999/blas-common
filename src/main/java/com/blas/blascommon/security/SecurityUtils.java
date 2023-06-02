@@ -45,10 +45,12 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@Slf4j
 @UtilityClass
 public class SecurityUtils {
 
@@ -81,7 +83,7 @@ public class SecurityUtils {
       crypt.update(rawPassword.getBytes(UTF_8));
       hashedPassword = byteToHex(crypt.digest());
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      log.error(e.toString());
     }
     return hashedPassword;
   }
@@ -93,7 +95,7 @@ public class SecurityUtils {
       digest = MessageDigest.getInstance(SHA256);
       hash = digest.digest(rawPassword.getBytes(UTF_8));
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      log.error(e.toString());
     }
     final StringBuilder hexString = new StringBuilder();
     for (byte b : hash) {
@@ -116,7 +118,7 @@ public class SecurityUtils {
       SecureRandom random = new SecureRandom();
       random.nextBytes(salt);
     } catch (Exception exception) {
-      exception.printStackTrace();
+      log.error(exception.toString());
     }
     return salt;
   }
@@ -134,7 +136,7 @@ public class SecurityUtils {
       }
       generatedPassword = sb.toString();
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      log.error(e.toString());
     }
     return generatedPassword;
   }
@@ -169,7 +171,7 @@ public class SecurityUtils {
     try {
       md = MessageDigest.getInstance(hashType);
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      log.error(e.toString());
     }
     if (md == null) {
       return EMPTY;

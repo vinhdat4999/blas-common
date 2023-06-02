@@ -13,11 +13,13 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
+import lombok.extern.slf4j.Slf4j;
 
 /*
   !!Warning: This utility class used for sending internal email, not through service blas-email.
   Only use this utility when really needed.
  */
+@Slf4j
 public class SendEmail implements Runnable {
 
   private static final String EMAIL_SENDER = "blasvietnam@gmail.com";
@@ -56,7 +58,7 @@ public class SendEmail implements Runnable {
     try {
       message.setFrom(new InternetAddress(EMAIL_SENDER));
     } catch (MessagingException e) {
-      e.printStackTrace();
+      log.error(e.toString());
     }
     MimeBodyPart messageBodyPartContent = new MimeBodyPart();
     AtomicInteger sentEmailNum = new AtomicInteger();
@@ -70,7 +72,7 @@ public class SendEmail implements Runnable {
       send(message);
       sentEmailNum.getAndIncrement();
     } catch (MessagingException e) {
-      e.printStackTrace();
+      log.error(e.toString());
     }
   }
 }

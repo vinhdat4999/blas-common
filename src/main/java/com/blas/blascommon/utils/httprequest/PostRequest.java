@@ -6,6 +6,7 @@ import static com.blas.blascommon.utils.StringUtils.QUESTION_MARK;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
+import com.blas.blascommon.payload.HttpResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,25 +30,25 @@ import org.json.JSONObject;
 @UtilityClass
 public class PostRequest {
 
-  public static String sendPostRequestWithStringPayload(String hostUrl,
+  public static HttpResponse sendPostRequestWithStringPayload(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, String payload)
       throws IOException {
     return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload);
   }
 
-  public static String sendPostRequestWithJsonObjectPayload(String hostUrl,
+  public static HttpResponse sendPostRequestWithJsonObjectPayload(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, JSONObject payload)
       throws IOException {
     return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
-  public static String sendPostRequestWithJsonArrayPayload(String hostUrl,
+  public static HttpResponse sendPostRequestWithJsonArrayPayload(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
       throws IOException {
     return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
-  public static String sendPostRequestWithFormUrlEncodedPayload(String hostUrl,
+  public static HttpResponse sendPostRequestWithFormUrlEncodedPayload(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList,
       Map<String, String> payload) throws IOException {
     try (CloseableHttpClient client = HttpClients.createDefault()) {
@@ -63,8 +64,11 @@ public class PostRequest {
         urlParameters.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
       }
       httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
-      CloseableHttpResponse res = client.execute(httpPost);
-      return EntityUtils.toString(res.getEntity());
+      CloseableHttpResponse response = client.execute(httpPost);
+      return HttpResponse.builder()
+          .statusCode(response.getStatusLine().getStatusCode())
+          .response(EntityUtils.toString(response.getEntity()))
+          .build();
     }
   }
 
@@ -79,7 +83,7 @@ public class PostRequest {
     return hostUrl;
   }
 
-  private static String sendRequestGetStringResponse(String hostUrl,
+  private static HttpResponse sendRequestGetStringResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, String payload)
       throws IOException {
     if (parameterList != null) {
@@ -100,6 +104,9 @@ public class PostRequest {
         .setRedirectStrategy(new LaxRedirectStrategy()).build();
     httpPost.setEntity(entity);
     CloseableHttpResponse response = httpClient.execute(httpPost);
-    return IOUtils.toString(response.getEntity().getContent(), UTF_8);
+    return HttpResponse.builder()
+        .statusCode(response.getStatusLine().getStatusCode())
+        .response(IOUtils.toString(response.getEntity().getContent(), UTF_8))
+        .build();
   }
 }

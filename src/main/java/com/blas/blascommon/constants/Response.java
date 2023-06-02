@@ -23,4 +23,5 @@ public class Response {
   public static final String DUPLICATED_PHONE = "Phone number is existed. Please choose another.";
   public static final String DUPLICATED_EMAIL = "Email is existed. Please choose another.";
   public static final String CANNOT_CONNECT_TO_HOST = "Cannot connect to host. Please try again.";
+  public static final String HTTP_STATUS_NOT_200 = "HTTP status not 200";
 }

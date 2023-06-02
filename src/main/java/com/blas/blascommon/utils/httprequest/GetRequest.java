@@ -2,12 +2,12 @@ package com.blas.blascommon.utils.httprequest;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.blas.blascommon.payload.HttpResponse;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -15,7 +15,7 @@ import org.apache.http.impl.client.HttpClients;
 @UtilityClass
 public class GetRequest {
 
-  public static String sendGetRequest(String hostUrl,
+  public static HttpResponse sendGetRequest(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList) throws IOException {
     StringBuilder sb;
     if (parameterList != null) {
@@ -32,8 +32,11 @@ public class GetRequest {
       }
     }
     try (CloseableHttpClient client = HttpClients.createDefault()) {
-      HttpResponse httpResponse = client.execute(httpGet);
-      return IOUtils.toString(httpResponse.getEntity().getContent(), UTF_8);
+      org.apache.http.HttpResponse httpResponse = client.execute(httpGet);
+      return HttpResponse.builder()
+          .statusCode(httpResponse.getStatusLine().getStatusCode())
+          .response(IOUtils.toString(httpResponse.getEntity().getContent(), UTF_8))
+          .build();
     }
   }
 }
