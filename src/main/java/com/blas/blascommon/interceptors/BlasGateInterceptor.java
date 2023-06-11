@@ -61,28 +61,32 @@ public class BlasGateInterceptor implements HandlerInterceptor {
     // No action to check
   }
 
-  private void checkMaintenance() throws IOException {
-    String serviceName = blasServiceConfiguration.getServiceName();
-    if ("blas-support-service".equals(serviceName)) {
-      return;
-    }
-    HttpResponse response = sendGetRequest(maintenanceConfiguration.getEndpointCheck(),
-        Map.of("service", serviceName), jwtTokenUtil.generateInternalSystemToken());
+  private void checkMaintenance() {
     try {
-      if (response.getStatusCode() != HttpStatus.OK.value()) {
-        throw new BadRequestException(HTTP_STATUS_NOT_200);
+      String serviceName = blasServiceConfiguration.getServiceName();
+      if ("blas-support-service".equals(serviceName)) {
+        return;
       }
-    } catch (BadRequestException e) {
-      centralizedLogService.saveLog(serviceName, ERROR, e.toString(),
-          e.getCause() == null ? EMPTY : e.getCause().toString(), null, null, null,
-          String.valueOf(new JSONArray(e.getStackTrace())), isSendEmailAlert);
-    }
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.registerModule(new JavaTimeModule());
-    MaintenanceTimeResponse maintenanceTimeResponse = objectMapper.readValue(response.getResponse(),
-        MaintenanceTimeResponse.class);
-    if (maintenanceTimeResponse.isInMaintenance()) {
-      throw new MaintenanceException(maintenanceTimeResponse);
+      HttpResponse response = sendGetRequest(maintenanceConfiguration.getEndpointCheck(),
+          Map.of("service", serviceName), jwtTokenUtil.generateInternalSystemToken());
+      try {
+        if (response.getStatusCode() != HttpStatus.OK.value()) {
+          throw new BadRequestException(HTTP_STATUS_NOT_200);
+        }
+      } catch (BadRequestException e) {
+        centralizedLogService.saveLog(serviceName, ERROR, e.toString(),
+            e.getCause() == null ? EMPTY : e.getCause().toString(), null, null, null,
+            String.valueOf(new JSONArray(e.getStackTrace())), isSendEmailAlert);
+      }
+      ObjectMapper objectMapper = new ObjectMapper();
+      objectMapper.registerModule(new JavaTimeModule());
+      MaintenanceTimeResponse maintenanceTimeResponse = objectMapper.readValue(
+          response.getResponse(),
+          MaintenanceTimeResponse.class);
+      if (maintenanceTimeResponse.isInMaintenance()) {
+        throw new MaintenanceException(maintenanceTimeResponse);
+      }
+    } catch (Exception ignored) {
     }
   }
 
