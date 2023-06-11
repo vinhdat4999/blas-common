@@ -26,7 +26,6 @@ public class DeleteRequest {
       }
       urlEndpoint += "?" + sb.substring(0, sb.toString().length() - 1);
     }
-    String response;
     HttpDelete httpDelete = new HttpDelete(urlEndpoint);
     if (headerList != null) {
       for (Entry<String, String> entry : headerList.entrySet()) {
