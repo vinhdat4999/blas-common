@@ -1,10 +1,14 @@
 package com.blas.blascommon.configurations;
 
 import com.blas.blascommon.core.service.BlasGateInfoService;
+import com.blas.blascommon.core.service.CentralizedLogService;
 import com.blas.blascommon.interceptors.BlasGateInterceptor;
+import com.blas.blascommon.jwt.JwtTokenUtil;
 import com.blas.blascommon.properties.BlasGateConfiguration;
 import com.blas.blascommon.properties.BlasServiceConfiguration;
+import com.blas.blascommon.properties.MaintenanceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -25,9 +29,25 @@ public class InterceptorConfig implements WebMvcConfigurer {
   @Autowired
   private BlasGateInfoService blasGateInfoService;
 
+  @Lazy
+  @Autowired
+  private MaintenanceConfiguration maintenanceConfiguration;
+
+  @Lazy
+  @Autowired
+  private CentralizedLogService centralizedLogService;
+
+  @Lazy
+  @Autowired
+  private JwtTokenUtil jwtTokenUtil;
+
+  @Value("${blas.blas-idp.isSendEmailAlert}")
+  private boolean isSendEmailAlert;
+
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(new BlasGateInterceptor(blasServiceConfiguration, blasGateConfiguration,
-        blasGateInfoService));
+        blasGateInfoService, maintenanceConfiguration, centralizedLogService, isSendEmailAlert,
+        jwtTokenUtil));
   }
 }

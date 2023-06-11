@@ -15,6 +15,7 @@ import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.BlasException;
 import com.blas.blascommon.exceptions.types.ForbiddenException;
 import com.blas.blascommon.exceptions.types.GatewayTimeoutException;
+import com.blas.blascommon.exceptions.types.MaintenanceException;
 import com.blas.blascommon.exceptions.types.NotAcceptableException;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import com.blas.blascommon.exceptions.types.PaymentException;
@@ -117,5 +118,16 @@ public class ExceptionHandle {
     error.setMessage(exception.getMessage());
     error.setTimeStamp(currentTimeMillis());
     return new ResponseEntity<>(error, NOT_ACCEPTABLE);
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<MaintenanceExceptionResponse> handleException(
+      MaintenanceException exception) {
+    MaintenanceExceptionResponse error = new MaintenanceExceptionResponse();
+    error.setStatus(SERVICE_UNAVAILABLE.value());
+    error.setMessage(exception.getMessage());
+    error.setMaintenanceTimeResponse(exception.getMaintenanceTimeResponse());
+    error.setTimeStamp(currentTimeMillis());
+    return new ResponseEntity<>(error, SERVICE_UNAVAILABLE);
   }
 }
