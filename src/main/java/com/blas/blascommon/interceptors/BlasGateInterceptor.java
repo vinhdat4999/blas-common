@@ -62,6 +62,8 @@ public class BlasGateInterceptor implements HandlerInterceptor {
   }
 
   private void checkMaintenance() {
+    MaintenanceTimeResponse maintenanceTimeResponse = new MaintenanceTimeResponse();
+    maintenanceTimeResponse.setInMaintenance(false);
     try {
       String serviceName = blasServiceConfiguration.getServiceName();
       if ("blas-support-service".equals(serviceName)) {
@@ -80,13 +82,13 @@ public class BlasGateInterceptor implements HandlerInterceptor {
       }
       ObjectMapper objectMapper = new ObjectMapper();
       objectMapper.registerModule(new JavaTimeModule());
-      MaintenanceTimeResponse maintenanceTimeResponse = objectMapper.readValue(
+      maintenanceTimeResponse = objectMapper.readValue(
           response.getResponse(),
           MaintenanceTimeResponse.class);
-      if (maintenanceTimeResponse.isInMaintenance()) {
-        throw new MaintenanceException(maintenanceTimeResponse);
-      }
     } catch (Exception ignored) {
+    }
+    if (maintenanceTimeResponse.isInMaintenance()) {
+      throw new MaintenanceException(maintenanceTimeResponse);
     }
   }
 
