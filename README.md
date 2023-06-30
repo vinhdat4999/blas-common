@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                 |
 |---------|--------------|-----------------------------------------------------------------------------------------------|
+| 3.2.0   | 30/06/2023   | Support send Telegram message                                                                 |
 | 3.1.0   | 11/06/2023   | Support check maintenance time                                                                |
 | 3.0.0   | 02/06/2023   | Add status code to blas http response                                                         |
 | 2.11.0  | 02/06/2023   | Add spending report email template, set automatic redirect following for POST and PUT request |

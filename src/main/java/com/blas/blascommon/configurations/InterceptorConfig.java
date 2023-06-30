@@ -6,7 +6,7 @@ import com.blas.blascommon.interceptors.BlasGateInterceptor;
 import com.blas.blascommon.jwt.JwtTokenUtil;
 import com.blas.blascommon.properties.BlasGateConfiguration;
 import com.blas.blascommon.properties.BlasServiceConfiguration;
-import com.blas.blascommon.properties.MaintenanceConfiguration;
+import com.blas.blascommon.properties.ServiceSupportProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
   @Lazy
   @Autowired
-  private MaintenanceConfiguration maintenanceConfiguration;
+  private ServiceSupportProperties serviceSupportProperties;
 
   @Lazy
   @Autowired
@@ -47,7 +47,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(new BlasGateInterceptor(blasServiceConfiguration, blasGateConfiguration,
-        blasGateInfoService, maintenanceConfiguration, centralizedLogService, isSendEmailAlert,
+        blasGateInfoService, serviceSupportProperties, centralizedLogService, isSendEmailAlert,
         jwtTokenUtil));
   }
 }

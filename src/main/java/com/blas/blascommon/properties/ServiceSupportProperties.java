@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "blas.blas-support-service.maintenance")
-public class MaintenanceConfiguration {
+@ConfigurationProperties(prefix = "blas.blas-service-support")
+public class ServiceSupportProperties {
 
-  private String endpointCheck;
+  private boolean throughServiceSupport;
+  private String endpointCheckMaintenance;
 }

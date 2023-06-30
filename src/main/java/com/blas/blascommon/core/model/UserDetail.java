@@ -51,6 +51,9 @@ public class UserDetail implements Serializable {
   @Email
   private String email;
 
+  @Column(name = "telegram_chat_id", length = 15)
+  private String telegramChatId;
+
   @Column(name = "gender")
   @NotNull
   private boolean gender;

@@ -17,33 +17,34 @@ import com.blas.blascommon.payload.HttpResponse;
 import com.blas.blascommon.payload.MaintenanceTimeResponse;
 import com.blas.blascommon.properties.BlasGateConfiguration;
 import com.blas.blascommon.properties.BlasServiceConfiguration;
-import com.blas.blascommon.properties.MaintenanceConfiguration;
+import com.blas.blascommon.properties.ServiceSupportProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Map;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @AllArgsConstructor
 public class BlasGateInterceptor implements HandlerInterceptor {
 
   private BlasServiceConfiguration blasServiceConfiguration;
   private BlasGateConfiguration blasGateConfiguration;
   private BlasGateInfoService blasGateInfoService;
-  private MaintenanceConfiguration maintenanceConfiguration;
+  private ServiceSupportProperties serviceSupportProperties;
   private CentralizedLogService centralizedLogService;
   private boolean isSendEmailAlert;
   private JwtTokenUtil jwtTokenUtil;
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-      throws IOException {
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+      Object handler) {
     logRequestInfo(request);
     checkMaintenance();
     return true;
@@ -62,6 +63,9 @@ public class BlasGateInterceptor implements HandlerInterceptor {
   }
 
   private void checkMaintenance() {
+    if (!serviceSupportProperties.isThroughServiceSupport()) {
+      return;
+    }
     MaintenanceTimeResponse maintenanceTimeResponse = new MaintenanceTimeResponse();
     maintenanceTimeResponse.setInMaintenance(false);
     try {
@@ -69,7 +73,7 @@ public class BlasGateInterceptor implements HandlerInterceptor {
       if ("blas-support-service".equals(serviceName)) {
         return;
       }
-      HttpResponse response = sendGetRequest(maintenanceConfiguration.getEndpointCheck(),
+      HttpResponse response = sendGetRequest(serviceSupportProperties.getEndpointCheckMaintenance(),
           Map.of("service", serviceName), jwtTokenUtil.generateInternalSystemToken());
       try {
         if (response.getStatusCode() != HttpStatus.OK.value()) {
@@ -86,6 +90,7 @@ public class BlasGateInterceptor implements HandlerInterceptor {
           response.getResponse(),
           MaintenanceTimeResponse.class);
     } catch (Exception ignored) {
+      log.warn("Can not check maintenance time properly. Skip checking maintenance time.");
     }
     if (maintenanceTimeResponse.isInMaintenance()) {
       throw new MaintenanceException(maintenanceTimeResponse);

@@ -1,6 +1,7 @@
 package com.blas.blascommon.utils.httprequest;
 
 import static com.blas.blascommon.utils.StringUtils.AMPERSAND;
+import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import static com.blas.blascommon.utils.StringUtils.EQUAL;
 import static com.blas.blascommon.utils.StringUtils.QUESTION_MARK;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.NameValuePair;
@@ -99,7 +101,8 @@ public class PostRequest {
         httpPost.setHeader(entry.getKey(), entry.getValue());
       }
     }
-    StringEntity entity = new StringEntity(payload, APPLICATION_JSON);
+    StringEntity entity = new StringEntity(Optional.ofNullable(payload).orElse(EMPTY),
+        APPLICATION_JSON);
     CloseableHttpClient httpClient = HttpClients.custom()
         .setRedirectStrategy(new LaxRedirectStrategy()).build();
     httpPost.setEntity(entity);
