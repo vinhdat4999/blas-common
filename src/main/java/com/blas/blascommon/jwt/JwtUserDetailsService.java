@@ -35,6 +35,6 @@ public class JwtUserDetailsService implements UserDetailsService {
     boolean credentialsNonExpired = true;
     return new org.springframework.security.core.userdetails.User(authUser.getUsername(),
         authUser.getPassword(), userIsActive,
-        accountNonLocked, credentialsNonExpired, accountNonLocked, grantList);
+        accountNonLocked, credentialsNonExpired, userIsActive, grantList);
   }
 }

@@ -7,7 +7,6 @@ import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import static com.blas.blascommon.utils.httprequest.PostRequest.sendPostRequestWithStringPayload;
 
 import com.blas.blascommon.core.service.BlasConfigService;
-import com.blas.blascommon.payload.HttpResponse;
 import com.blas.blascommon.properties.BlasPrivateKeyConfiguration;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -56,8 +55,7 @@ public class TelegramUtils {
     uriBuilder.addParameter("parse_mode", "MarkdownV2");
     uriBuilder.addParameter("text", standardizeMessage(text));
     URL url = uriBuilder.build().toURL();
-    HttpResponse response = sendPostRequestWithStringPayload(url.toString(), null, null, EMPTY);
-    System.out.println(response);
+    sendPostRequestWithStringPayload(url.toString(), null, null, EMPTY);
   }
 
   private String standardizeMessage(String message) {

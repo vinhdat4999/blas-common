@@ -1,5 +1,6 @@
 package com.blas.blascommon.payload;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,4 +16,6 @@ public class EmailRequest {
   protected String emailTemplateName;
   protected Map<String, String> data;
   protected String reasonSendFailed;
+  protected String status;
+  protected LocalDateTime sentTime;
 }

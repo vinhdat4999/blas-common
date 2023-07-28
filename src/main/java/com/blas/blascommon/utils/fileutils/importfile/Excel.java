@@ -1,6 +1,5 @@
 package com.blas.blascommon.utils.fileutils.importfile;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,14 +18,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 @UtilityClass
 public class Excel {
 
-  public static List<String[]> importFromExcel(String excelFilePath) throws IOException {
+  public static List<String[]> importFromExcel(InputStream inputStream, String fileName)
+      throws IOException {
     List<String[]> data = new ArrayList<>();
-    try (InputStream inputStream = new FileInputStream(excelFilePath)) {
-      Workbook workbook = getWorkbook(inputStream, excelFilePath);
+    try (inputStream) {
+      Workbook workbook = getWorkbook(inputStream, fileName);
       Sheet sheet = workbook.getSheetAt(0);
-      Iterator<Row> iterator = sheet.iterator();
-      while (iterator.hasNext()) {
-        Row nextRow = iterator.next();
+      for (Row nextRow : sheet) {
         Iterator<Cell> cellIterator = nextRow.cellIterator();
         List<String> dataLineList = new ArrayList<>();
         while (cellIterator.hasNext()) {
@@ -45,12 +43,12 @@ public class Excel {
     return data;
   }
 
-  private static Workbook getWorkbook(InputStream inputStream, String excelFilePath)
+  private static Workbook getWorkbook(InputStream inputStream, String fileName)
       throws IOException {
-    Workbook workbook = null;
-    if (excelFilePath.endsWith("xlsx")) {
+    Workbook workbook;
+    if (fileName.endsWith("xlsx")) {
       workbook = new XSSFWorkbook(inputStream);
-    } else if (excelFilePath.endsWith("xls")) {
+    } else if (fileName.endsWith("xls")) {
       workbook = new HSSFWorkbook(inputStream);
     } else {
       throw new IllegalArgumentException("The specified file is not Excel file");

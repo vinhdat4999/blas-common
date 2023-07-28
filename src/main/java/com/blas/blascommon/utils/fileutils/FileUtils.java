@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -123,5 +124,15 @@ public class FileUtils {
       temp /= 1024.0;
     }
     return String.format("%.2f", temp) + " " + types[count];
+  }
+
+  public static String convertInputStreamToString(InputStream inputStream) throws IOException {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+    StringBuilder stringBuilder = new StringBuilder();
+    String line;
+    while ((line = reader.readLine()) != null) {
+      stringBuilder.append(line);
+    }
+    return stringBuilder.toString();
   }
 }
