@@ -4,7 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
-| 3.3.0   | 28/07/2023   | Add receipt URL attribute for charge response blas-payment-gateway and support send email using Excel email data |
+| 3.3.0   | 31/07/2023   | Add receipt URL attribute for charge response blas-payment-gateway and support send email using Excel email data |
 | 3.2.0   | 30/06/2023   | Support send Telegram message                                                                                    |
 | 3.1.0   | 11/06/2023   | Support check maintenance time                                                                                   |
 | 3.0.0   | 02/06/2023   | Add status code to blas http response                                                                            |

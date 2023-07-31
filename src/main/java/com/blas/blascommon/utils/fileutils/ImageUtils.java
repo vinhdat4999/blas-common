@@ -4,8 +4,12 @@ import static com.blas.blascommon.constants.Configuration.BAR_CODE_HEIGHT;
 import static com.blas.blascommon.constants.Configuration.BAR_CODE_WIDTH;
 import static com.blas.blascommon.constants.Configuration.QR_HEIGHT;
 import static com.blas.blascommon.constants.Configuration.QR_WIDTH;
+import static com.blas.blascommon.enums.FileType.JPG;
+import static com.google.zxing.BarcodeFormat.QR_CODE;
+import static com.google.zxing.BarcodeFormat.UPC_A;
+import static java.awt.Image.SCALE_AREA_AVERAGING;
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
-import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
@@ -31,7 +35,7 @@ public class ImageUtils {
       return null;
     }
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    Thumbnails.of(bufferedImage).outputFormat("JPG")
+    Thumbnails.of(bufferedImage).outputFormat(JPG.toString())
         .size(bufferedImage.getWidth(), bufferedImage.getHeight()).outputQuality(scale)
         .toOutputStream(outputStream);
     byte[] data = outputStream.toByteArray();
@@ -48,9 +52,8 @@ public class ImageUtils {
       return null;
     }
     Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight,
-        Image.SCALE_AREA_AVERAGING);
-    BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight,
-        BufferedImage.TYPE_INT_RGB);
+        SCALE_AREA_AVERAGING);
+    BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, TYPE_INT_RGB);
     outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
     return outputImage;
   }
@@ -61,14 +64,13 @@ public class ImageUtils {
 
   public static BufferedImage genQrCode(String content) throws WriterException {
     QRCodeWriter qrCodeWriter = new QRCodeWriter();
-    BitMatrix matrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, QR_WIDTH, QR_HEIGHT);
+    BitMatrix matrix = qrCodeWriter.encode(content, QR_CODE, QR_WIDTH, QR_HEIGHT);
     return MatrixToImageWriter.toBufferedImage(matrix);
   }
 
   public static BufferedImage genBarCode(String content) {
     UPCAWriter upcaWriter = new UPCAWriter();
-    BitMatrix matrix = upcaWriter.encode(content, BarcodeFormat.UPC_A, BAR_CODE_WIDTH,
-        BAR_CODE_HEIGHT);
+    BitMatrix matrix = upcaWriter.encode(content, UPC_A, BAR_CODE_WIDTH, BAR_CODE_HEIGHT);
     return MatrixToImageWriter.toBufferedImage(matrix);
   }
 }
