@@ -75,6 +75,7 @@ public class SecurityUtils {
   /**
    * SHA-1 encryption can cause some security vulnerabilities
    */
+  @Deprecated
   public static String sha1Encode(String rawPassword) {
     String hashedPassword = EMPTY;
     try {
