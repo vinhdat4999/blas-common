@@ -27,8 +27,14 @@ jobs:
         run: |
           mkdir -p $HOME/.m2
           cp settings.xml $HOME/.m2/
-#      - name: Build and Test with Maven
-#        run: mvn clean install
+      - name: Cache Maven dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+      - name: Build and Test with Maven
+        run: mvn clean install
       - name: Publish to JFrog
         run: |
           curl -u ${{ secrets.JFROG_USERNAME }}:${{ secrets.JFROG_PASSWORD }} \
