@@ -16,13 +16,6 @@
       <password>cmVmdGtuOjAxOjE3MjI0NDkzNzE6Q2d0eU13WnRTbGF0YW9OdG1JRVU5R2tTaWRh</password>
     </server>
   </servers>
-  <mirrors>
-    <mirror>
-      <id>central</id>
-      <url>https://repo.maven.apache.org/maven2</url>
-      <mirrorOf>*</mirrorOf>
-    </mirror>
-  </mirrors>
   <profiles>
     <profile>
       <id>jfrog-auth</id>
