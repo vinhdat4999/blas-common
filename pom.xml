@@ -10,7 +10,7 @@
   <parent>
     <groupId>com.blas</groupId>
     <artifactId>blas-pom</artifactId>
-    <version>1.7.0</version>
+    <version>1.8.0</version>
   </parent>
   <artifactId>blas-common</artifactId>
   <version>3.4.0</version>
