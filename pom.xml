@@ -56,6 +56,17 @@
         <enabled>false</enabled>
       </snapshots>
       <id>central</id>
+      <name>Maven Central</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
       <name>blas-maven-libs-release</name>
       <url>https://dattest.jfrog.io/artifactory/blas-maven-libs-release</url>
     </repository>
