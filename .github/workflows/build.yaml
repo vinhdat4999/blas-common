@@ -39,4 +39,8 @@ jobs:
         run: |
           curl -u ${{ secrets.JFROG_USERNAME }}:${{ secrets.JFROG_PASSWORD }} \
             -T target/blas-common-${{ steps.extract-version.outputs.version }}.jar \
-            "https://dattest.jfrog.io/artifactory/blas-maven-libs-release/com/blas/blas-common/${{ steps.extract-version.outputs.version }}/blas-common-${{ steps.extract-version.outputs.version }}.jar"
+            "https://dattest.jfrog.io/artifactory/blas-maven-libs-release/com/blas/blas-common/${{ steps.extract-version.outputs.version }}/blas-common-${{ steps.extract-version.outputs.version }}.jar" 
+          & 
+          curl -u ${{ secrets.JFROG_USERNAME }}:${{ secrets.JFROG_PASSWORD }} \
+            -T blas-common-${{ steps.extract-version.outputs.version }}.pom \
+            "https://dattest.jfrog.io/artifactory/blas-maven-libs-release/com/blas/blas-common/${{ steps.extract-version.outputs.version }}/blas-common-${{ steps.extract-version.outputs.version }}.pom"
