@@ -16,6 +16,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Install xmllint
+        run: sudo apt-get install -y libxml2-utils
       - name: Extract version from pom.xml
         id: extract-version
         run: |
