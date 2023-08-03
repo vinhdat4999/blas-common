@@ -5,15 +5,13 @@
   <servers>
     <server>
       <id>central</id>
-      <!--      <username>${env.JFROG_USERNAME}</username>-->
-      <!--      <password>${env.JFROG_PASSWORD}</password>-->
-      <username>vinhdat4999@gmail.com</username>
-      <password>cmVmdGtuOjAxOjE3MjI0NDkzNzE6Q2d0eU13WnRTbGF0YW9OdG1JRVU5R2tTaWRh</password>
+        <username>${env.JFROG_USERNAME}</username>
+        <password>${env.JFROG_PASSWORD}</password>
     </server>
     <server>
       <id>snapshots</id>
-      <username>vinhdat4999@gmail.com</username>
-      <password>cmVmdGtuOjAxOjE3MjI0NDkzNzE6Q2d0eU13WnRTbGF0YW9OdG1JRVU5R2tTaWRh</password>
+      <username>${env.JFROG_USERNAME}</username>
+      <password>${env.JFROG_PASSWORD}</password>
     </server>
   </servers>
   <profiles>
