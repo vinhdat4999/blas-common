@@ -50,4 +50,20 @@
       <artifactId>html2pdf</artifactId>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>blas-maven-libs-release</name>
+      <url>https://dattest.jfrog.io/artifactory/blas-maven-libs-release</url>
+    </repository>
+    <repository>
+      <snapshots />
+      <id>snapshots</id>
+      <name>blas-maven-libs-snapshot</name>
+      <url>https://dattest.jfrog.io/artifactory/blas-maven-libs-snapshot</url>
+    </repository>
+  </repositories>
 </project>
