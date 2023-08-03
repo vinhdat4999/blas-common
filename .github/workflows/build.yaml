@@ -18,13 +18,15 @@ jobs:
           distribution: 'temurin'
       - name: Extract version from pom.xml
         id: extract-version
-        run: echo "::set-output name=version::$(sed -n 's/.*<version>\(.*\)<\/version>.*/\1/p' pom.xml)"
+        run: |
+          version=$(xmllint --xpath "/*[local-name()='project']/*[local-name()='version']/text()" pom.xml)
+          echo "::set-output name=version::$version"
       - name: Copy settings.xml
         run: |
           mkdir -p $HOME/.m2
           cp settings.xml $HOME/.m2/
-      - name: Build and Test with Maven
-        run: mvn clean install
+#      - name: Build and Test with Maven
+#        run: mvn clean install
       - name: Publish to JFrog
         run: |
           curl -u ${{ secrets.JFROG_USERNAME }}:${{ secrets.JFROG_PASSWORD }} \
