@@ -9,7 +9,7 @@
   </properties>
   <parent>
     <groupId>com.blas</groupId>
-    <artifactId>blas-bom</artifactId>
+    <artifactId>blas-pom</artifactId>
     <version>1.8.0</version>
   </parent>
   <artifactId>blas-common</artifactId>
