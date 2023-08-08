@@ -16,6 +16,10 @@ public class ChargeResponse {
   private String cardType;
   private String username;
   private String amountCaptured;
+  private String amountRefund;
   private String status;
+  private boolean isRefundTransaction;
+  private boolean isGuestCard;
   private String description;
+  private String note;
 }
