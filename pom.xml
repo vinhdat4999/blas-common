@@ -9,11 +9,11 @@
   </properties>
   <parent>
     <groupId>com.blas</groupId>
-    <artifactId>blas-pom</artifactId>
+    <artifactId>blas-bom</artifactId>
     <version>1.8.0</version>
   </parent>
   <artifactId>blas-common</artifactId>
-  <version>3.4.0</version>
+  <version>3.5.0</version>
   <packaging>jar</packaging>
 
   <dependencies>

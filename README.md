@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 3.5.0   | 19/08/2023   | Support GoogleSheet storage                                                                                      |
 | 3.4.0   | 09/08/2023   | Add Github Action and support guest card payment                                                                 |
 | 3.3.0   | 31/07/2023   | Add receipt URL attribute for charge response blas-payment-gateway and support send email using Excel email data |
 | 3.2.0   | 30/06/2023   | Support send Telegram message                                                                                    |
