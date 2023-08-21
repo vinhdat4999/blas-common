@@ -10,7 +10,6 @@ import com.blas.blascommon.core.model.Help;
 import com.blas.blascommon.core.service.HelpService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class HelpServiceImpl implements HelpService {
 
   @Lazy
-  @Autowired
-  private HelpDao helpDao;
+  private final HelpDao helpDao;
 
   @Lazy
-  @Autowired
-  private AuthUserDao authUserDao;
+  private final AuthUserDao authUserDao;
+
+  public HelpServiceImpl(HelpDao helpDao, AuthUserDao authUserDao) {
+    this.helpDao = helpDao;
+    this.authUserDao = authUserDao;
+  }
 
   @Override
   public List<Help> getAllHelpByUser(String userId) {

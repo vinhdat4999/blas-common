@@ -8,7 +8,7 @@ public interface AuthenKeyService {
 
   public AuthenKey getAuthenKeyByUserId(String userId);
 
-  public boolean isValidAuthenKey(String userId, String authenKey, LocalDateTime timeCheck);
+  public boolean isValidAuthenKey(String username, String authenKey, LocalDateTime timeCheck);
 
   public String createAuthenKey(AuthUser authUser);
 

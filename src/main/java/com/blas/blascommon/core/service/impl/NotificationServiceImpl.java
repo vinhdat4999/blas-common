@@ -10,7 +10,6 @@ import com.blas.blascommon.core.model.Notification;
 import com.blas.blascommon.core.service.NotificationService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class NotificationServiceImpl implements NotificationService {
 
   @Lazy
-  @Autowired
-  private AuthUserDao authUserDao;
+  private final AuthUserDao authUserDao;
 
   @Lazy
-  @Autowired
-  private NotificationDao notificationDao;
+  private final NotificationDao notificationDao;
+
+  public NotificationServiceImpl(AuthUserDao authUserDao, NotificationDao notificationDao) {
+    this.authUserDao = authUserDao;
+    this.notificationDao = notificationDao;
+  }
 
   @Override
   public List<Notification> getAllNotificationByUser(String userId) {

@@ -10,7 +10,6 @@ import com.blas.blascommon.core.model.MessageHelp;
 import com.blas.blascommon.core.service.MessageHelpService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class MessageHelpServiceImpl implements MessageHelpService {
 
   @Lazy
-  @Autowired
-  private HelpDao helpDao;
+  private final HelpDao helpDao;
 
   @Lazy
-  @Autowired
-  private MessageHelpDao messageHelpDao;
+  private final MessageHelpDao messageHelpDao;
+
+  public MessageHelpServiceImpl(HelpDao helpDao, MessageHelpDao messageHelpDao) {
+    this.helpDao = helpDao;
+    this.messageHelpDao = messageHelpDao;
+  }
 
   @Override
   public List<MessageHelp> getAllMessageHelpByHelpTicketId(String ticketId) {

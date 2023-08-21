@@ -6,7 +6,6 @@ import com.blas.blascommon.core.dao.EmailLogDao;
 import com.blas.blascommon.core.model.EmailLog;
 import com.blas.blascommon.core.service.EmailLogService;
 import java.time.LocalDate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmailLogServiceImpl implements EmailLogService {
 
   @Lazy
-  @Autowired
-  private EmailLogDao emailLogDao;
+  private final EmailLogDao emailLogDao;
+
+  public EmailLogServiceImpl(EmailLogDao emailLogDao) {
+    this.emailLogDao = emailLogDao;
+  }
 
   @Override
   public EmailLog createEmailLog(EmailLog emailLog) {

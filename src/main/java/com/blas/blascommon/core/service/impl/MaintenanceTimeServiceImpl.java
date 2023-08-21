@@ -3,7 +3,6 @@ package com.blas.blascommon.core.service.impl;
 import com.blas.blascommon.core.dao.MaintenanceTimeDao;
 import com.blas.blascommon.core.model.MaintenanceTime;
 import com.blas.blascommon.core.service.MaintenanceTimeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,8 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class MaintenanceTimeServiceImpl implements MaintenanceTimeService {
 
   @Lazy
-  @Autowired
-  private MaintenanceTimeDao maintenanceTimeDao;
+  private final MaintenanceTimeDao maintenanceTimeDao;
+
+  public MaintenanceTimeServiceImpl(MaintenanceTimeDao maintenanceTimeDao) {
+    this.maintenanceTimeDao = maintenanceTimeDao;
+  }
 
   @Override
   public MaintenanceTime getMaintenanceTimeByService(String serviceName) {

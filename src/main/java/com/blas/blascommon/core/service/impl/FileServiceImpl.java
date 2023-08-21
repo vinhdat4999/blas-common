@@ -9,12 +9,10 @@ import static com.blas.blascommon.utils.IdUtils.genUUID;
 import com.blas.blascommon.core.dao.AuthUserDao;
 import com.blas.blascommon.core.dao.FileDao;
 import com.blas.blascommon.core.model.File;
-import com.blas.blascommon.core.service.AuthUserService;
 import com.blas.blascommon.core.service.FileService;
 import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +22,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class FileServiceImpl implements FileService {
 
   @Lazy
-  @Autowired
-  private AuthUserDao authUserDao;
+  private final AuthUserDao authUserDao;
 
   @Lazy
-  @Autowired
-  private FileDao fileDao;
+  private final FileDao fileDao;
 
-  @Lazy
-  @Autowired
-  private AuthUserService authUserService;
+  public FileServiceImpl(AuthUserDao authUserDao, FileDao fileDao) {
+    this.authUserDao = authUserDao;
+    this.fileDao = fileDao;
+  }
 
   @Override
   public List<File> getAllFile() {

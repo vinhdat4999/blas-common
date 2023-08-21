@@ -19,15 +19,17 @@ import java.util.Objects;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SecretKeyConfiguration {
 
-  @Autowired
-  private BlasConfigService blasConfigService;
+  private final BlasConfigService blasConfigService;
+
+  public SecretKeyConfiguration(BlasConfigService blasConfigService) {
+    this.blasConfigService = blasConfigService;
+  }
 
   @Bean
   public String getCertPassword() {

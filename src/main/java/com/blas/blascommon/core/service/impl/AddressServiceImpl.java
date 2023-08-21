@@ -10,7 +10,6 @@ import com.blas.blascommon.core.model.Address;
 import com.blas.blascommon.core.service.AddressService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class AddressServiceImpl implements AddressService {
 
   @Lazy
-  @Autowired
-  private AddressDao addressDao;
+  private final AddressDao addressDao;
 
   @Lazy
-  @Autowired
-  private AuthUserDao authUserDao;
+  private final AuthUserDao authUserDao;
+
+  public AddressServiceImpl(AddressDao addressDao, AuthUserDao authUserDao) {
+    this.addressDao = addressDao;
+    this.authUserDao = authUserDao;
+  }
 
   @Override
   public List<Address> getAllActiveAddressByUser(String userId) {

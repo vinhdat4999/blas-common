@@ -42,11 +42,11 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
   }
 
   @Override
-  public boolean isValidAuthenKey(String userId, String authenKey, LocalDateTime timeCheck) {
+  public boolean isValidAuthenKey(String username, String authenKey, LocalDateTime timeCheck) {
     authenKey = sha256Encoder.encode(authenKey);
     AuthenKey authenKeyObject = authenKeyDao.getAuthenKeyByKey(authenKey);
     return authenKeyObject != null
-        && StringUtils.equals(authenKeyObject.getAuthUser().getUserId(), userId)
+        && StringUtils.equals(authenKeyObject.getAuthUser().getUsername(), username)
         && !authenKeyObject.isUsed()
         && !LocalDateTime.now()
         .isAfter(authenKeyObject.getTimeGenerate().plusMinutes(MINUTE_TO_EXPIRED));

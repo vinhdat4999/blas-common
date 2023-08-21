@@ -16,7 +16,6 @@ import com.blas.blascommon.core.service.AuthUserService;
 import com.blas.blascommon.core.service.FileShareService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,20 +25,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class FileShareServiceImpl implements FileShareService {
 
   @Lazy
-  @Autowired
-  private AuthUserDao authUserDao;
+  private final AuthUserDao authUserDao;
 
   @Lazy
-  @Autowired
-  private FileDao fileDao;
+  private final FileDao fileDao;
 
   @Lazy
-  @Autowired
-  private FileShareDao fileShareDao;
+  private final FileShareDao fileShareDao;
 
   @Lazy
-  @Autowired
-  private AuthUserService authUserService;
+  private final AuthUserService authUserService;
+
+  public FileShareServiceImpl(AuthUserDao authUserDao, FileDao fileDao, FileShareDao fileShareDao,
+      AuthUserService authUserService) {
+    this.authUserDao = authUserDao;
+    this.fileDao = fileDao;
+    this.fileShareDao = fileShareDao;
+    this.authUserService = authUserService;
+  }
 
   @Override
   public List<FileShare> getAllFileShareByFileId(String fileId) {

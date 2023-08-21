@@ -12,7 +12,6 @@ import com.blas.blascommon.exceptions.types.NotFoundException;
 import com.blas.blascommon.utils.email.SendEmail;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class CentralizedLogServiceImpl implements CentralizedLogService {
 
   @Lazy
-  @Autowired
-  private CentralizedLogDao centralizedLogDao;
+  private final CentralizedLogDao centralizedLogDao;
+
+  public CentralizedLogServiceImpl(CentralizedLogDao centralizedLogDao) {
+    this.centralizedLogDao = centralizedLogDao;
+  }
 
   @Override
   public CentralizedLog saveLog(String serviceName, LogType logType, String exception, String cause,

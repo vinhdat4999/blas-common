@@ -5,7 +5,6 @@ import static com.blas.blascommon.constants.Response.BLAS_CONFIG_KEY_NOT_FOUND;
 import com.blas.blascommon.core.dao.BlasConfigDao;
 import com.blas.blascommon.core.service.BlasConfigService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class BlasConfigServiceImpl implements BlasConfigService {
 
   @Lazy
-  @Autowired
-  private BlasConfigDao blasConfigDao;
+  private final BlasConfigDao blasConfigDao;
+
+  public BlasConfigServiceImpl(BlasConfigDao blasConfigDao) {
+    this.blasConfigDao = blasConfigDao;
+  }
 
   @Override
   public String getConfigValueFromKey(String key) {

@@ -15,7 +15,6 @@ import com.blas.blascommon.core.service.AuthUserService;
 import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +24,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthUserServiceImpl implements AuthUserService {
 
   @Lazy
-  @Autowired
-  private AuthUserDao authUserDao;
+  private final AuthUserDao authUserDao;
 
   @Lazy
-  @Autowired
-  private UserDetailDao userDetailDao;
+  private final UserDetailDao userDetailDao;
+
+  public AuthUserServiceImpl(AuthUserDao authUserDao, UserDetailDao userDetailDao) {
+    this.authUserDao = authUserDao;
+    this.userDetailDao = userDetailDao;
+  }
 
   @Override
   public List<AuthUser> getAllAuthUser() {

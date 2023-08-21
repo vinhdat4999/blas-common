@@ -8,7 +8,6 @@ import com.blas.blascommon.core.model.BlasResult;
 import com.blas.blascommon.core.service.BlasResultService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.time.LocalDate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class BlasResultServiceImpl implements BlasResultService {
 
   @Lazy
-  @Autowired
-  private BlasResultDao blasResultDao;
+  private final BlasResultDao blasResultDao;
+
+  public BlasResultServiceImpl(BlasResultDao blasResultDao) {
+    this.blasResultDao = blasResultDao;
+  }
 
   @Override
   public BlasResult getBlasResultByLogId(String logId) {

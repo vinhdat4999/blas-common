@@ -7,7 +7,6 @@ import com.blas.blascommon.core.dao.RoleDao;
 import com.blas.blascommon.core.model.Role;
 import com.blas.blascommon.core.service.RoleService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class RoleServiceImpl implements RoleService {
 
   @Lazy
-  @Autowired
-  private RoleDao roleDao;
+  private final RoleDao roleDao;
+
+  public RoleServiceImpl(RoleDao roleDao) {
+    this.roleDao = roleDao;
+  }
 
   @Lazy
   @Override
