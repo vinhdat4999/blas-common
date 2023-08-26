@@ -63,16 +63,20 @@ public class BlasGateInterceptor implements HandlerInterceptor {
   }
 
   private void checkMaintenance() {
+    String serviceName = blasServiceConfiguration.getServiceName();
+    if ("blas-support-service".equals(serviceName)) {
+      return;
+    }
+    log.info("Starting check maintenance...");
     if (!serviceSupportProperties.isThroughServiceSupport()) {
+      log.info(serviceName + " not through service support");
+      log.info("Completely check maintenance");
       return;
     }
     MaintenanceTimeResponse maintenanceTimeResponse = new MaintenanceTimeResponse();
     maintenanceTimeResponse.setInMaintenance(false);
+    boolean isChecked = false;
     try {
-      String serviceName = blasServiceConfiguration.getServiceName();
-      if ("blas-support-service".equals(serviceName)) {
-        return;
-      }
       HttpResponse response = sendGetRequest(serviceSupportProperties.getEndpointCheckMaintenance(),
           Map.of("service", serviceName), jwtTokenUtil.generateInternalSystemToken());
       try {
@@ -89,8 +93,17 @@ public class BlasGateInterceptor implements HandlerInterceptor {
       maintenanceTimeResponse = objectMapper.readValue(
           response.getResponse(),
           MaintenanceTimeResponse.class);
+      isChecked = true;
     } catch (Exception ignored) {
-      log.warn("Can not check maintenance time properly. Skip checking maintenance time.");
+      log.warn("Can not check maintenance time for " + serviceName
+          + " properly. Skip checking maintenance time.");
+    } finally {
+      if (maintenanceTimeResponse.isInMaintenance()) {
+        log.warn(serviceName + " unavailable");
+      } else if (isChecked) {
+        log.info(serviceName + " available");
+      }
+      log.info("Completely check maintenance");
     }
     if (maintenanceTimeResponse.isInMaintenance()) {
       throw new MaintenanceException(maintenanceTimeResponse);

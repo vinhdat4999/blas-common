@@ -7,12 +7,12 @@ public class LunarCalendarUtils {
   private static char[] daysInGregorianMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
   private static String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
       "Sep", "Oct", "Nov", "Dec"};
-  private static String[] stemNames = {"Mộc", "Mộc", "Hỏa", "Hỏa", "Thổ", "Thổ", "Kim", "Kim",
+  private static String[] stemNames = {"Moc", "Moc", "Hoa", "Hoa", "Tho", "Tho", "Kim", "Kim",
       "Thủy", "Thủy"};
-  private static String[] heavenName = {"Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân",
-      "Nhâm", "Quý"};
-  private static String[] branchNames = {"Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi",
-      "Thân", "Dậu", "Tuất", "Hợi"};
+  private static String[] heavenName = {"Giap", "At", "Binh", "Dinh", "Mau", "Ky", "Canh", "Tan",
+      "Nham", "Quy"};
+  private static String[] branchNames = {"Ty (Mouse)", "Suu", "Dan", "Mao", "Thin", "Ty (Snake)",
+      "Ngo", "Mui", "Than", "Dau", "Tuat", "Hoi"};
   private static char[] lunarMonths = {
       //Lunar month map, 2 bytes per year, from 1900 to 2100, 402 bytes.
       //The first 4 bits represents the leap month of the year.
