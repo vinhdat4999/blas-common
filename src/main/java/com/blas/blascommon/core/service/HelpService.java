@@ -5,15 +5,15 @@ import java.util.List;
 
 public interface HelpService {
 
-  public List<Help> getAllHelpByUser(String userId);
+  List<Help> getAllHelpByUser(String userId);
 
-  public List<Help> getAllHelpByStatus(String status);
+  List<Help> getAllHelpByStatus(String status);
 
-  public List<Help> getAllHelpByUserAndStatus(String userId, String status);
+  List<Help> getAllHelpByUserAndStatus(String userId, String status);
 
-  public Help getHelpByHelpTicketId(String ticketId);
+  Help getHelpByHelpTicketId(String ticketId);
 
-  public Help createHelp(Help help);
+  Help createHelp(Help help);
 
-  public void updateHelp(Help help);
+  void updateHelp(Help help);
 }

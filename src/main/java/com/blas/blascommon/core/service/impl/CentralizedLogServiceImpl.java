@@ -1,7 +1,7 @@
 package com.blas.blascommon.core.service.impl;
 
 import static com.blas.blascommon.constants.Configuration.adminEmailList;
-import static com.blas.blascommon.constants.Response.CENTRALIZED_LOG_ID_NOT_FOUND;
+import static com.blas.blascommon.constants.ResponseMessage.CENTRALIZED_LOG_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
 import com.blas.blascommon.core.dao.CentralizedLogDao;
@@ -12,10 +12,12 @@ import com.blas.blascommon.exceptions.types.NotFoundException;
 import com.blas.blascommon.utils.email.SendEmail;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class CentralizedLogServiceImpl implements CentralizedLogService {
@@ -31,8 +33,9 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
   public CentralizedLog saveLog(String serviceName, LogType logType, String exception, String cause,
       String requestData1, String requestData2, String requestData3, String logContent,
       boolean isSendEmailAlert) {
+    final String centralizedLogId = genUUID();
     CentralizedLog centralizedLog = CentralizedLog.builder()
-        .centralizedLogId(genUUID())
+        .centralizedLogId(centralizedLogId)
         .logTime(LocalDateTime.now())
         .serviceName(serviceName)
         .logType(logType.name())
@@ -46,6 +49,7 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
     if (isSendEmailAlert) {
       sendAlertEmail(serviceName, logType, exception);
     }
+    log.error("Error logged. centralizedLogId: {}", centralizedLogId);
     return centralizedLogDao.save(centralizedLog);
   }
 

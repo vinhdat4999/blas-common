@@ -21,25 +21,25 @@ import java.util.List;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.utils.URIBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Lazy
 @Component
+@RequiredArgsConstructor
 public class TelegramUtils {
 
   @Lazy
-  @Autowired
-  private BlasPrivateKeyConfiguration blasPrivateKeyConfiguration;
+  private final BlasPrivateKeyConfiguration blasPrivateKeyConfiguration;
 
   @Lazy
-  @Autowired
-  private BlasConfigService blasConfigService;
+  private final BlasConfigService blasConfigService;
 
-  @Autowired
-  private String getCertPassword;
+  private final String getCertPassword;
 
   public void sendTelegramMessage(String text, String chatId)
       throws URISyntaxException, InvalidAlgorithmParameterException, UnrecoverableKeyException, IllegalBlockSizeException, NoSuchPaddingException, CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
@@ -55,6 +55,7 @@ public class TelegramUtils {
     uriBuilder.addParameter("parse_mode", "MarkdownV2");
     uriBuilder.addParameter("text", standardizeMessage(text));
     URL url = uriBuilder.build().toURL();
+    log.debug("Sending Telegram message");
     sendPostRequestWithStringPayload(url.toString(), null, null, EMPTY);
   }
 

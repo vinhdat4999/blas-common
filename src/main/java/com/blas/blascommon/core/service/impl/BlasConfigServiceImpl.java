@@ -1,6 +1,6 @@
 package com.blas.blascommon.core.service.impl;
 
-import static com.blas.blascommon.constants.Response.BLAS_CONFIG_KEY_NOT_FOUND;
+import static com.blas.blascommon.constants.ResponseMessage.BLAS_CONFIG_KEY_NOT_FOUND;
 
 import com.blas.blascommon.core.dao.BlasConfigDao;
 import com.blas.blascommon.core.service.BlasConfigService;

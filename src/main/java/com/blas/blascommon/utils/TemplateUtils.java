@@ -12,11 +12,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+@Slf4j
 @Component
 public class TemplateUtils {
 
@@ -38,6 +40,7 @@ public class TemplateUtils {
     for (Entry<String, String> entry : data.entrySet()) {
       context.setVariable(entry.getKey(), entry.getValue());
     }
+    log.debug("Generating HTML template: {}", emailTemplate);
     return new TemplateEngine().process(template, context);
   }
 

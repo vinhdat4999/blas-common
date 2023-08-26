@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 public interface EmailLogService {
 
-  public EmailLog createEmailLog(EmailLog emailLog);
+  EmailLog createEmailLog(EmailLog emailLog);
 
-  public Integer getNumOfSentEmailInDateOfUserId(String userId, LocalDate date);
+  Integer getNumOfSentEmailInDateOfUserId(String userId, LocalDate date);
 }

@@ -4,6 +4,8 @@ import static com.blas.blascommon.utils.StringUtils.HYPHEN;
 import static com.blas.blascommon.utils.StringUtils.SLASH;
 import static com.blas.blascommon.utils.StringUtils.SPACE;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -42,5 +44,16 @@ public class DateTimeUtils {
     } catch (DateTimeParseException e) {
       return false;
     }
+  }
+
+  public static boolean isValidDate(int year, int month, int day) {
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_YYYYMMDD_SLASH_FORMAT);
+    simpleDateFormat.setLenient(false);
+    try {
+      simpleDateFormat.parse(year + SLASH + month + SLASH + day);
+    } catch (ParseException e) {
+      return false;
+    }
+    return true;
   }
 }

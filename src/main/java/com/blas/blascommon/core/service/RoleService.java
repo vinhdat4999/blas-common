@@ -4,9 +4,9 @@ import com.blas.blascommon.core.model.Role;
 
 public interface RoleService {
 
-  public Role getRoleByRoleId(String roleId);
+  Role getRoleByRoleId(String roleId);
 
-  public Role createRole(Role role);
+  Role createRole(Role role);
 
-  public void updateRole(Role role);
+  void updateRole(Role role);
 }

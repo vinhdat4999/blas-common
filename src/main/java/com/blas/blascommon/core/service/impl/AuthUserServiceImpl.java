@@ -1,10 +1,10 @@
 package com.blas.blascommon.core.service.impl;
 
-import static com.blas.blascommon.constants.Response.DUPLICATED_EMAIL;
-import static com.blas.blascommon.constants.Response.DUPLICATED_PHONE;
-import static com.blas.blascommon.constants.Response.DUPLICATED_USERNAME;
-import static com.blas.blascommon.constants.Response.USERNAME_NOT_FOUND;
-import static com.blas.blascommon.constants.Response.USER_ID_NOT_FOUND;
+import static com.blas.blascommon.constants.ResponseMessage.DUPLICATED_EMAIL;
+import static com.blas.blascommon.constants.ResponseMessage.DUPLICATED_PHONE;
+import static com.blas.blascommon.constants.ResponseMessage.DUPLICATED_USERNAME;
+import static com.blas.blascommon.constants.ResponseMessage.USERNAME_NOT_FOUND;
+import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
 import com.blas.blascommon.core.dao.AuthUserDao;

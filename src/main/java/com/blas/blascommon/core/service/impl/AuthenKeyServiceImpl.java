@@ -1,7 +1,7 @@
 package com.blas.blascommon.core.service.impl;
 
 import static com.blas.blascommon.constants.Configuration.MINUTE_TO_EXPIRED;
-import static com.blas.blascommon.constants.Response.USER_ID_NOT_FOUND;
+import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genMixID;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
@@ -37,8 +37,8 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
 
   @Override
   public AuthenKey getAuthenKeyByUserId(String userId) {
-    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
-    return authenKeyDao.getAuthenKeyByUserId(userId);
+    return authenKeyDao.findById(userId)
+        .orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
   }
 
   @Override

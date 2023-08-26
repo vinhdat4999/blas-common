@@ -1,11 +1,14 @@
 package com.blas.blascommon.utils.httprequest;
 
+import static com.blas.blascommon.utils.httprequest.GetRequest.addParameters;
+
 import com.blas.blascommon.payload.HttpResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPut;
@@ -17,6 +20,7 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@Slf4j
 @UtilityClass
 public class PutRequest {
 
@@ -35,22 +39,15 @@ public class PutRequest {
   public static HttpResponse sendPutRequestWithJsonArrayPayload(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, JSONArray payload)
       throws IOException {
-    payload = new JSONArray(
-        payload.toString().replace("\\", "").replace("[\"", "[").replace("\"]", "]")
-            .replace("}\"", "}").replace("\"{", "{"));
     return sendRequestGetStringResponse(hostUrl, parameterList, headerList, payload.toString());
   }
 
   private static HttpResponse sendRequestGetStringResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, String payload)
       throws IOException {
-    if (parameterList != null) {
-      StringBuilder sb = new StringBuilder();
-      for (Entry<String, String> entry : parameterList.entrySet()) {
-        sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
-      }
-      hostUrl += "?" + sb.substring(0, sb.toString().length() - 1);
-    }
+    log.debug("Start send PUT request...");
+    log.debug("Connecting to {}...", hostUrl);
+    hostUrl = addParameters(hostUrl, parameterList);
     HttpPut httpPut = new HttpPut(hostUrl);
     if (headerList != null) {
       for (Entry<String, String> entry : headerList.entrySet()) {
@@ -61,10 +58,12 @@ public class PutRequest {
     CloseableHttpClient httpClient = HttpClients.custom()
         .setRedirectStrategy(new LaxRedirectStrategy()).build();
     httpPut.setEntity(entity);
-    CloseableHttpResponse response = httpClient.execute(httpPut);
+    CloseableHttpResponse httpResponse = httpClient.execute(httpPut);
+    int statusCode = httpResponse.getStatusLine().getStatusCode();
+    log.debug("Received PUT response. HTTP status: {}", statusCode);
     return HttpResponse.builder()
-        .statusCode(response.getStatusLine().getStatusCode())
-        .response(IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8))
+        .statusCode(statusCode)
+        .response(IOUtils.toString(httpResponse.getEntity().getContent(), StandardCharsets.UTF_8))
         .build();
   }
 }

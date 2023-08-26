@@ -1,10 +1,10 @@
 package com.blas.blascommon.interceptors;
 
-import static com.blas.blascommon.constants.Response.HTTP_STATUS_NOT_200;
+import static com.blas.blascommon.constants.ResponseMessage.HTTP_STATUS_NOT_200;
 import static com.blas.blascommon.enums.LogType.ERROR;
+import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_IN_MAINTENANCE;
 import static com.blas.blascommon.utils.httprequest.GetRequest.sendGetRequest;
 import static java.time.LocalDateTime.now;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.equalsAny;
 
 import com.blas.blascommon.core.model.BlasGateInfo;
@@ -63,37 +63,48 @@ public class BlasGateInterceptor implements HandlerInterceptor {
   }
 
   private void checkMaintenance() {
+    String serviceName = blasServiceConfiguration.getServiceName();
+    if ("blas-support-service".equals(serviceName)) {
+      return;
+    }
+    log.info("Starting check maintenance...");
     if (!serviceSupportProperties.isThroughServiceSupport()) {
+      log.info(serviceName + " not through service support");
+      log.info("Completely check maintenance");
       return;
     }
     MaintenanceTimeResponse maintenanceTimeResponse = new MaintenanceTimeResponse();
     maintenanceTimeResponse.setInMaintenance(false);
+    boolean isChecked = false;
     try {
-      String serviceName = blasServiceConfiguration.getServiceName();
-      if ("blas-support-service".equals(serviceName)) {
-        return;
-      }
       HttpResponse response = sendGetRequest(serviceSupportProperties.getEndpointCheckMaintenance(),
           Map.of("service", serviceName), jwtTokenUtil.generateInternalSystemToken());
-      try {
-        if (response.getStatusCode() != HttpStatus.OK.value()) {
-          throw new BadRequestException(HTTP_STATUS_NOT_200);
-        }
-      } catch (BadRequestException e) {
-        centralizedLogService.saveLog(serviceName, ERROR, e.toString(),
-            e.getCause() == null ? EMPTY : e.getCause().toString(), null, null, null,
-            String.valueOf(new JSONArray(e.getStackTrace())), isSendEmailAlert);
+      if (response.getStatusCode() != HttpStatus.OK.value()) {
+        centralizedLogService.saveLog(serviceName, ERROR, null,
+            HTTP_STATUS_NOT_200, response.toString(), null, null,
+            String.valueOf(new JSONArray(new BadRequestException(HTTP_STATUS_NOT_200))),
+            isSendEmailAlert);
+      } else {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        maintenanceTimeResponse = objectMapper.readValue(
+            response.getResponse(),
+            MaintenanceTimeResponse.class);
+        isChecked = true;
       }
-      ObjectMapper objectMapper = new ObjectMapper();
-      objectMapper.registerModule(new JavaTimeModule());
-      maintenanceTimeResponse = objectMapper.readValue(
-          response.getResponse(),
-          MaintenanceTimeResponse.class);
     } catch (Exception ignored) {
-      log.warn("Can not check maintenance time properly. Skip checking maintenance time.");
+      log.warn("Can not check maintenance time for " + serviceName
+          + " properly. Skip checking maintenance time.");
+    } finally {
+      if (maintenanceTimeResponse.isInMaintenance()) {
+        log.warn(serviceName + " unavailable");
+      } else if (isChecked) {
+        log.info(serviceName + " available");
+      }
+      log.info("Completely check maintenance");
     }
     if (maintenanceTimeResponse.isInMaintenance()) {
-      throw new MaintenanceException(maintenanceTimeResponse);
+      throw new MaintenanceException(MSG_IN_MAINTENANCE, maintenanceTimeResponse);
     }
   }
 

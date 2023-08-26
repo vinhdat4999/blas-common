@@ -9,8 +9,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,17 +19,16 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Component
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
   @Lazy
-  @Autowired
-  private JwtUserDetailsService jwtUserDetailsService;
+  private final JwtUserDetailsService jwtUserDetailsService;
 
   @Lazy
-  @Autowired
-  private JwtTokenUtil jwtTokenUtil;
+  private final JwtTokenUtil jwtTokenUtil;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,

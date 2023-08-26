@@ -1,4 +1,4 @@
-package com.blas.blascommon.core.utils;
+package com.blas.blascommon.blasresult;
 
 import com.blas.blascommon.core.model.AuthUser;
 import com.blas.blascommon.core.model.BlasResult;

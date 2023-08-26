@@ -13,20 +13,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class JwtTokenUtil {
 
   @Lazy
-  @Autowired
-  private JwtConfigurationProperties jwtConfigurationProperties;
+  private final JwtConfigurationProperties jwtConfigurationProperties;
 
-  @Autowired
-  private String getJwtSecretKey;
+  private final String getJwtSecretKey;
 
   // for retrieving any information from token we will need the secret key
   private Claims getAllClaimsFromToken(String token) {

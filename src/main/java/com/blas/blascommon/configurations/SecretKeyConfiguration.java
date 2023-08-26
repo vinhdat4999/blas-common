@@ -19,26 +19,28 @@ import java.util.Objects;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@Slf4j
 @Configuration
+@RequiredArgsConstructor
 public class SecretKeyConfiguration {
 
   private final BlasConfigService blasConfigService;
 
-  public SecretKeyConfiguration(BlasConfigService blasConfigService) {
-    this.blasConfigService = blasConfigService;
-  }
-
   @Bean
   public String getCertPassword() {
+    log.info("Getting cert password...");
     return new String(base64Decode(blasConfigService.getConfigValueFromKey(BLAS_CERT_PASSWORD)));
   }
 
   @Bean
   public String getJwtSecretKey(BlasPrivateKeyConfiguration blasPrivateKeyConfiguration)
       throws UnrecoverableKeyException, CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, InvalidKeyException {
+    log.info("Extracting secret key...");
     final String jwtSecretKeyEncrypted = blasConfigService.getConfigValueFromKey(
         BLAS_JWT_SECRET_KEY_VALUE);
     return aesDecrypt(Objects.requireNonNull(
