@@ -3,7 +3,7 @@ package com.blas.blascommon.constants;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class Response {
+public class ResponseMessage {
 
   public static final String USER_ID_NOT_FOUND = "User ID not found.";
   public static final String USERNAME_NOT_FOUND = "Username not found.";

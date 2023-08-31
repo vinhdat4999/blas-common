@@ -1,9 +1,7 @@
 package com.blas.blascommon.utils.httprequest;
 
-import static com.blas.blascommon.utils.StringUtils.AMPERSAND;
 import static com.blas.blascommon.utils.StringUtils.EMPTY;
-import static com.blas.blascommon.utils.StringUtils.EQUAL;
-import static com.blas.blascommon.utils.StringUtils.QUESTION_MARK;
+import static com.blas.blascommon.utils.httprequest.GetRequest.addParameters;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
@@ -15,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -29,6 +28,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@Slf4j
 @UtilityClass
 public class PostRequest {
 
@@ -53,9 +53,10 @@ public class PostRequest {
   public static HttpResponse sendPostRequestWithFormUrlEncodedPayload(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList,
       Map<String, String> payload) throws IOException {
+    log.debug("Start send POST request...");
+    log.debug("Connecting to {}...", hostUrl);
     try (CloseableHttpClient client = HttpClients.createDefault()) {
-
-      HttpPost httpPost = new HttpPost(buildUrlEndpoint(hostUrl, parameterList));
+      HttpPost httpPost = new HttpPost(addParameters(hostUrl, parameterList));
       if (headerList != null) {
         for (Entry<String, String> entry : headerList.entrySet()) {
           httpPost.setHeader(entry.getKey(), entry.getValue());
@@ -67,35 +68,21 @@ public class PostRequest {
       }
       httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
       CloseableHttpResponse response = client.execute(httpPost);
+      int statusCode = response.getStatusLine().getStatusCode();
+      log.debug("Received POST response. HTTP status: {}", statusCode);
       return HttpResponse.builder()
-          .statusCode(response.getStatusLine().getStatusCode())
+          .statusCode(statusCode)
           .response(EntityUtils.toString(response.getEntity()))
           .build();
     }
   }
 
-  private static String buildUrlEndpoint(String hostUrl, Map<String, String> parameterList) {
-    if (parameterList != null) {
-      StringBuilder sb = new StringBuilder();
-      for (Entry<String, String> entry : parameterList.entrySet()) {
-        sb.append(entry.getKey()).append(EQUAL).append(entry.getValue()).append(AMPERSAND);
-      }
-      hostUrl += QUESTION_MARK + sb.substring(0, sb.toString().length() - 1);
-    }
-    return hostUrl;
-  }
-
   private static HttpResponse sendRequestGetStringResponse(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList, String payload)
       throws IOException {
-    if (parameterList != null) {
-      StringBuilder sb = new StringBuilder();
-      for (Entry<String, String> entry : parameterList.entrySet()) {
-        sb.append(entry.getKey()).append(EQUAL).append(entry.getValue()).append(AMPERSAND);
-      }
-      hostUrl += QUESTION_MARK + sb.substring(0, sb.toString().length() - 1);
-    }
-    HttpPost httpPost = new HttpPost(buildUrlEndpoint(hostUrl, parameterList));
+    log.debug("Start send POST request...");
+    log.debug("Connecting to {}...", hostUrl);
+    HttpPost httpPost = new HttpPost(addParameters(hostUrl, parameterList));
     if (headerList != null) {
       for (Entry<String, String> entry : headerList.entrySet()) {
         httpPost.setHeader(entry.getKey(), entry.getValue());
@@ -107,8 +94,10 @@ public class PostRequest {
         .setRedirectStrategy(new LaxRedirectStrategy()).build();
     httpPost.setEntity(entity);
     CloseableHttpResponse response = httpClient.execute(httpPost);
+    int statusCode = response.getStatusLine().getStatusCode();
+    log.debug("Received POST response. HTTP status: {}", statusCode);
     return HttpResponse.builder()
-        .statusCode(response.getStatusLine().getStatusCode())
+        .statusCode(statusCode)
         .response(IOUtils.toString(response.getEntity().getContent(), UTF_8))
         .build();
   }

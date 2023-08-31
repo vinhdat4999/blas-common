@@ -19,19 +19,17 @@ import java.util.Objects;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
+@RequiredArgsConstructor
 public class SecretKeyConfiguration {
 
   private final BlasConfigService blasConfigService;
-
-  public SecretKeyConfiguration(BlasConfigService blasConfigService) {
-    this.blasConfigService = blasConfigService;
-  }
 
   @Bean
   public String getCertPassword() {

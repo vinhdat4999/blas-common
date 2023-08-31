@@ -1,36 +1,38 @@
 package com.blas.blascommon.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum FileType {
 
-  JPG("jpg"),
-  JPEG("jpeg"),
-  PNG("png"),
-  SVG("svg"),
-  HEIC("heic"),
-  RAW("raw"),
-  GIF("gif"),
-  MP3("mp3"),
-  MP4("mp4"),
-  MOV("mov"),
-  AVI("avi"),
-  FLV("flv"),
-  DOC("doc"),
-  DOCX("docx"),
-  XLSX("xlsx"),
-  XLS("xls"),
-  PPT("ppt"),
-  PPTX("pptx"),
-  PDF("pdf"),
-  CSV("csv"),
-  EXE("exe");
+  JPG("jpg", ".jpg"),
+  JPEG("jpeg", ".jpeg"),
+  PNG("png", ".png"),
+  SVG("svg", ".svg"),
+  HEIC("heic", ".heic"),
+  RAW("raw", ".raw"),
+  RAF("raf", ".raf"),
+  GIF("gif", ".gif"),
+  MP3("mp3", ".mp3"),
+  MP4("mp4", ".mp4"),
+  MOV("mov", ".mov"),
+  AVI("avi", ".avi"),
+  FLV("flv", ".flv"),
+  DOC("doc", ".doc"),
+  DOCX("docx", ".docx"),
+  XLSX("xlsx", ".xlsx"),
+  XLS("xls", ".xls"),
+  PPT("ppt", ".ppt"),
+  PPTX("pptx", ".pptx"),
+  PDF("pdf", ".pdf"),
+  CSV("csv", ".csv"),
+  DAT("dat", ".dat"),
+  CONF("conf", ".conf"),
+  YAML("yaml", ".yaml"),
+  EXE("exe", ".exe");
 
   private final String postfix;
-
-  FileType(String postfix) {
-    this.postfix = postfix;
-  }
-
-  public String getPostfix() {
-    return postfix;
-  }
+  private final String fileExtension;
 }

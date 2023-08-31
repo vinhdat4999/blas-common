@@ -4,5 +4,5 @@ import com.blas.blascommon.core.model.BlasGateInfo;
 
 public interface BlasGateInfoService {
 
-  public BlasGateInfo createBlasGateInfo(BlasGateInfo blasGateInfo);
+  BlasGateInfo createBlasGateInfo(BlasGateInfo blasGateInfo);
 }

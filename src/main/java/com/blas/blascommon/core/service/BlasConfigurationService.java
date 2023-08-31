@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface BlasConfigurationService {
 
-  public List<BlasConfiguration> getAllActiveBlasConfiguration();
+  List<BlasConfiguration> getAllActiveBlasConfiguration();
 
-  public BlasConfiguration getBlasConfigurationByConfigKeyAndActive(String configKey);
+  BlasConfiguration getBlasConfigurationByConfigKeyAndActive(String configKey);
 
-  public List<BlasConfiguration> getBlasConfigurationsByLabelAndActive(String... labels);
+  List<BlasConfiguration> getBlasConfigurationsByLabelAndActive(String... labels);
 }

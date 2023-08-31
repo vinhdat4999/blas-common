@@ -1,7 +1,7 @@
 package com.blas.blascommon.core.service.impl;
 
-import static com.blas.blascommon.constants.Response.ADDRESS_ID_NOT_FOUND;
-import static com.blas.blascommon.constants.Response.USER_ID_NOT_FOUND;
+import static com.blas.blascommon.constants.ResponseMessage.ADDRESS_ID_NOT_FOUND;
+import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
 import com.blas.blascommon.core.dao.AddressDao;
@@ -10,11 +10,13 @@ import com.blas.blascommon.core.model.Address;
 import com.blas.blascommon.core.service.AddressService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class AddressServiceImpl implements AddressService {
 
@@ -23,11 +25,6 @@ public class AddressServiceImpl implements AddressService {
 
   @Lazy
   private final AuthUserDao authUserDao;
-
-  public AddressServiceImpl(AddressDao addressDao, AuthUserDao authUserDao) {
-    this.addressDao = addressDao;
-    this.authUserDao = authUserDao;
-  }
 
   @Override
   public List<Address> getAllActiveAddressByUser(String userId) {

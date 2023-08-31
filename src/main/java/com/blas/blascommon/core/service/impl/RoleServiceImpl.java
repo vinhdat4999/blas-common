@@ -1,6 +1,6 @@
 package com.blas.blascommon.core.service.impl;
 
-import static com.blas.blascommon.constants.Response.ROLE_ID_NOT_FOUND;
+import static com.blas.blascommon.constants.ResponseMessage.ROLE_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
 import com.blas.blascommon.core.dao.RoleDao;

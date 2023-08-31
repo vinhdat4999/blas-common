@@ -7,6 +7,7 @@ import com.blas.blascommon.jwt.JwtTokenUtil;
 import com.blas.blascommon.properties.BlasGateConfiguration;
 import com.blas.blascommon.properties.BlasServiceConfiguration;
 import com.blas.blascommon.properties.ServiceSupportProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@RequiredArgsConstructor
 public class InterceptorConfig implements WebMvcConfigurer {
 
   @Lazy
@@ -36,18 +38,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
   @Value("${blas.blas-idp.isSendEmailAlert}")
   private boolean isSendEmailAlert;
-
-  public InterceptorConfig(BlasServiceConfiguration blasServiceConfiguration,
-      BlasGateConfiguration blasGateConfiguration, BlasGateInfoService blasGateInfoService,
-      ServiceSupportProperties serviceSupportProperties,
-      CentralizedLogService centralizedLogService, JwtTokenUtil jwtTokenUtil) {
-    this.blasServiceConfiguration = blasServiceConfiguration;
-    this.blasGateConfiguration = blasGateConfiguration;
-    this.blasGateInfoService = blasGateInfoService;
-    this.serviceSupportProperties = serviceSupportProperties;
-    this.centralizedLogService = centralizedLogService;
-    this.jwtTokenUtil = jwtTokenUtil;
-  }
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {

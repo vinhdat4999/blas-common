@@ -22,8 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SendEmail implements Runnable {
 
-  private static final String EMAIL_SENDER = "blasvietnam@gmail.com";
-  private static final String PASSWORD = "pdaifcxvnvsqyums";
+  private static final String EMAIL_SENDER = "blassystemvietnam@gmail.com";
+  private static final String PASSWORD = "gcfeqaxvdfafgxoc";
   private static final int PORT_SENDER = 465;
 
   private final String subject;

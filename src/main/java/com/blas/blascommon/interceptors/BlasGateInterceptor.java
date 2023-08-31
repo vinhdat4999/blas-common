@@ -1,10 +1,10 @@
 package com.blas.blascommon.interceptors;
 
-import static com.blas.blascommon.constants.Response.HTTP_STATUS_NOT_200;
+import static com.blas.blascommon.constants.ResponseMessage.HTTP_STATUS_NOT_200;
 import static com.blas.blascommon.enums.LogType.ERROR;
+import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import static com.blas.blascommon.utils.httprequest.GetRequest.sendGetRequest;
 import static java.time.LocalDateTime.now;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.equalsAny;
 
 import com.blas.blascommon.core.model.BlasGateInfo;
