@@ -1,8 +1,8 @@
 package com.blas.blascommon.exceptions.types;
 
-import static com.blas.blascommon.exceptions.BlasErrorCode.MSG_UNKNOWN_ERROR;
+import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_UNKNOWN_ERROR;
 
-import com.blas.blascommon.exceptions.BlasErrorCode;
+import com.blas.blascommon.exceptions.BlasErrorCodeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,25 +10,25 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class NotFoundException extends RuntimeException {
 
-  private final BlasErrorCode blasErrorCode;
+  private final BlasErrorCodeEnum blasErrorCodeEnum;
 
-  public NotFoundException(BlasErrorCode blasErrorCode) {
-    super(blasErrorCode.getMessageDescription());
-    this.blasErrorCode = blasErrorCode;
+  public NotFoundException(BlasErrorCodeEnum blasErrorCodeEnum) {
+    super(blasErrorCodeEnum.getMessageDescription());
+    this.blasErrorCodeEnum = blasErrorCodeEnum;
   }
 
   public NotFoundException(String message) {
     super(message);
-    this.blasErrorCode = MSG_UNKNOWN_ERROR;
+    this.blasErrorCodeEnum = MSG_UNKNOWN_ERROR;
   }
 
-  public NotFoundException(BlasErrorCode blasErrorCode, String message) {
+  public NotFoundException(BlasErrorCodeEnum blasErrorCodeEnum, String message) {
     super(message);
-    this.blasErrorCode = blasErrorCode;
+    this.blasErrorCodeEnum = blasErrorCodeEnum;
   }
 
-  public NotFoundException(BlasErrorCode blasErrorCode, String message, Throwable cause) {
+  public NotFoundException(BlasErrorCodeEnum blasErrorCodeEnum, String message, Throwable cause) {
     super(message, cause);
-    this.blasErrorCode = blasErrorCode;
+    this.blasErrorCodeEnum = blasErrorCodeEnum;
   }
 }

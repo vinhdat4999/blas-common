@@ -31,9 +31,9 @@ public class ExceptionHandle {
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleException(BadGatewayException exception) {
     ExceptionResponse error = new ExceptionResponse();
-    error.setStatus(BAD_GATEWAY.value());
+    error.setHttpCode(BAD_GATEWAY.value());
     error.setMessage(exception.getMessage());
-    error.setBlasErrorCode(exception.getBlasErrorCode());
+    error.setBlasErrorCode(new BlasErrorCode(exception.getBlasErrorCodeEnum()));
     error.setTimeStamp(currentTimeMillis());
     return new ResponseEntity<>(error, BAD_GATEWAY);
   }
@@ -41,9 +41,9 @@ public class ExceptionHandle {
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleException(BadRequestException exception) {
     ExceptionResponse error = new ExceptionResponse();
-    error.setStatus(BAD_REQUEST.value());
+    error.setHttpCode(BAD_REQUEST.value());
     error.setMessage(exception.getMessage());
-    error.setBlasErrorCode(exception.getBlasErrorCode());
+    error.setBlasErrorCode(new BlasErrorCode(exception.getBlasErrorCodeEnum()));
     error.setTimeStamp(currentTimeMillis());
     return new ResponseEntity<>(error, BAD_REQUEST);
   }
@@ -51,9 +51,9 @@ public class ExceptionHandle {
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleException(ForbiddenException exception) {
     ExceptionResponse error = new ExceptionResponse();
-    error.setStatus(FORBIDDEN.value());
+    error.setHttpCode(FORBIDDEN.value());
     error.setMessage(exception.getMessage());
-    error.setBlasErrorCode(exception.getBlasErrorCode());
+    error.setBlasErrorCode(new BlasErrorCode(exception.getBlasErrorCodeEnum()));
     error.setTimeStamp(currentTimeMillis());
     return new ResponseEntity<>(error, FORBIDDEN);
   }
@@ -61,9 +61,9 @@ public class ExceptionHandle {
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleException(GatewayTimeoutException exception) {
     ExceptionResponse error = new ExceptionResponse();
-    error.setStatus(GATEWAY_TIMEOUT.value());
+    error.setHttpCode(GATEWAY_TIMEOUT.value());
     error.setMessage(exception.getMessage());
-    error.setBlasErrorCode(exception.getBlasErrorCode());
+    error.setBlasErrorCode(new BlasErrorCode(exception.getBlasErrorCodeEnum()));
     error.setTimeStamp(currentTimeMillis());
     return new ResponseEntity<>(error, GATEWAY_TIMEOUT);
   }
@@ -71,9 +71,9 @@ public class ExceptionHandle {
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleException(NotFoundException exception) {
     ExceptionResponse error = new ExceptionResponse();
-    error.setStatus(NOT_FOUND.value());
+    error.setHttpCode(NOT_FOUND.value());
     error.setMessage(exception.getMessage());
-    error.setBlasErrorCode(exception.getBlasErrorCode());
+    error.setBlasErrorCode(new BlasErrorCode(exception.getBlasErrorCodeEnum()));
     error.setTimeStamp(currentTimeMillis());
     return new ResponseEntity<>(error, NOT_FOUND);
   }
@@ -81,9 +81,9 @@ public class ExceptionHandle {
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleException(ServiceUnavailableException exception) {
     ExceptionResponse error = new ExceptionResponse();
-    error.setStatus(SERVICE_UNAVAILABLE.value());
+    error.setHttpCode(SERVICE_UNAVAILABLE.value());
     error.setMessage(exception.getMessage());
-    error.setBlasErrorCode(exception.getBlasErrorCode());
+    error.setBlasErrorCode(new BlasErrorCode(exception.getBlasErrorCodeEnum()));
     error.setTimeStamp(currentTimeMillis());
     return new ResponseEntity<>(error, SERVICE_UNAVAILABLE);
   }
@@ -91,9 +91,9 @@ public class ExceptionHandle {
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleException(UnauthorizedException exception) {
     ExceptionResponse error = new ExceptionResponse();
-    error.setStatus(UNAUTHORIZED.value());
+    error.setHttpCode(UNAUTHORIZED.value());
     error.setMessage(exception.getMessage());
-    error.setBlasErrorCode(exception.getBlasErrorCode());
+    error.setBlasErrorCode(new BlasErrorCode(exception.getBlasErrorCodeEnum()));
     error.setTimeStamp(currentTimeMillis());
     return new ResponseEntity<>(error, UNAUTHORIZED);
   }
@@ -101,29 +101,32 @@ public class ExceptionHandle {
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleException(BlasException exception) {
     ExceptionResponse error = new ExceptionResponse();
-    error.setStatus(exception.getBlasErrorCode().getHttpCode());
+    error.setHttpCode(exception.getBlasErrorCodeEnum().getHttpCode());
     error.setMessage(exception.getMessage());
-    error.setBlasErrorCode(exception.getBlasErrorCode());
+    error.setBlasErrorCode(new BlasErrorCode(exception.getBlasErrorCodeEnum()));
     error.setTimeStamp(currentTimeMillis());
     return new ResponseEntity<>(error, FORBIDDEN);
   }
 
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleException(PaymentException exception) {
-    PaymentExceptionResponse error = new PaymentExceptionResponse();
-    error.setTransactionId(exception.getTransactionId());
-    error.setStatus(NOT_ACCEPTABLE.value());
-    error.setMessage(exception.getMessage());
-    error.setTimeStamp(currentTimeMillis());
-    return new ResponseEntity<>(error, NOT_ACCEPTABLE);
+    return getNotAcceptExceptionResponseResponseEntity(exception.getBlasErrorCodeEnum(),
+        exception.getTransactionId(), exception.getMessage());
   }
 
   @ExceptionHandler
   public ResponseEntity<ExceptionResponse> handleException(NotAcceptableException exception) {
+    return getNotAcceptExceptionResponseResponseEntity(exception.getBlasErrorCodeEnum(),
+        exception.getTransactionId(), exception.getMessage());
+  }
+
+  private ResponseEntity<ExceptionResponse> getNotAcceptExceptionResponseResponseEntity(
+      BlasErrorCodeEnum blasErrorCodeEnum, String transactionId, String message) {
     PaymentExceptionResponse error = new PaymentExceptionResponse();
-    error.setTransactionId(exception.getTransactionId());
-    error.setStatus(NOT_ACCEPTABLE.value());
-    error.setMessage(exception.getMessage());
+    error.setBlasErrorCode(new BlasErrorCode(blasErrorCodeEnum));
+    error.setTransactionId(transactionId);
+    error.setHttpCode(NOT_ACCEPTABLE.value());
+    error.setMessage(message);
     error.setTimeStamp(currentTimeMillis());
     return new ResponseEntity<>(error, NOT_ACCEPTABLE);
   }
@@ -132,7 +135,8 @@ public class ExceptionHandle {
   public ResponseEntity<MaintenanceExceptionResponse> handleException(
       MaintenanceException exception) {
     MaintenanceExceptionResponse error = new MaintenanceExceptionResponse();
-    error.setStatus(SERVICE_UNAVAILABLE.value());
+    error.setBlasErrorCode(new BlasErrorCode(exception.getBlasErrorCodeEnum()));
+    error.setHttpCode(SERVICE_UNAVAILABLE.value());
     error.setMessage(exception.getMessage());
     error.setMaintenanceTimeResponse(exception.getMaintenanceTimeResponse());
     error.setTimeStamp(currentTimeMillis());

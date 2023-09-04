@@ -1,5 +1,6 @@
 package com.blas.blascommon.exceptions.types;
 
+import com.blas.blascommon.exceptions.BlasErrorCodeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -7,21 +8,28 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class NotAcceptableException extends RuntimeException {
 
+  private final BlasErrorCodeEnum blasErrorCodeEnum;
+
   private final String transactionId;
 
-  public NotAcceptableException(final String transactionId, final String message,
-      final Throwable cause) {
+  public NotAcceptableException(final BlasErrorCodeEnum blasErrorCodeEnum, final String transactionId,
+      final String message, final Throwable cause) {
     super(message, cause);
+    this.blasErrorCodeEnum = blasErrorCodeEnum;
     this.transactionId = transactionId;
   }
 
-  public NotAcceptableException(final String transactionId, final String message) {
+  public NotAcceptableException(final BlasErrorCodeEnum blasErrorCodeEnum, final String transactionId,
+      final String message) {
     super(message);
+    this.blasErrorCodeEnum = blasErrorCodeEnum;
     this.transactionId = transactionId;
   }
 
-  public NotAcceptableException(final String transactionId, final Throwable cause) {
+  public NotAcceptableException(final BlasErrorCodeEnum blasErrorCodeEnum, final String transactionId,
+      final Throwable cause) {
     super(cause);
+    this.blasErrorCodeEnum = blasErrorCodeEnum;
     this.transactionId = transactionId;
   }
 }
