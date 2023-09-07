@@ -4,7 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
-| 4.1.0   | 27/08/2023   | Refactor and fix warning message                                                                                 |
+| 4.1.0   | 08/09/2023   | Refactor and fix warning message                                                                                 |
 | 4.0.0   | 21/08/2023   | Support Blas Error Code and change to user username to verify account                                            |
 | 3.5.0   | 19/08/2023   | Support GoogleSheet storage                                                                                      |
 | 3.4.0   | 09/08/2023   | Add Github Action and support guest card payment                                                                 |

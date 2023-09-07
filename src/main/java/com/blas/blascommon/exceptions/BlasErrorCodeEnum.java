@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum BlasErrorCodeEnum {
-  MSG_BLAS_APP_FAILURE(500, 30, "Blas Application Failure"),
+  MSG_BLAS_APP_FAILURE(503, 31, "Blas Application Failure"),
   MSG_BLAS_APP_UNAVAILABLE(503, 31, "Blas Application Unavailable"),
   MSG_FAILURE(503, 31, "Failure"),
   MSG_TIMEOUT(503, 31, "Timeout"),
