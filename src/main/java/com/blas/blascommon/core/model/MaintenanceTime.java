@@ -1,42 +1,40 @@
 package com.blas.blascommon.core.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "maintenance_times")
+@Document(collection = "maintenance_times")
 public class MaintenanceTime {
 
   @Id
-  @Column(name = "maintenance_time_id", length = 50, nullable = false)
   @NotEmpty
-  private String maintenanceTimeId;
+  private String id;
 
-  @Column(name = "service", length = 100, nullable = false)
   @NotEmpty
   private String service;
 
-  @Column(name = "start_time", nullable = false)
   @NotEmpty
+  @Field("start_time")
   private LocalDateTime startTime;
 
-  @Column(name = "end_time", nullable = false)
   @NotEmpty
+  @Field("end_time")
   private LocalDateTime endTime;
 
-  @Column(name = "notification_message", length = 200, nullable = false)
   @NotEmpty
+  @Field("notification_message")
   private String notificationMessage;
 }

@@ -7,19 +7,21 @@ import static com.blas.blascommon.constants.ResponseMessage.USERNAME_NOT_FOUND;
 import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
-import com.blas.blascommon.core.dao.AuthUserDao;
-import com.blas.blascommon.core.dao.UserDetailDao;
+import com.blas.blascommon.core.dao.jpa.AuthUserDao;
+import com.blas.blascommon.core.dao.jpa.UserDetailDao;
 import com.blas.blascommon.core.model.AuthUser;
 import com.blas.blascommon.core.model.UserDetail;
 import com.blas.blascommon.core.service.AuthUserService;
 import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class AuthUserServiceImpl implements AuthUserService {
 
@@ -28,11 +30,6 @@ public class AuthUserServiceImpl implements AuthUserService {
 
   @Lazy
   private final UserDetailDao userDetailDao;
-
-  public AuthUserServiceImpl(AuthUserDao authUserDao, UserDetailDao userDetailDao) {
-    this.authUserDao = authUserDao;
-    this.userDetailDao = userDetailDao;
-  }
 
   @Override
   public List<AuthUser> getAllAuthUser() {

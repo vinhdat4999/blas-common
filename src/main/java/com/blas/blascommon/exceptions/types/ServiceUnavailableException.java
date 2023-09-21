@@ -27,7 +27,8 @@ public class ServiceUnavailableException extends RuntimeException {
     this.blasErrorCodeEnum = blasErrorCodeEnum;
   }
 
-  public ServiceUnavailableException(BlasErrorCodeEnum blasErrorCodeEnum, String message, Throwable cause) {
+  public ServiceUnavailableException(BlasErrorCodeEnum blasErrorCodeEnum, String message,
+      Throwable cause) {
     super(message, cause);
     this.blasErrorCodeEnum = blasErrorCodeEnum;
   }

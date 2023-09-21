@@ -7,20 +7,22 @@ import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.security.SecurityUtils.getUserIdLoggedIn;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
-import com.blas.blascommon.core.dao.AuthUserDao;
-import com.blas.blascommon.core.dao.FileDao;
-import com.blas.blascommon.core.dao.FileShareDao;
+import com.blas.blascommon.core.dao.jpa.AuthUserDao;
+import com.blas.blascommon.core.dao.jpa.FileDao;
+import com.blas.blascommon.core.dao.jpa.FileShareDao;
 import com.blas.blascommon.core.model.File;
 import com.blas.blascommon.core.model.FileShare;
 import com.blas.blascommon.core.service.AuthUserService;
 import com.blas.blascommon.core.service.FileShareService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class FileShareServiceImpl implements FileShareService {
 
@@ -35,14 +37,6 @@ public class FileShareServiceImpl implements FileShareService {
 
   @Lazy
   private final AuthUserService authUserService;
-
-  public FileShareServiceImpl(AuthUserDao authUserDao, FileDao fileDao, FileShareDao fileShareDao,
-      AuthUserService authUserService) {
-    this.authUserDao = authUserDao;
-    this.fileDao = fileDao;
-    this.fileShareDao = fileShareDao;
-    this.authUserService = authUserService;
-  }
 
   @Override
   public List<FileShare> getAllFileShareByFileId(String fileId) {

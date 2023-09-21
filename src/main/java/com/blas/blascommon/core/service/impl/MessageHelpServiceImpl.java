@@ -4,17 +4,19 @@ import static com.blas.blascommon.constants.ResponseMessage.HELP_TICKET_ID_NOT_F
 import static com.blas.blascommon.constants.ResponseMessage.MESSAGE_HELP_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
-import com.blas.blascommon.core.dao.HelpDao;
-import com.blas.blascommon.core.dao.MessageHelpDao;
+import com.blas.blascommon.core.dao.jpa.HelpDao;
+import com.blas.blascommon.core.dao.jpa.MessageHelpDao;
 import com.blas.blascommon.core.model.MessageHelp;
 import com.blas.blascommon.core.service.MessageHelpService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class MessageHelpServiceImpl implements MessageHelpService {
 
@@ -23,11 +25,6 @@ public class MessageHelpServiceImpl implements MessageHelpService {
 
   @Lazy
   private final MessageHelpDao messageHelpDao;
-
-  public MessageHelpServiceImpl(HelpDao helpDao, MessageHelpDao messageHelpDao) {
-    this.helpDao = helpDao;
-    this.messageHelpDao = messageHelpDao;
-  }
 
   @Override
   public List<MessageHelp> getAllMessageHelpByHelpTicketId(String ticketId) {

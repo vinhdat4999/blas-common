@@ -6,18 +6,20 @@ import static com.blas.blascommon.constants.ResponseMessage.FILE_PATH_NOT_FOUND;
 import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
-import com.blas.blascommon.core.dao.AuthUserDao;
-import com.blas.blascommon.core.dao.FileDao;
+import com.blas.blascommon.core.dao.jpa.AuthUserDao;
+import com.blas.blascommon.core.dao.jpa.FileDao;
 import com.blas.blascommon.core.model.File;
 import com.blas.blascommon.core.service.FileService;
 import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class FileServiceImpl implements FileService {
 
@@ -26,11 +28,6 @@ public class FileServiceImpl implements FileService {
 
   @Lazy
   private final FileDao fileDao;
-
-  public FileServiceImpl(AuthUserDao authUserDao, FileDao fileDao) {
-    this.authUserDao = authUserDao;
-    this.fileDao = fileDao;
-  }
 
   @Override
   public List<File> getAllFile() {

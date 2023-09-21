@@ -27,7 +27,8 @@ public class GatewayTimeoutException extends RuntimeException {
     this.blasErrorCodeEnum = blasErrorCodeEnum;
   }
 
-  public GatewayTimeoutException(BlasErrorCodeEnum blasErrorCodeEnum, String message, Throwable cause) {
+  public GatewayTimeoutException(BlasErrorCodeEnum blasErrorCodeEnum, String message,
+      Throwable cause) {
     super(message, cause);
     this.blasErrorCodeEnum = blasErrorCodeEnum;
   }

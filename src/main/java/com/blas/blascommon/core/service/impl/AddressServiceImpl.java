@@ -4,8 +4,8 @@ import static com.blas.blascommon.constants.ResponseMessage.ADDRESS_ID_NOT_FOUND
 import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
-import com.blas.blascommon.core.dao.AddressDao;
-import com.blas.blascommon.core.dao.AuthUserDao;
+import com.blas.blascommon.core.dao.jpa.AddressDao;
+import com.blas.blascommon.core.dao.jpa.AuthUserDao;
 import com.blas.blascommon.core.model.Address;
 import com.blas.blascommon.core.service.AddressService;
 import com.blas.blascommon.exceptions.types.NotFoundException;

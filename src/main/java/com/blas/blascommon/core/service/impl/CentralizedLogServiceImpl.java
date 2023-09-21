@@ -4,7 +4,7 @@ import static com.blas.blascommon.constants.Configuration.adminEmailList;
 import static com.blas.blascommon.constants.ResponseMessage.CENTRALIZED_LOG_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
-import com.blas.blascommon.core.dao.CentralizedLogDao;
+import com.blas.blascommon.core.dao.jpa.CentralizedLogDao;
 import com.blas.blascommon.core.model.CentralizedLog;
 import com.blas.blascommon.core.service.CentralizedLogService;
 import com.blas.blascommon.enums.LogType;
@@ -12,6 +12,7 @@ import com.blas.blascommon.exceptions.types.NotFoundException;
 import com.blas.blascommon.utils.email.SendEmail;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -19,15 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class CentralizedLogServiceImpl implements CentralizedLogService {
 
   @Lazy
   private final CentralizedLogDao centralizedLogDao;
-
-  public CentralizedLogServiceImpl(CentralizedLogDao centralizedLogDao) {
-    this.centralizedLogDao = centralizedLogDao;
-  }
 
   @Override
   public CentralizedLog saveLog(String serviceName, LogType logType, String exception, String cause,

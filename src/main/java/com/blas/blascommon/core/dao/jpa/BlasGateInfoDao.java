@@ -1,4 +1,4 @@
-package com.blas.blascommon.core.dao;
+package com.blas.blascommon.core.dao.jpa;
 
 import com.blas.blascommon.core.model.BlasGateInfo;
 import org.springframework.data.jpa.repository.JpaRepository;

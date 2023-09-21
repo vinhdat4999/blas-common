@@ -4,17 +4,19 @@ import static com.blas.blascommon.constants.ResponseMessage.HELP_TICKET_ID_NOT_F
 import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genMixID;
 
-import com.blas.blascommon.core.dao.AuthUserDao;
-import com.blas.blascommon.core.dao.HelpDao;
+import com.blas.blascommon.core.dao.jpa.AuthUserDao;
+import com.blas.blascommon.core.dao.jpa.HelpDao;
 import com.blas.blascommon.core.model.Help;
 import com.blas.blascommon.core.service.HelpService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class HelpServiceImpl implements HelpService {
 
@@ -23,11 +25,6 @@ public class HelpServiceImpl implements HelpService {
 
   @Lazy
   private final AuthUserDao authUserDao;
-
-  public HelpServiceImpl(HelpDao helpDao, AuthUserDao authUserDao) {
-    this.helpDao = helpDao;
-    this.authUserDao = authUserDao;
-  }
 
   @Override
   public List<Help> getAllHelpByUser(String userId) {

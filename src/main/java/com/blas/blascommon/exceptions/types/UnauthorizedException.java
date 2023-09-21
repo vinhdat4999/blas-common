@@ -27,7 +27,8 @@ public class UnauthorizedException extends RuntimeException {
     this.blasErrorCodeEnum = blasErrorCodeEnum;
   }
 
-  public UnauthorizedException(BlasErrorCodeEnum blasErrorCodeEnum, String message, Throwable cause) {
+  public UnauthorizedException(BlasErrorCodeEnum blasErrorCodeEnum, String message,
+      Throwable cause) {
     super(message, cause);
     this.blasErrorCodeEnum = blasErrorCodeEnum;
   }

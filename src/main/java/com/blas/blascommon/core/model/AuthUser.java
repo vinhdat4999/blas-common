@@ -12,7 +12,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "auth_users")
-public class AuthUser implements Serializable {
+public class AuthUser {
 
   @Id
   @Column(name = "user_id", length = 50, nullable = false)
@@ -36,7 +35,7 @@ public class AuthUser implements Serializable {
   private String username;
 
   @OneToOne(mappedBy = "authUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private UserDetail userDetail;
+  private transient UserDetail userDetail;
 
   @Column(name = "password", length = 256, nullable = false)
   @NotEmpty

@@ -13,7 +13,7 @@ public class BlasResultUtils {
       ReportType reportType) {
     return BlasResult.builder()
         .exportTime(timeNow)
-        .authUser(authUser)
+        .userId(authUser.getUserId())
         .report(report)
         .reportType(reportType.name())
         .build();
