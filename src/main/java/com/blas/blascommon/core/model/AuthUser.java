@@ -35,7 +35,7 @@ public class AuthUser {
   private String username;
 
   @OneToOne(mappedBy = "authUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private transient UserDetail userDetail;
+  private UserDetail userDetail;
 
   @Column(name = "password", length = 256, nullable = false)
   @NotEmpty
