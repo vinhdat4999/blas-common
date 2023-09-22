@@ -67,10 +67,10 @@ public class BlasGateInterceptor implements HandlerInterceptor {
     if ("blas-support-service".equals(serviceName)) {
       return;
     }
-    log.info("Starting check maintenance...");
+    log.debug("Starting check maintenance...");
     if (!serviceSupportProperties.isThroughServiceSupport()) {
       log.info(serviceName + " not through service support");
-      log.info("Completely check maintenance");
+      log.debug("Completely check maintenance");
       return;
     }
     MaintenanceTimeResponse maintenanceTimeResponse = new MaintenanceTimeResponse();
@@ -99,9 +99,9 @@ public class BlasGateInterceptor implements HandlerInterceptor {
       if (maintenanceTimeResponse.isInMaintenance()) {
         log.warn(serviceName + " unavailable");
       } else if (isChecked) {
-        log.info(serviceName + " available");
+        log.debug(serviceName + " available");
       }
-      log.info("Completely check maintenance");
+      log.debug("Completely check maintenance");
     }
     if (maintenanceTimeResponse.isInMaintenance()) {
       throw new MaintenanceException(MSG_IN_MAINTENANCE, maintenanceTimeResponse);

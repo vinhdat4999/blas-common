@@ -51,6 +51,11 @@ public class AuthUserServiceImpl implements AuthUserService {
   }
 
   @Override
+  public AuthUser getAuthUserByEmail(String email) {
+    return authUserDao.getAuthUserByEmail(email);
+  }
+
+  @Override
   public AuthUser createUser(AuthUser authUser, UserDetail userDetail) {
     if (authUserDao.getAuthUserByUsername(authUser.getUsername()) != null
         || userDetailDao.getUserDetailByUsername(authUser.getUsername()) != null) {

@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 public interface UserDetailDao extends JpaRepository<UserDetail, String> {
 
   @Query("SELECT u FROM UserDetail u WHERE u.authUser.username = :username")
-  public UserDetail getUserDetailByUsername(@Param("username") String username);
+  UserDetail getUserDetailByUsername(@Param("username") String username);
 
   @Query("SELECT u FROM UserDetail u WHERE u.phoneNumber = :phone")
-  public UserDetail getUserDetailByPhone(@Param("phone") String phone);
+  UserDetail getUserDetailByPhone(@Param("phone") String phone);
 
   @Query("SELECT u FROM UserDetail u WHERE u.email = :email")
-  public UserDetail getUserDetailByEmail(@Param("email") String email);
+  UserDetail getUserDetailByEmail(@Param("email") String email);
 }

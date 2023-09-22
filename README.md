@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 4.2.0   | 23/09/2023   | Support OAuth2 Google                                                                                            |
 | 4.1.0   | 22/09/2023   | Support Hazelcast caching and MongoDB                                                                            |
 | 4.0.0   | 21/08/2023   | Support Blas Error Code and change to user username to verify account                                            |
 | 3.5.0   | 19/08/2023   | Support GoogleSheet storage                                                                                      |

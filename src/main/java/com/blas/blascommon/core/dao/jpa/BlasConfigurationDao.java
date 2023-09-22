@@ -11,13 +11,13 @@ import org.springframework.stereotype.Repository;
 public interface BlasConfigurationDao extends JpaRepository<BlasConfiguration, String> {
 
   @Query("SELECT b FROM BlasConfiguration b WHERE b.isActive = true")
-  public List<BlasConfiguration> getAllActiveBlasConfiguration();
+  List<BlasConfiguration> getAllActiveBlasConfiguration();
 
   @Query("SELECT b FROM BlasConfiguration b WHERE b.configKey = :configKey AND b.isActive = true")
-  public BlasConfiguration getBlasConfigurationByConfigKeyAndActive(
+  BlasConfiguration getBlasConfigurationByConfigKeyAndActive(
       @Param("configKey") String configKey);
 
   @Query("SELECT b FROM BlasConfiguration b WHERE b.configLabel1 IN :labels AND b.configLabel2 IN :labels AND b.configLabel3 IN :labels AND b.isActive = true")
-  public List<BlasConfiguration> getBlasConfigurationsByLabelAndActive(
+  List<BlasConfiguration> getBlasConfigurationsByLabelAndActive(
       @Param("labels") String... labels);
 }

@@ -54,10 +54,9 @@ public class JwtTokenUtil {
   }
 
   // generate token for user
-  public String generateToken(UserDetails userDetails) {
+  public String generateToken(String username) {
     Map<String, Object> claims = new HashMap<>();
-    return doGenerateToken(claims, userDetails.getUsername(),
-        jwtConfigurationProperties.getTimeToExpired());
+    return doGenerateToken(claims, username, jwtConfigurationProperties.getTimeToExpired());
   }
 
   // generate token for internal system

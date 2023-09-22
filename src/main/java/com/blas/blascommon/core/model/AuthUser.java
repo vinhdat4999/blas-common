@@ -30,7 +30,7 @@ public class AuthUser {
   @NotEmpty
   private String userId;
 
-  @Column(name = "username", length = 20, nullable = false)
+  @Column(name = "username", length = 50, nullable = false)
   @NotEmpty
   private String username;
 

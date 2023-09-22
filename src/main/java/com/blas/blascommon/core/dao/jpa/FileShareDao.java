@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository;
 public interface FileShareDao extends JpaRepository<FileShare, String> {
 
   @Query("SELECT f FROM FileShare f WHERE f.file.fileId = :fileId")
-  public List<FileShare> getAllFileShareByFileId(@Param("fileId") String fileId);
+  List<FileShare> getAllFileShareByFileId(@Param("fileId") String fileId);
 
   @Query("SELECT f FROM FileShare f WHERE f.file.filePath = :filePath")
-  public List<FileShare> getAllFileShareByFilePath(@Param("filePath") String filePath);
+  List<FileShare> getAllFileShareByFilePath(@Param("filePath") String filePath);
 
   @Query("SELECT f FROM FileShare f WHERE f.userDetail.userId = :userId")
-  public List<FileShare> getAllFileShareByShareForThisUser(@Param("userId") String userId);
+  List<FileShare> getAllFileShareByShareForThisUser(@Param("userId") String userId);
 }
