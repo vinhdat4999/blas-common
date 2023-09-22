@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface AddressDao extends JpaRepository<Address, String> {
 
   @Query("SELECT a FROM Address a WHERE a.userDetail.userId = :userId AND a.isDefault = true")
-  public Address getDefaultAddressByUser(@Param("userId") String userId);
+  Address getDefaultAddressByUser(@Param("userId") String userId);
 
   @Query("SELECT a FROM Address a WHERE a.isActive = true AND a.userDetail.userId = :userId")
-  public List<Address> getAllActiveAddressByUser(@Param("userId") String userId);
+  List<Address> getAllActiveAddressByUser(@Param("userId") String userId);
 }

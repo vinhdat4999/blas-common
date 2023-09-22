@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface NotificationDao extends JpaRepository<Notification, String> {
 
   @Query("SELECT n FROM Notification n WHERE n.userDetail.userId = :userId")
-  public List<Notification> getAllNotificationByUser(@Param("userId") String userId);
+  List<Notification> getAllNotificationByUser(@Param("userId") String userId);
 
   @Query("SELECT COUNT(1) FROM Notification n WHERE n.userDetail.userId = :userId AND n.isRead = false")
-  public int getNumberOfUnreadNotificationByUser(@Param("userId") String userId);
+  int getNumberOfUnreadNotificationByUser(@Param("userId") String userId);
 }

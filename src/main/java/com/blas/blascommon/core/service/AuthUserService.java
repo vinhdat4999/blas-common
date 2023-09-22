@@ -12,6 +12,8 @@ public interface AuthUserService {
 
   AuthUser getAuthUserByUsername(String username);
 
+  AuthUser getAuthUserByEmail(String email);
+
   AuthUser createUser(AuthUser authUser, UserDetail userDetail);
 
   void updateAuthUser(AuthUser authUser);

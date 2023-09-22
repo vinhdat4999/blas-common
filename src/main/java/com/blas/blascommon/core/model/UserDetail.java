@@ -42,7 +42,6 @@ public class UserDetail {
   private String lastName;
 
   @Column(name = "phone_number", length = 15, nullable = false)
-  @NotEmpty
   private String phoneNumber;
 
   @Column(name = "email", length = 60, nullable = false)
@@ -54,11 +53,9 @@ public class UserDetail {
   private String telegramChatId;
 
   @Column(name = "gender")
-  @NotNull
   private boolean gender;
 
   @Column(name = "birthday", nullable = false)
-  @NotNull
   private LocalDate birthday;
 
   @Column(name = "avatar_path", length = 200)

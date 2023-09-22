@@ -11,22 +11,22 @@ import org.springframework.stereotype.Repository;
 public interface FileDao extends JpaRepository<File, String> {
 
   @Query("SELECT f FROM File f")
-  public List<File> getAllFile();
+  List<File> getAllFile();
 
   @Query("SELECT f FROM File f WHERE f.isDelete = false AND f.userDetail.userId = :userId")
-  public List<File> getAllActiveFileByUser(@Param("userId") String userId);
+  List<File> getAllActiveFileByUser(@Param("userId") String userId);
 
   @Query("SELECT f FROM File f WHERE f.isDelete = true AND f.userDetail.userId = :userId")
-  public List<File> getAllDeletedFileByUser(@Param("userId") String userId);
+  List<File> getAllDeletedFileByUser(@Param("userId") String userId);
 
   @Query("SELECT f FROM File f WHERE f.isDelete = false AND f.userDetail.userId = :userId AND f.fileName LIKE '%:keyword%'")
-  public List<File> searchAllActiveFileByUser(@Param("userId") String userId,
+  List<File> searchAllActiveFileByUser(@Param("userId") String userId,
       @Param("keyword") String keyword);
 
   @Query("SELECT f FROM File f WHERE f.isDelete = false AND f.isShareEveryone = true")
-  public List<File> getAllValidPublicFile();
+  List<File> getAllValidPublicFile();
 
   @Query("SELECT f FROM File f WHERE f.userDetail.userId = :userId AND f.filePath = :filePath")
-  public File getFileByUserIdAndFilePath(@Param("userId") String userId,
+  File getFileByUserIdAndFilePath(@Param("userId") String userId,
       @Param("filePath") String filePath);
 }

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 public interface AuthenKeyDao extends JpaRepository<AuthenKey, String> {
 
   @Query("SELECT a FROM AuthenKey a WHERE a.key = :key")
-  public AuthenKey getAuthenKeyByKey(@Param("key") String key);
+  AuthenKey getAuthenKeyByKey(@Param("key") String key);
 
   @Query("SELECT a FROM AuthenKey a WHERE a.authUser.userId = :userId")
-  public AuthenKey getAuthenKeyByUserId(@Param("userId") String userId);
+  AuthenKey getAuthenKeyByUserId(@Param("userId") String userId);
 }

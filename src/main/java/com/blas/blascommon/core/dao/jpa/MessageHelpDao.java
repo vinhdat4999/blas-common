@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface MessageHelpDao extends JpaRepository<MessageHelp, String> {
 
   @Query("SELECT m FROM MessageHelp m WHERE m.ticketId = :ticketId")
-  public List<MessageHelp> getMessageHelpListByHelpTicketId(@Param("ticketId") String ticketId);
+  List<MessageHelp> getMessageHelpListByHelpTicketId(@Param("ticketId") String ticketId);
 }

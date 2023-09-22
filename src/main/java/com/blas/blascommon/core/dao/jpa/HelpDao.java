@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository;
 public interface HelpDao extends JpaRepository<Help, String> {
 
   @Query("SELECT h FROM Help h WHERE h.createBy.userId = :userId")
-  public List<Help> getHelpListByUserId(@Param("userId") String userId);
+  List<Help> getHelpListByUserId(@Param("userId") String userId);
 
   @Query("SELECT h FROM Help h WHERE h.status = :status")
-  public List<Help> getHelpListByStatus(@Param("status") String status);
+  List<Help> getHelpListByStatus(@Param("status") String status);
 
   @Query("SELECT count(1)>0 FROM Help h WHERE h.ticketId = :ticketId")
-  public boolean isExistedHelpTicketId(@Param("ticketId") String ticketId);
+  boolean isExistedHelpTicketId(@Param("ticketId") String ticketId);
 }
