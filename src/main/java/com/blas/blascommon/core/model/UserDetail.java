@@ -37,11 +37,10 @@ public class UserDetail {
   @NotEmpty
   private String firstName;
 
-  @Column(name = "last_name", length = 20, nullable = false)
-  @NotEmpty
+  @Column(name = "last_name", length = 20)
   private String lastName;
 
-  @Column(name = "phone_number", length = 15, nullable = false)
+  @Column(name = "phone_number", length = 15)
   private String phoneNumber;
 
   @Column(name = "email", length = 60, nullable = false)
@@ -55,7 +54,7 @@ public class UserDetail {
   @Column(name = "gender")
   private boolean gender;
 
-  @Column(name = "birthday", nullable = false)
+  @Column(name = "birthday")
   private LocalDate birthday;
 
   @Column(name = "avatar_path", length = 200)
