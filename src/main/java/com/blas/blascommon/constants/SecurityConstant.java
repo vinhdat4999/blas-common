@@ -14,4 +14,5 @@ public class SecurityConstant {
   public static final String SHA1 = "SHA-1";
   public static final String SHA256 = "SHA-256";
   public static final String SHA512 = "SHA-512";
+  public static final String SLASH_REPLACE = "{blas_slash_replace}";
 }
