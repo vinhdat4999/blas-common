@@ -6,6 +6,8 @@ import lombok.experimental.UtilityClass;
 public class BlasConstant {
 
   public static final String BLAS = "BLAS";
+  public static final String GOOGLE = "GOOGLE";
+  public static final String FACEBOOK = "FACEBOOK";
   public static final String ON_PREM_KEY = "ON_PREM_USERNAME";
   public static final String ON_PREM_VALUE = "ON_PREM_PASSWORD";
   public static final String GOOGLE_SHEET_CLIENT_KEY = "GOOGLE_SHEET_CLIENT_USERNAME";
