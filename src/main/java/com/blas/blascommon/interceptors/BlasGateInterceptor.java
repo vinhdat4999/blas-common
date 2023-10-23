@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,8 +64,9 @@ public class BlasGateInterceptor implements HandlerInterceptor {
   }
 
   private void checkMaintenance() {
+    List<String> serviceSkip = List.of("blas-support-service", "blas-drive");
     String serviceName = blasServiceConfiguration.getServiceName();
-    if ("blas-support-service".equals(serviceName)) {
+    if (serviceSkip.contains(serviceName)) {
       return;
     }
     log.debug("Starting check maintenance...");
