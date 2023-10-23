@@ -31,6 +31,7 @@ public enum FileType {
   DAT("dat", ".dat"),
   CONF("conf", ".conf"),
   YAML("yaml", ".yaml"),
+  ZIP("zip", ".zip"),
   EXE("exe", ".exe");
 
   private final String postfix;

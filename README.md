@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 4.3.0   | 24/10/2023   | Add new File utilities and Hazelcast Message Topic                                                               |
 | 4.2.0   | 23/09/2023   | Support OAuth2                                                                                                   |
 | 4.1.0   | 22/09/2023   | Support Hazelcast caching and MongoDB                                                                            |
 | 4.0.0   | 21/08/2023   | Support Blas Error Code and change to user username to verify account                                            |
