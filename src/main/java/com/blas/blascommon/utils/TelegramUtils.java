@@ -6,6 +6,7 @@ import static com.blas.blascommon.security.SecurityUtils.getPrivateKeyAesFromCer
 import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import static com.blas.blascommon.utils.httprequest.PostRequest.sendPostRequestWithStringPayload;
 
+import com.blas.blascommon.configurations.CertPasswordConfiguration;
 import com.blas.blascommon.core.service.BlasConfigService;
 import com.blas.blascommon.properties.BlasPrivateKeyConfiguration;
 import java.io.IOException;
@@ -39,13 +40,14 @@ public class TelegramUtils {
   @Lazy
   private final BlasConfigService blasConfigService;
 
-  private final String getCertPassword;
+  private final CertPasswordConfiguration certPasswordConfiguration;
 
   public void sendTelegramMessage(String text, String chatId)
       throws URISyntaxException, InvalidAlgorithmParameterException, UnrecoverableKeyException, IllegalBlockSizeException, NoSuchPaddingException, CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
     final String privateKey = getPrivateKeyAesFromCertificate(
         blasPrivateKeyConfiguration.getCertificate(),
-        blasPrivateKeyConfiguration.getAliasBlasPrivateKey(), getCertPassword);
+        blasPrivateKeyConfiguration.getAliasBlasPrivateKey(),
+        certPasswordConfiguration.getCertPassword());
     assert privateKey != null;
     final String key = aesDecrypt(privateKey,
         blasConfigService.getConfigValueFromKey(TELEGRAM_BLAS_VIETNAM_BOT));

@@ -9,6 +9,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -41,14 +50,25 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       jwtToken = requestTokenHeader.substring(7);
       try {
         username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-      } catch (IllegalArgumentException | ExpiredJwtException e) {
+      } catch (IllegalArgumentException | ExpiredJwtException | InvalidAlgorithmParameterException |
+               UnrecoverableKeyException | IllegalBlockSizeException | NoSuchPaddingException |
+               CertificateException | KeyStoreException | NoSuchAlgorithmException |
+               BadPaddingException | InvalidKeyException e) {
         log.error(e.getMessage());
       }
     }
 
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
-      boolean isValidToken = jwtTokenUtil.validateToken(jwtToken, userDetails);
+      boolean isValidToken = false;
+      try {
+        isValidToken = jwtTokenUtil.validateToken(jwtToken, userDetails);
+      } catch (IllegalArgumentException | ExpiredJwtException | InvalidAlgorithmParameterException |
+               UnrecoverableKeyException | IllegalBlockSizeException | NoSuchPaddingException |
+               CertificateException | KeyStoreException | NoSuchAlgorithmException |
+               BadPaddingException | InvalidKeyException e) {
+        log.error(e.getMessage());
+      }
       if (isValidToken) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
             userDetails, null, userDetails.getAuthorities());
