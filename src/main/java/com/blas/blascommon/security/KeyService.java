@@ -3,6 +3,7 @@ package com.blas.blascommon.security;
 import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_BLAS_APP_FAILURE;
 import static com.blas.blascommon.security.SecurityUtils.getPrivateKeyAesFromCertificate;
 
+import com.blas.blascommon.configurations.CertPasswordConfiguration;
 import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.properties.BlasPrivateKeyConfiguration;
 import java.io.IOException;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KeyService {
 
-  private final String getCertPassword;
+  private final CertPasswordConfiguration certPasswordConfiguration;
 
   @Lazy
   private final BlasPrivateKeyConfiguration blasPrivateKeyConfiguration;
@@ -26,7 +27,8 @@ public class KeyService {
   public String getBlasPrivateKey() {
     try {
       return getPrivateKeyAesFromCertificate(blasPrivateKeyConfiguration.getCertificate(),
-          blasPrivateKeyConfiguration.getAliasBlasPrivateKey(), getCertPassword);
+          blasPrivateKeyConfiguration.getAliasBlasPrivateKey(),
+          certPasswordConfiguration.getCertPassword());
     } catch (KeyStoreException | CertificateException | IOException | NoSuchAlgorithmException |
              UnrecoverableKeyException exception) {
       throw new BadRequestException(MSG_BLAS_APP_FAILURE);
