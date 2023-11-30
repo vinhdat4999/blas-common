@@ -27,6 +27,16 @@ public class BadRequestException extends RuntimeException {
     this.blasErrorCodeEnum = blasErrorCodeEnum;
   }
 
+  public BadRequestException(String message, Throwable cause) {
+    super(message, cause);
+    this.blasErrorCodeEnum = BlasErrorCodeEnum.MSG_UNKNOWN_ERROR;
+  }
+
+  public BadRequestException(BlasErrorCodeEnum blasErrorCodeEnum, Throwable cause) {
+    super(cause);
+    this.blasErrorCodeEnum = blasErrorCodeEnum;
+  }
+
   public BadRequestException(BlasErrorCodeEnum blasErrorCodeEnum, String message, Throwable cause) {
     super(message, cause);
     this.blasErrorCodeEnum = blasErrorCodeEnum;

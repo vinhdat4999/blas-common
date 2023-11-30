@@ -27,6 +27,16 @@ public class BlasException extends RuntimeException {
     this.blasErrorCodeEnum = blasErrorCodeEnum;
   }
 
+  public BlasException(String message, Throwable cause) {
+    super(message, cause);
+    this.blasErrorCodeEnum = BlasErrorCodeEnum.MSG_UNKNOWN_ERROR;
+  }
+
+  public BlasException(BlasErrorCodeEnum blasErrorCodeEnum, Throwable cause) {
+    super(cause);
+    this.blasErrorCodeEnum = blasErrorCodeEnum;
+  }
+
   public BlasException(BlasErrorCodeEnum blasErrorCodeEnum, String message, Throwable cause) {
     super(message, cause);
     this.blasErrorCodeEnum = blasErrorCodeEnum;
