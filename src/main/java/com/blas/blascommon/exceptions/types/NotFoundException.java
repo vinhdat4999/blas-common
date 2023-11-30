@@ -27,6 +27,16 @@ public class NotFoundException extends RuntimeException {
     this.blasErrorCodeEnum = blasErrorCodeEnum;
   }
 
+  public NotFoundException(String message, Throwable cause) {
+    super(message, cause);
+    this.blasErrorCodeEnum = BlasErrorCodeEnum.MSG_UNKNOWN_ERROR;
+  }
+
+  public NotFoundException(BlasErrorCodeEnum blasErrorCodeEnum, Throwable cause) {
+    super(cause);
+    this.blasErrorCodeEnum = blasErrorCodeEnum;
+  }
+
   public NotFoundException(BlasErrorCodeEnum blasErrorCodeEnum, String message, Throwable cause) {
     super(message, cause);
     this.blasErrorCodeEnum = blasErrorCodeEnum;

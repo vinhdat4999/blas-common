@@ -20,6 +20,16 @@ public class BadGatewayException extends RuntimeException {
     this.blasErrorCodeEnum = blasErrorCodeEnum;
   }
 
+  public BadGatewayException(String message, Throwable cause) {
+    super(message, cause);
+    this.blasErrorCodeEnum = BlasErrorCodeEnum.MSG_UNKNOWN_ERROR;
+  }
+
+  public BadGatewayException(BlasErrorCodeEnum blasErrorCodeEnum, Throwable cause) {
+    super(cause);
+    this.blasErrorCodeEnum = blasErrorCodeEnum;
+  }
+
   public BadGatewayException(BlasErrorCodeEnum blasErrorCodeEnum, String message, Throwable cause) {
     super(message, cause);
     this.blasErrorCodeEnum = blasErrorCodeEnum;
