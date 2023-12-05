@@ -10,7 +10,7 @@
   <parent>
     <groupId>com.blas</groupId>
     <artifactId>blas-bom</artifactId>
-    <version>1.13.0</version>
+    <version>1.12.0</version>
   </parent>
   <artifactId>blas-common</artifactId>
   <version>4.5.0</version>
@@ -82,4 +82,11 @@
       </snapshots>
     </repository>
   </repositories>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/vinhdat4999/blas-common</url>
+    </repository>
+  </distributionManagement>
 </project>
