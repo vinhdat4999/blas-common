@@ -1,11 +1,8 @@
 name: build and publish
 
 on:
-#  push:
-#    branches: [ main ]
-  pull_request:
-    branches:
-      - main
+  push:
+    branches: [ main ]
 
 jobs:
   build-and-release:
