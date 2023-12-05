@@ -64,6 +64,13 @@
   </dependencies>
   <repositories>
     <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/vinhdat4999/blas-bom</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -73,13 +80,6 @@
       <releases>
         <enabled>true</enabled>
       </releases>
-    </repository>
-    <repository>
-      <id>github</id>
-      <url>https://maven.pkg.github.com/vinhdat4999/blas-bom</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
     </repository>
   </repositories>
   <distributionManagement>
