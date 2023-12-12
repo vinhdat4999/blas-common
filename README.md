@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 4.6.0   | 12/12/2023   | Change BlasGateInfo and CentralizedLog to use MongoDB                                                            |
 | 4.5.0   | 05/12/2023   | Support Github Packages Maven Repository                                                                         |
 | 4.4.0   | 01/12/2023   | Upgrade spring boot 3.2.0                                                                                        |
 | 4.3.0   | 24/10/2023   | Add new File utilities and Hazelcast Message Topic                                                               |

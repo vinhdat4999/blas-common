@@ -4,7 +4,7 @@ import static com.blas.blascommon.constants.Configuration.adminEmailList;
 import static com.blas.blascommon.constants.ResponseMessage.CENTRALIZED_LOG_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
-import com.blas.blascommon.core.dao.jpa.CentralizedLogDao;
+import com.blas.blascommon.core.dao.mongodb.CentralizedLogDao;
 import com.blas.blascommon.core.model.CentralizedLog;
 import com.blas.blascommon.core.service.CentralizedLogService;
 import com.blas.blascommon.enums.LogType;

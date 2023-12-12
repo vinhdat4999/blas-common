@@ -21,6 +21,6 @@ public class StringUtils {
   public static final String UNDERSCORE = "_";
 
   public static String safeTrim(String s) {
-    return s == null ? "" : s.trim();
+    return s == null ? EMPTY : s.trim();
   }
 }

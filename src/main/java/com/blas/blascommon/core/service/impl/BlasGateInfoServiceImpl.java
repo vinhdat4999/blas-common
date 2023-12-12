@@ -2,7 +2,7 @@ package com.blas.blascommon.core.service.impl;
 
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
-import com.blas.blascommon.core.dao.jpa.BlasGateInfoDao;
+import com.blas.blascommon.core.dao.mongodb.BlasGateInfoDao;
 import com.blas.blascommon.core.model.BlasGateInfo;
 import com.blas.blascommon.core.service.BlasGateInfoService;
 import lombok.RequiredArgsConstructor;

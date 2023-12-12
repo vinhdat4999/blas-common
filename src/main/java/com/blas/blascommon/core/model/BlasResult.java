@@ -1,5 +1,6 @@
 package com.blas.blascommon.core.model;
 
+import com.blas.blascommon.enums.ReportType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
@@ -36,4 +37,16 @@ public class BlasResult {
 
   @Field("report_type")
   private String reportType;
+
+  public BlasResult(String id) {
+    this.id = id;
+  }
+
+  public BlasResult(LocalDateTime timeNow, AuthUser authUser, String report,
+      ReportType reportType) {
+    this.exportTime = timeNow;
+    this.userId = authUser.getUserId();
+    this.report = report;
+    this.reportType = reportType.name();
+  }
 }
