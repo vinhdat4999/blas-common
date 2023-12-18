@@ -9,7 +9,7 @@ import com.blas.blascommon.core.model.CentralizedLog;
 import com.blas.blascommon.core.service.CentralizedLogService;
 import com.blas.blascommon.enums.LogType;
 import com.blas.blascommon.exceptions.types.NotFoundException;
-import com.blas.blascommon.utils.email.SendEmail;
+import com.blas.blascommon.utils.email.InternalEmail;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +24,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class CentralizedLogServiceImpl implements CentralizedLogService {
 
+  private static final String INTERNAL_EMAIL_SUBJECT = "[BLAS][CENTRALIZED LOG]ERROR ALERT";
+
   @Lazy
   private final CentralizedLogDao centralizedLogDao;
+
+  @Lazy
+  private final InternalEmail internalEmail;
 
   @Override
   public CentralizedLog saveLog(String serviceName, LogType logType, String exception, String cause,
@@ -66,19 +71,10 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
 
   private void sendAlertEmail(String serviceName, LogType logType, String exception) {
     final String HTML_NEW_LINE = "</br>";
-    StringBuilder emailContent = new StringBuilder();
-    emailContent.append("1 error have logged. ").append(HTML_NEW_LINE).append("Service: ")
-        .append(serviceName).append(HTML_NEW_LINE)
-        .append("Log type: ")
-        .append(logType)
-        .append(HTML_NEW_LINE)
-        .append("Exception: ")
-        .append(exception);
-    Arrays.stream(adminEmailList).forEach(email -> {
-      SendEmail sendEmail = new SendEmail("[BLAS][CENTRALIZED LOG]ERROR ALERT",
-          emailContent.toString(), email);
-      Thread thread = new Thread(sendEmail);
-      thread.start();
-    });
+    String emailContent =
+        "1 error have logged. " + HTML_NEW_LINE + "Service: " + serviceName + HTML_NEW_LINE
+            + "Log type: " + logType + HTML_NEW_LINE + "Exception: " + exception;
+    Arrays.stream(adminEmailList)
+        .forEach(email -> internalEmail.sendEmail(email, INTERNAL_EMAIL_SUBJECT, emailContent));
   }
 }

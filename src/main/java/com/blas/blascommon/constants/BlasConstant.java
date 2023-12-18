@@ -10,6 +10,8 @@ public class BlasConstant {
   public static final String FACEBOOK = "FACEBOOK";
   public static final String ON_PREM_KEY = "ON_PREM_USERNAME";
   public static final String ON_PREM_VALUE = "ON_PREM_PASSWORD";
+  public static final String INTERNAL_EMAIL_PASSWORD = "INTERNAL_EMAIL_PASSWORD";
+  public static final String BLAS_IDP_EMAIL_PASSWORD = "BLAS_IDP_EMAIL_PASSWORD";
   public static final String GOOGLE_SHEET_CLIENT_KEY = "GOOGLE_SHEET_CLIENT_USERNAME";
   public static final String GOOGLE_SHEET_CLIENT_VALUE = "GOOGLE_SHEET_CLIENT_PASSWORD";
   public static final String BLAS_CERT_PASSWORD = "BLAS_CERT_PASSWORD";
