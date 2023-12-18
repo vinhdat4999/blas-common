@@ -35,6 +35,7 @@ import java.util.Base64;
 import java.util.Formatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -171,8 +172,8 @@ public class SecurityUtils {
     MessageDigest md = null;
     try {
       md = MessageDigest.getInstance(hashType);
-    } catch (NoSuchAlgorithmException e) {
-      log.error(e.toString());
+    } catch (NoSuchAlgorithmException exception) {
+      log.error(exception.toString());
     }
     if (md == null) {
       return EMPTY;
@@ -247,10 +248,9 @@ public class SecurityUtils {
     FileInputStream inputStream = new FileInputStream(certificatePath);
     keyStore.load(inputStream, password.toCharArray());
     inputStream.close();
-    Key key = keyStore.getKey(alias, password.toCharArray());
-    if (key == null) {
-      return null;
-    }
-    return new String(key.getEncoded());
+    return Optional.ofNullable(keyStore.getKey(alias, password.toCharArray()))
+        .map(Key::getEncoded)
+        .map(String::new)
+        .orElse(null);
   }
 }

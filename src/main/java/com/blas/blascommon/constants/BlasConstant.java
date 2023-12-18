@@ -17,4 +17,5 @@ public class BlasConstant {
   public static final String BLAS_CERT_PASSWORD = "BLAS_CERT_PASSWORD";
   public static final String BLAS_JWT_SECRET_KEY_VALUE = "BLAS_JWT_SECRET_KEY";
   public static final String TELEGRAM_BLAS_VIETNAM_BOT = "TELEGRAM_BLAS_VIETNAM_BOT";
+  public static final String ALERT_EMAIL_RECEIVER_LIST = "ALERT_EMAIL_RECEIVER_LIST";
 }

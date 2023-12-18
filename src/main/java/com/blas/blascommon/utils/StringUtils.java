@@ -1,5 +1,6 @@
 package com.blas.blascommon.utils;
 
+import java.util.Optional;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -20,7 +21,9 @@ public class StringUtils {
   public static final String AMPERSAND = "&";
   public static final String UNDERSCORE = "_";
 
-  public static String safeTrim(String s) {
-    return s == null ? EMPTY : s.trim();
+  public static String safeTrim(String text) {
+    return Optional.ofNullable(text)
+        .map(String::trim)
+        .orElse(EMPTY);
   }
 }

@@ -32,6 +32,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -47,8 +48,13 @@ public class InternalEmail {
   private static final String EMAIL_SENDER = "blassystemvietnam@gmail.com";
   private static final int PORT_SENDER = 465;
 
+  @Lazy
   private final BlasConfigService blasConfigService;
+
+  @Lazy
   private final BlasPrivateKeyConfiguration blasPrivateKeyConfiguration;
+
+  @Lazy
   private final CertPasswordConfiguration certPasswordConfiguration;
 
   @Async
