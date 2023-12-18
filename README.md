@@ -4,7 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
-| 4.7.0   | 18/12/2023   | Remove and revoke plain text email password                                                                      |
+| 4.7.0   | 19/12/2023   | Remove and revoke plain text email password                                                                      |
 | 4.6.0   | 12/12/2023   | Change BlasGateInfo and CentralizedLog to use MongoDB                                                            |
 | 4.5.0   | 05/12/2023   | Support Github Packages Maven Repository                                                                         |
 | 4.4.0   | 01/12/2023   | Upgrade spring boot 3.2.0                                                                                        |
