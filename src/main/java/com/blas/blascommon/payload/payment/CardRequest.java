@@ -1,4 +1,4 @@
-package com.blas.blascommon.payload;
+package com.blas.blascommon.payload.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

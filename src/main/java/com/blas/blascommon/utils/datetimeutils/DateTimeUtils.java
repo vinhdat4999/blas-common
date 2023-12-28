@@ -20,6 +20,8 @@ public class DateTimeUtils {
   public static final String DATE_DDMMYYYY_HYPHEN_FORMAT = "dd-MM-yyyy";
   public static final String DATE_YYYYMMDD_SLASH_FORMAT = "yyyy/MM/dd";
   public static final String DATE_DDMMYYYY_SLASH_FORMAT = "dd/MM/yyyy";
+  public static final String DATE_YYYYMMDDHHMMSS_SLASH_FORMAT = "yyyyMMddHHmmss";
+  public static final String GMT7_POSITIVE_ZONE = "Etc/GMT+7";
 
   public static String getTimeLabel(LocalDateTime datetime) {
     LocalDateTime now = LocalDateTime.now();
@@ -41,7 +43,7 @@ public class DateTimeUtils {
     try {
       LocalDate.parse(dateStr);
       return true;
-    } catch (DateTimeParseException e) {
+    } catch (DateTimeParseException exception) {
       return false;
     }
   }
@@ -51,7 +53,7 @@ public class DateTimeUtils {
     simpleDateFormat.setLenient(false);
     try {
       simpleDateFormat.parse(year + SLASH + month + SLASH + day);
-    } catch (ParseException e) {
+    } catch (ParseException exception) {
       return false;
     }
     return true;

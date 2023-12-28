@@ -1,5 +1,6 @@
 package com.blas.blascommon.security;
 
+import static com.blas.blascommon.constants.SecurityConstant.HMAC_SHA_512;
 import static com.blas.blascommon.constants.SecurityConstant.MD5;
 import static com.blas.blascommon.constants.SecurityConstant.SHA1;
 import static com.blas.blascommon.constants.SecurityConstant.SHA256;
@@ -18,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -41,6 +43,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
+import javax.crypto.Mac;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
@@ -141,6 +144,24 @@ public class SecurityUtils {
       log.error(e.toString());
     }
     return generatedPassword;
+  }
+
+  public static String hmacSHA512(final String key, final String data) {
+    try {
+      if (key == null || data == null) {
+        throw new NullPointerException();
+      }
+      final Mac hmac512 = Mac.getInstance(HMAC_SHA_512);
+      hmac512.init(new SecretKeySpec(key.getBytes(), HMAC_SHA_512));
+      byte[] result = hmac512.doFinal(data.getBytes(StandardCharsets.UTF_8));
+      StringBuilder sb = new StringBuilder(2 * result.length);
+      for (byte b : result) {
+        sb.append(String.format("%02x", b & 0xff));
+      }
+      return sb.toString();
+    } catch (Exception exception) {
+      return EMPTY;
+    }
   }
 
   private static String byteToHex(final byte[] hash) {

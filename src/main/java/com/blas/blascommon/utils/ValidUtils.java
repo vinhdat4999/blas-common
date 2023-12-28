@@ -1,6 +1,5 @@
 package com.blas.blascommon.utils;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.experimental.UtilityClass;
@@ -20,17 +19,5 @@ public class ValidUtils {
     Pattern pattern = Pattern.compile(regex);
     Matcher matcher = pattern.matcher(phoneNumber);
     return matcher.matches();
-  }
-
-  public static boolean isAllDigitCharacter(String input) {
-    return input.chars().allMatch(Character::isDigit);
-  }
-
-  public boolean anyMatch(Pattern pattern, String... strings) {
-    return Arrays.stream(strings).anyMatch(pattern.asPredicate());
-  }
-
-  public boolean allMatch(Pattern pattern, String... strings) {
-    return Arrays.stream(strings).allMatch(pattern.asPredicate());
   }
 }

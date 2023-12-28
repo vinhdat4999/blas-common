@@ -53,8 +53,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       } catch (IllegalArgumentException | ExpiredJwtException | InvalidAlgorithmParameterException |
                UnrecoverableKeyException | IllegalBlockSizeException | NoSuchPaddingException |
                CertificateException | KeyStoreException | NoSuchAlgorithmException |
-               BadPaddingException | InvalidKeyException e) {
-        log.error(e.getMessage());
+               BadPaddingException | InvalidKeyException exception) {
+        log.error(exception.getMessage());
       }
     }
 
@@ -66,8 +66,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       } catch (IllegalArgumentException | ExpiredJwtException | InvalidAlgorithmParameterException |
                UnrecoverableKeyException | IllegalBlockSizeException | NoSuchPaddingException |
                CertificateException | KeyStoreException | NoSuchAlgorithmException |
-               BadPaddingException | InvalidKeyException e) {
-        log.error(e.getMessage());
+               BadPaddingException | InvalidKeyException exception) {
+        log.error(exception.getMessage());
       }
       if (isValidToken) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
