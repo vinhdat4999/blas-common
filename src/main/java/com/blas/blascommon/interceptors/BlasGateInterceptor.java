@@ -3,9 +3,9 @@ package com.blas.blascommon.interceptors;
 import static com.blas.blascommon.constants.ResponseMessage.HTTP_STATUS_NOT_200;
 import static com.blas.blascommon.enums.LogType.ERROR;
 import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_IN_MAINTENANCE;
+import static com.blas.blascommon.utils.IpUtils.isLocalRequest;
 import static com.blas.blascommon.utils.httprequest.GetRequest.sendGetRequest;
 import static java.time.LocalDateTime.now;
-import static org.apache.commons.lang3.StringUtils.equalsAny;
 
 import com.blas.blascommon.core.model.BlasGateInfo;
 import com.blas.blascommon.core.service.BlasGateInfoService;
@@ -71,7 +71,7 @@ public class BlasGateInterceptor implements HandlerInterceptor {
     }
     log.debug("Starting check maintenance...");
     if (!serviceSupportProperties.isThroughServiceSupport()) {
-      log.info(serviceName + " not through service support");
+      log.debug(serviceName + " not through service support");
       log.debug("Completely check maintenance");
       return;
     }
@@ -125,9 +125,5 @@ public class BlasGateInterceptor implements HandlerInterceptor {
           .build();
       blasGateInfoService.createBlasGateInfo(blasGateInfo);
     }
-  }
-
-  boolean isLocalRequest(HttpServletRequest request) {
-    return equalsAny(request.getRemoteAddr(), "127.0.0.1", "0:0:0:0:0:0:0:1");
   }
 }

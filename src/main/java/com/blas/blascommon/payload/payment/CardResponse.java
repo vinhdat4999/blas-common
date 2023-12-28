@@ -1,4 +1,4 @@
-package com.blas.blascommon.payload;
+package com.blas.blascommon.payload.payment;
 
 import java.time.LocalDateTime;
 import lombok.Builder;

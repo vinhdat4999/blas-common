@@ -14,6 +14,7 @@ public class BlasConstant {
   public static final String BLAS_IDP_EMAIL_PASSWORD = "BLAS_IDP_EMAIL_PASSWORD";
   public static final String GOOGLE_SHEET_CLIENT_KEY = "GOOGLE_SHEET_CLIENT_USERNAME";
   public static final String GOOGLE_SHEET_CLIENT_VALUE = "GOOGLE_SHEET_CLIENT_PASSWORD";
+  public static final String VNPAY_SECRET_KEY = "VNPAY_SECRET_KEY";
   public static final String BLAS_CERT_PASSWORD = "BLAS_CERT_PASSWORD";
   public static final String BLAS_JWT_SECRET_KEY_VALUE = "BLAS_JWT_SECRET_KEY";
   public static final String TELEGRAM_BLAS_VIETNAM_BOT = "TELEGRAM_BLAS_VIETNAM_BOT";
