@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableCaching
-public class BlasHazelcastConfig extends CachingConfigurerSupport {
+public class BlasHazelcastConfiguration extends CachingConfigurerSupport {
 
   @Bean
   public Config hazelcastConfig() {
