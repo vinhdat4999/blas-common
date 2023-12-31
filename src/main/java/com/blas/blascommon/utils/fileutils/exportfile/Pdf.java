@@ -8,9 +8,12 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.OptionalInt;
@@ -53,5 +56,18 @@ public class Pdf {
     OutputStream outputStream = new FileOutputStream(path);
     convertToPdf(htmlContent, outputStream);
     outputStream.close();
+  }
+
+  public static void addPasswordToPdfFile(InputStream fileInputStream, String outputFile,
+      String password)
+      throws IOException, DocumentException {
+    PdfReader reader = new PdfReader(fileInputStream);
+    FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+    PdfStamper stamper = new PdfStamper(reader, fileOutputStream);
+    stamper.setEncryption(password.getBytes(), password.getBytes(),
+        PdfWriter.ALLOW_PRINTING, PdfWriter.ENCRYPTION_AES_256);
+    stamper.close();
+    fileOutputStream.close();
+    reader.close();
   }
 }

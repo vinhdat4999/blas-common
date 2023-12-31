@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
-public class InterceptorConfig implements WebMvcConfigurer {
+public class InterceptorConfiguration implements WebMvcConfigurer {
 
   @Lazy
   private final BlasServiceConfiguration blasServiceConfiguration;
