@@ -1,6 +1,7 @@
 package com.blas.blascommon.report;
 
 import static com.blas.blascommon.report.ReportConstants.REPORT_LINE_LENGTH;
+import static com.blas.blascommon.utils.StringUtils.EQUAL;
 import static com.blas.blascommon.utils.datetimeutils.DateTimeUtils.STANDARD_DATE_TIME_FORMAT_1;
 import static com.blas.blascommon.utils.datetimeutils.DateTimeUtils.convertLocalDateTimeToTimeFormat;
 import static java.util.stream.Collectors.joining;
@@ -28,8 +29,11 @@ public class ReportGenerator {
       content.add(generateReportType(blasReport.getReportType()));
       content.add(generateTimeReport(blasReport.getTimeGenerated()));
       content.add(generateReportBy(blasReport.getReportBy()));
+      content.add(EQUAL.repeat(REPORT_LINE_LENGTH));
       content.add(EMPTY);
       content.addAll(blasReport.getReportMessages());
+      content.add(EQUAL.repeat(REPORT_LINE_LENGTH));
+      content.add("END OF REPORT");
     }
     return standardizeReport(content);
   }
