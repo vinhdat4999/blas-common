@@ -1,7 +1,13 @@
 package com.blas.blascommon.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum ReportType {
-  MARKET_INFO,
-  SPENDING,
-  OTHER
+  MARKET_INFO("MARKET INFO"),
+  SPENDING_STATISTIC("SPENDING STATISTIC");
+
+  private final String type;
 }

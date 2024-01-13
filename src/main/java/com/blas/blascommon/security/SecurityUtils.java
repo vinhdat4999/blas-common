@@ -262,6 +262,11 @@ public class SecurityUtils {
     outputStream.close();
   }
 
+  public static void main(String[] args)
+      throws InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+    System.out.println(aesEncrypt("NA$*R6$+_3@C^Ku8XH@#OW%4WRGVY3RM", "041799"));
+  }
+
   public static String getPrivateKeyAesFromCertificate(String certificatePath, String alias,
       String password)
       throws KeyStoreException, CertificateException, IOException, NoSuchAlgorithmException, UnrecoverableKeyException {
