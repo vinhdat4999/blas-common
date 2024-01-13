@@ -1,5 +1,7 @@
 package com.blas.blascommon.utils;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Optional;
 import lombok.experimental.UtilityClass;
 
@@ -25,5 +27,13 @@ public class StringUtils {
     return Optional.ofNullable(text)
         .map(String::trim)
         .orElse(EMPTY);
+  }
+
+  public static String toCommaFormat(long number) {
+    DecimalFormat decimalFormat = new DecimalFormat("#,###");
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    symbols.setGroupingSeparator('.');
+    decimalFormat.setDecimalFormatSymbols(symbols);
+    return decimalFormat.format(number);
   }
 }

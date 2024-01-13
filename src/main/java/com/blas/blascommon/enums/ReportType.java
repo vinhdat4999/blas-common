@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ReportType {
   MARKET_INFO("MARKET INFO"),
-  SPENDING_STATISTIC("SPENDING_STATISTIC");
+  SPENDING_STATISTIC("SPENDING STATISTIC");
 
   private final String type;
 }
