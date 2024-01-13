@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 4.10.0  | 14/01/2024   | Add Blas report generator                                                                                        |
 | 4.9.0   | 01/01/2024   | Add time zone configuration and PDF password                                                                     |
 | 4.8.0   | 29/12/2023   | Support VNPay payment                                                                                            |
 | 4.7.0   | 19/12/2023   | Remove and revoke plain text email password                                                                      |
