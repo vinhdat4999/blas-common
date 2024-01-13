@@ -1,5 +1,6 @@
 package com.blas.blascommon.utils.datetimeutils;
 
+import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import static com.blas.blascommon.utils.StringUtils.HYPHEN;
 import static com.blas.blascommon.utils.StringUtils.SLASH;
 import static com.blas.blascommon.utils.StringUtils.SPACE;
@@ -8,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import lombok.experimental.UtilityClass;
 
@@ -57,5 +59,14 @@ public class DateTimeUtils {
       return false;
     }
     return true;
+  }
+
+  public static String convertLocalDateTimeToTimeFormat(LocalDateTime time, String format) {
+    try {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+      return time.format(formatter);
+    } catch (IllegalArgumentException exception) {
+      return EMPTY;
+    }
   }
 }
