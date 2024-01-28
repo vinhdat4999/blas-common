@@ -1,5 +1,6 @@
 package com.blas.blascommon.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,12 +9,15 @@ import lombok.Data;
 public class BlasErrorCode {
 
   private int httpCode;
-  private int blasErrorCode;
+
+  @JsonProperty("blasErrorCode")
+  private int errorCode;
+
   private String messageDescription;
 
   public BlasErrorCode(BlasErrorCodeEnum blasErrorCodeEnum) {
     this.httpCode = blasErrorCodeEnum.getHttpCode();
-    this.blasErrorCode = blasErrorCodeEnum.getBlasErrorCode();
+    this.errorCode = blasErrorCodeEnum.getErrorCode();
     this.messageDescription = blasErrorCodeEnum.getMessageDescription();
   }
 }
