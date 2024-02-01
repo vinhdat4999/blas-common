@@ -210,6 +210,16 @@ public class SecurityUtils {
 
   public static String aesEncrypt(String privateKey, String value)
       throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
+    return encryptWithAes(privateKey, value.getBytes());
+  }
+
+  public static String aesEncrypt(String privateKey, byte[] value)
+      throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
+    return encryptWithAes(privateKey, value);
+  }
+
+  private static String encryptWithAes(String privateKey, byte[] value)
+      throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
     Key key = new SecretKeySpec(privateKey.getBytes(), "AES");
     SecureRandom random = new SecureRandom();
     byte[] iv = new byte[16];
@@ -217,7 +227,7 @@ public class SecurityUtils {
     IvParameterSpec ivSpec = new IvParameterSpec(iv);
     Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
     cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
-    byte[] ciphertext = cipher.doFinal(value.getBytes());
+    byte[] ciphertext = cipher.doFinal(value);
     byte[] encrypted = new byte[iv.length + ciphertext.length];
     System.arraycopy(iv, 0, encrypted, 0, iv.length);
     System.arraycopy(ciphertext, 0, encrypted, iv.length, ciphertext.length);
@@ -226,6 +236,11 @@ public class SecurityUtils {
 
   public static String aesDecrypt(String privateKey, String encryptedValue)
       throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
+    return new String(aesDecryptToByteArray(privateKey, encryptedValue));
+  }
+
+  public static byte[] aesDecryptToByteArray(String privateKey, String encryptedValue)
+      throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
     Key key = new SecretKeySpec(privateKey.getBytes(), "AES");
     byte[] encrypted = Base64.getDecoder().decode(encryptedValue);
     byte[] iv = Arrays.copyOfRange(encrypted, 0, 16);
@@ -233,8 +248,7 @@ public class SecurityUtils {
     IvParameterSpec ivSpec = new IvParameterSpec(iv);
     Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
     cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
-    byte[] plaintext = cipher.doFinal(ciphertext);
-    return new String(plaintext);
+    return cipher.doFinal(ciphertext);
   }
 
   /**
