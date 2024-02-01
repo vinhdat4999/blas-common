@@ -27,6 +27,7 @@ public class ReportGenerator {
     } else {
       content.add(EMPTY);
       content.add(generateReportType(blasReport.getReportType()));
+      content.add(generateReportCode(blasReport.getReportCode()));
       content.add(generateTimeReport(blasReport.getTimeGenerated()));
       content.add(generateReportBy(blasReport.getReportBy()));
       content.add(EQUAL.repeat(REPORT_LINE_LENGTH));
@@ -44,6 +45,10 @@ public class ReportGenerator {
 
   private String generateReportType(ReportType reportType) {
     return String.format("REPORT TYPE: %s", reportType.getType());
+  }
+
+  private String generateReportCode(String reportCode) {
+    return String.format("REPORT TYPE: %s", reportCode);
   }
 
   private String generateTimeReport(LocalDateTime generatedTime) {

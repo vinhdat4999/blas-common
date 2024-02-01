@@ -8,6 +8,7 @@ public class ResponseMessage {
   public static final String USER_ID_NOT_FOUND = "User ID not found.";
   public static final String USERNAME_NOT_FOUND = "Username not found.";
   public static final String ADDRESS_ID_NOT_FOUND = "Address ID not found.";
+  public static final String REPORT_CODE_NOT_FOUND = "Report code not found.";
   public static final String FILE_ID_NOT_FOUND = "File ID not found.";
   public static final String FILE_PATH_NOT_FOUND = "File path not found.";
   public static final String DUPLICATED_FILE = "File is existed.";
