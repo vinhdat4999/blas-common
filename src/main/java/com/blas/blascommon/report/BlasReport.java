@@ -13,6 +13,7 @@ import lombok.Data;
 public class BlasReport {
 
   private ReportType reportType;
+  private String reportCode;
   private LocalDateTime timeGenerated;
   private String reportBy;
   private List<String> reportMessages;
