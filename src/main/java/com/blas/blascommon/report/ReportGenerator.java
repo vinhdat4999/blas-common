@@ -48,7 +48,7 @@ public class ReportGenerator {
   }
 
   private String generateReportCode(String reportCode) {
-    return String.format("REPORT TYPE: %s", reportCode);
+    return String.format("REPORT CODE: %s", reportCode);
   }
 
   private String generateTimeReport(LocalDateTime generatedTime) {

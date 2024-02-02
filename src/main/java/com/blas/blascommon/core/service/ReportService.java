@@ -4,6 +4,8 @@ import com.blas.blascommon.core.model.Report;
 
 public interface ReportService {
 
+  String generateReportCode();
+
   Report findReportByReportCode(String reportCode);
 
   Report getReportByReportCode(String reportCode);
