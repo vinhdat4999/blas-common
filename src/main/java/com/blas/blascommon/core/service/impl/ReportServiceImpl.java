@@ -21,6 +21,15 @@ public class ReportServiceImpl implements ReportService {
   private final ReportDao reportDao;
 
   @Override
+  public String generateReportCode() {
+    String reportCode;
+    do {
+      reportCode = IdUtils.genMixID(10);
+    } while (findReportByReportCode(reportCode) != null);
+    return reportCode;
+  }
+
+  @Override
   public Report findReportByReportCode(String reportCode) {
     return reportDao.findById(reportCode)
         .orElse(null);
@@ -34,11 +43,6 @@ public class ReportServiceImpl implements ReportService {
 
   @Override
   public Report createReport(Report report) {
-    String reportCode;
-    do {
-      reportCode = IdUtils.genMixID(10);
-    } while (findReportByReportCode(reportCode) != null);
-    report.setReportCode(reportCode);
     return reportDao.save(report);
   }
 
