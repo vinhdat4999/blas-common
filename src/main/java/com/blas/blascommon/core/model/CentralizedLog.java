@@ -39,15 +39,12 @@ public class CentralizedLog {
 
   private String cause;
 
-  @Field(name = "request_data1")
-  private String requestData1;
+  @Field(name = "log_data1")
+  private String logData1;
 
-  @Field(name = "request_data2")
-  private String requestData2;
+  @Field(name = "log_data2")
+  private String logData2;
 
-  @Field(name = "request_data3")
-  private String requestData3;
-
-  @Field(name = "log_content")
-  private String logContent;
+  @Field(name = "log_data3")
+  private String logData3;
 }
