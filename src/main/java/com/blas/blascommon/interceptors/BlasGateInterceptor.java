@@ -4,7 +4,8 @@ import static com.blas.blascommon.constants.ResponseMessage.HTTP_STATUS_NOT_200;
 import static com.blas.blascommon.enums.LogType.ERROR;
 import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_IN_MAINTENANCE;
 import static com.blas.blascommon.utils.IpUtils.isLocalRequest;
-import static com.blas.blascommon.utils.httprequest.GetRequest.sendGetRequest;
+import static com.blas.blascommon.utils.httprequest.HttpMethod.GET;
+import static com.blas.blascommon.utils.httprequest.RequestUtils.getTokenFromRequest;
 import static java.time.LocalDateTime.now;
 
 import com.blas.blascommon.core.model.BlasGateInfo;
@@ -12,12 +13,12 @@ import com.blas.blascommon.core.service.BlasGateInfoService;
 import com.blas.blascommon.core.service.CentralizedLogService;
 import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.MaintenanceException;
-import com.blas.blascommon.jwt.JwtTokenUtil;
 import com.blas.blascommon.payload.HttpResponse;
 import com.blas.blascommon.payload.MaintenanceTimeResponse;
 import com.blas.blascommon.properties.BlasGateConfiguration;
 import com.blas.blascommon.properties.BlasServiceConfiguration;
 import com.blas.blascommon.properties.ServiceSupportProperties;
+import com.blas.blascommon.utils.httprequest.HttpRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,13 +42,13 @@ public class BlasGateInterceptor implements HandlerInterceptor {
   private ServiceSupportProperties serviceSupportProperties;
   private CentralizedLogService centralizedLogService;
   private boolean isSendEmailAlert;
-  private JwtTokenUtil jwtTokenUtil;
+  private HttpRequest httpRequest;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
       Object handler) {
     logRequestInfo(request);
-    checkMaintenance();
+    checkMaintenance(request);
     return true;
   }
 
@@ -63,7 +64,7 @@ public class BlasGateInterceptor implements HandlerInterceptor {
     // No action to check
   }
 
-  private void checkMaintenance() {
+  private void checkMaintenance(HttpServletRequest request) {
     List<String> serviceSkip = List.of("blas-support-service", "blas-drive");
     String serviceName = blasServiceConfiguration.getServiceName();
     if (serviceSkip.contains(serviceName)) {
@@ -79,8 +80,9 @@ public class BlasGateInterceptor implements HandlerInterceptor {
     maintenanceTimeResponse.setInMaintenance(false);
     boolean isChecked = false;
     try {
-      HttpResponse response = sendGetRequest(serviceSupportProperties.getEndpointCheckMaintenance(),
-          Map.of("service", serviceName), jwtTokenUtil.generateInternalSystemToken());
+      HttpResponse response = httpRequest.sendRequestWithoutRequestBody(
+          serviceSupportProperties.getEndpointCheckMaintenance(), GET,
+          Map.of("service", serviceName), getTokenFromRequest(request));
       if (response.getStatusCode() != HttpStatus.OK.value()) {
         centralizedLogService.saveLog(serviceName, ERROR, null,
             HTTP_STATUS_NOT_200, response.toString(), null, null,

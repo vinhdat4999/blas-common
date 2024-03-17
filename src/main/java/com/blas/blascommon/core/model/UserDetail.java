@@ -1,5 +1,6 @@
 package com.blas.blascommon.core.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -14,7 +15,9 @@ import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder
@@ -31,6 +34,9 @@ public class UserDetail {
 
   @OneToOne
   @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_details_1"))
+  @JsonBackReference
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   private AuthUser authUser;
 
   @Column(name = "first_name", length = 35, nullable = false)

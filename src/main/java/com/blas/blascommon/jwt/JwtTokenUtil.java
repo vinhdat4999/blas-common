@@ -1,9 +1,6 @@
 package com.blas.blascommon.jwt;
 
-import static com.blas.blascommon.constants.SecurityConstant.AUTHORIZATION;
-import static com.blas.blascommon.constants.SecurityConstant.BEARER_SPACE;
 import static com.blas.blascommon.constants.SecurityConstant.HMAC_SHA_512;
-import static com.blas.blascommon.enums.Role.SYSTEM;
 import static java.lang.System.currentTimeMillis;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -80,14 +77,6 @@ public class JwtTokenUtil {
       throws InvalidAlgorithmParameterException, UnrecoverableKeyException, IllegalBlockSizeException, NoSuchPaddingException, CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
     Map<String, Object> claims = new HashMap<>();
     return doGenerateToken(claims, username, jwtConfigurationProperties.getTimeToExpired());
-  }
-
-  // generate token for internal system
-  public Map<String, String> generateInternalSystemToken()
-      throws InvalidAlgorithmParameterException, UnrecoverableKeyException, IllegalBlockSizeException, NoSuchPaddingException, CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-    Map<String, Object> claims = new HashMap<>();
-    return Map.of(AUTHORIZATION, BEARER_SPACE + doGenerateToken(claims, SYSTEM.toString(),
-        jwtConfigurationProperties.getTimeToExpiredInternalToken()));
   }
 
   // while creating the token -

@@ -30,18 +30,10 @@ import org.springframework.core.io.InputStreamResource;
 @UtilityClass
 public class FileUtils {
 
-  @Deprecated(since = "4.3.0")
-  public static boolean createBlankFile(String path) throws IOException {
-    boolean createFileSucceed;
-    File newFile = new File(path);
-    createFileSucceed = newFile.createNewFile();
-    return createFileSucceed;
-  }
-
   public static String readFile(String path) throws IOException {
     StringBuilder content = new StringBuilder();
     String tempStr;
-    try (BufferedReader objReader = new BufferedReader(new FileReader(path));) {
+    try (BufferedReader objReader = new BufferedReader(new FileReader(path))) {
       while ((tempStr = objReader.readLine()) != null) {
         content.append(tempStr).append("\n");
       }

@@ -4,12 +4,14 @@ import static com.blas.blascommon.constants.BlasConstant.TELEGRAM_BLAS_VIETNAM_B
 import static com.blas.blascommon.security.SecurityUtils.aesDecrypt;
 import static com.blas.blascommon.security.SecurityUtils.getPrivateKeyAesFromCertificate;
 import static com.blas.blascommon.utils.StringUtils.EMPTY;
-import static com.blas.blascommon.utils.httprequest.PostRequest.sendPostRequestWithStringPayload;
+import static com.blas.blascommon.utils.httprequest.HttpMethod.POST;
 
 import com.blas.blascommon.configurations.CertPasswordConfiguration;
 import com.blas.blascommon.core.service.BlasConfigService;
 import com.blas.blascommon.properties.BlasPrivateKeyConfiguration;
+import com.blas.blascommon.utils.httprequest.HttpRequest;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.InvalidAlgorithmParameterException;
@@ -40,10 +42,13 @@ public class TelegramUtils {
   @Lazy
   private final BlasConfigService blasConfigService;
 
+  @Lazy
+  private final HttpRequest httpRequest;
+
   private final CertPasswordConfiguration certPasswordConfiguration;
 
   public void sendTelegramMessage(String text, String chatId)
-      throws URISyntaxException, InvalidAlgorithmParameterException, UnrecoverableKeyException, IllegalBlockSizeException, NoSuchPaddingException, CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+      throws URISyntaxException, InvalidAlgorithmParameterException, UnrecoverableKeyException, IllegalBlockSizeException, NoSuchPaddingException, CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     final String privateKey = getPrivateKeyAesFromCertificate(
         blasPrivateKeyConfiguration.getCertificate(),
         blasPrivateKeyConfiguration.getAliasBlasPrivateKey(),
@@ -58,7 +63,7 @@ public class TelegramUtils {
     uriBuilder.addParameter("text", standardizeMessage(text));
     URL url = uriBuilder.build().toURL();
     log.debug("Sending Telegram message");
-    sendPostRequestWithStringPayload(url.toString(), null, null, EMPTY);
+    httpRequest.sendRequestWithStringPayload(url.toString(), POST, null, null, EMPTY);
   }
 
   private String standardizeMessage(String message) {

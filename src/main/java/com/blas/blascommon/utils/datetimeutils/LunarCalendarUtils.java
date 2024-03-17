@@ -8,7 +8,7 @@ public class LunarCalendarUtils {
   private static String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
       "Sep", "Oct", "Nov", "Dec"};
   private static String[] stemNames = {"Moc", "Moc", "Hoa", "Hoa", "Tho", "Tho", "Kim", "Kim",
-      "Thủy", "Thủy"};
+      "Thuy", "Thuy"};
   private static String[] heavenName = {"Giap", "At", "Binh", "Dinh", "Mau", "Ky", "Canh", "Tan",
       "Nham", "Quy"};
   private static String[] branchNames = {"Ty (Mouse)", "Suu", "Dan", "Mao", "Thin", "Ty (Snake)",
@@ -147,10 +147,7 @@ public class LunarCalendarUtils {
   }
 
   private static boolean isGregorianLeapYear(int year) {
-    boolean isLeap = false;
-    if (year % 4 == 0) {
-      isLeap = true;
-    }
+    boolean isLeap = year % 4 == 0;
     if (year % 100 == 0) {
       isLeap = false;
     }
@@ -223,8 +220,8 @@ public class LunarCalendarUtils {
   }
 
   private static int getDayWhenMonthSpecified(int index) {
-    for (int i = 0; i < bigLeapMonthYears.length; i++) {
-      if (bigLeapMonthYears[i] == index) {
+    for (int bigLeapMonthYear : bigLeapMonthYears) {
+      if (bigLeapMonthYear == index) {
         return 30;
       }
     }
