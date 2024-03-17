@@ -3,10 +3,10 @@ package com.blas.blascommon.configurations;
 import com.blas.blascommon.core.service.BlasGateInfoService;
 import com.blas.blascommon.core.service.CentralizedLogService;
 import com.blas.blascommon.interceptors.BlasGateInterceptor;
-import com.blas.blascommon.jwt.JwtTokenUtil;
 import com.blas.blascommon.properties.BlasGateConfiguration;
 import com.blas.blascommon.properties.BlasServiceConfiguration;
 import com.blas.blascommon.properties.ServiceSupportProperties;
+import com.blas.blascommon.utils.httprequest.HttpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +34,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
   private final CentralizedLogService centralizedLogService;
 
   @Lazy
-  private final JwtTokenUtil jwtTokenUtil;
+  private final HttpRequest httpRequest;
 
   @Value("${blas.blas-idp.isSendEmailAlert}")
   private boolean isSendEmailAlert;
@@ -43,6 +43,6 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(new BlasGateInterceptor(blasServiceConfiguration, blasGateConfiguration,
         blasGateInfoService, serviceSupportProperties, centralizedLogService, isSendEmailAlert,
-        jwtTokenUtil));
+        httpRequest));
   }
 }
