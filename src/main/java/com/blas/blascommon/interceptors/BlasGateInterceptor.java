@@ -1,7 +1,6 @@
 package com.blas.blascommon.interceptors;
 
 import static com.blas.blascommon.constants.ResponseMessage.HTTP_STATUS_NOT_200;
-import static com.blas.blascommon.enums.LogType.ERROR;
 import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_IN_MAINTENANCE;
 import static com.blas.blascommon.utils.IpUtils.isLocalRequest;
 import static com.blas.blascommon.utils.httprequest.HttpMethod.GET;
@@ -11,7 +10,7 @@ import static java.time.LocalDateTime.now;
 import com.blas.blascommon.core.model.BlasGateInfo;
 import com.blas.blascommon.core.service.BlasGateInfoService;
 import com.blas.blascommon.core.service.CentralizedLogService;
-import com.blas.blascommon.exceptions.types.BadRequestException;
+import com.blas.blascommon.exceptions.types.BlasException;
 import com.blas.blascommon.exceptions.types.MaintenanceException;
 import com.blas.blascommon.payload.HttpResponse;
 import com.blas.blascommon.payload.MaintenanceTimeResponse;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -84,10 +82,8 @@ public class BlasGateInterceptor implements HandlerInterceptor {
           serviceSupportProperties.getEndpointCheckMaintenance(), GET,
           Map.of("service", serviceName), getTokenFromRequest(request));
       if (response.getStatusCode() != HttpStatus.OK.value()) {
-        centralizedLogService.saveLog(serviceName, ERROR, null,
-            HTTP_STATUS_NOT_200, response.toString(), null, null,
-            String.valueOf(new JSONArray(new BadRequestException(HTTP_STATUS_NOT_200))),
-            isSendEmailAlert);
+        centralizedLogService.saveLog(new BlasException(HTTP_STATUS_NOT_200), response,
+            maintenanceTimeResponse, request);
       } else {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
