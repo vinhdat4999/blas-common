@@ -17,7 +17,9 @@ import com.blas.blascommon.exceptions.types.NotFoundException;
 import com.blas.blascommon.utils.email.InternalEmail;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -81,7 +83,9 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
         .logTime(LocalDateTime.now())
         .serviceName(serviceName)
         .logType(ERROR.name())
-        .exception(exception.toString())
+        .exception(Arrays.stream(exception.getStackTrace())
+            .map(Objects::toString)
+            .collect(Collectors.joining("\n")))
         .cause(Optional.ofNullable(exception.getCause()).map(Throwable::toString).orElse(EMPTY))
         .logData1(Optional.ofNullable(logData1).map(Object::toString).orElse(EMPTY))
         .logData2(Optional.ofNullable(logData2).map(Object::toString).orElse(EMPTY))
