@@ -6,6 +6,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 import com.blas.blascommon.payload.HttpResponse;
+import com.blas.blascommon.properties.BlasRequestConfig;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.NameValuePair;
@@ -30,13 +32,19 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Configuration
+@Component
+@RequiredArgsConstructor
 public class HttpRequest {
 
   private static final String METHOD_CANNOT_BE_NULL = "Method cannot be null";
+  private static final int DEFAULT_TIMEOUT = 30000;
+
+  @Lazy
+  private final BlasRequestConfig blasRequestConfig;
 
   public HttpResponse sendPostRequestWithFormUrlEncodedPayload(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList,
@@ -106,10 +114,17 @@ public class HttpRequest {
     }
     StringEntity entity = new StringEntity(Optional.ofNullable(payload).orElse(EMPTY),
         APPLICATION_JSON);
+    log.debug("HTTP timeout not set. Using default timeout: {}", DEFAULT_TIMEOUT);
+    int httpRequestTimeout = blasRequestConfig.getHttpRequestTimeout() ==
+        0 ? DEFAULT_TIMEOUT : blasRequestConfig.getHttpRequestTimeout();
     CloseableHttpClient httpClient = HttpClients.custom()
         .setRedirectStrategy(new LaxRedirectStrategy()).setDefaultRequestConfig(
-            RequestConfig.custom().setConnectTimeout(10000).setConnectionRequestTimeout(10000)
-                .setSocketTimeout(10000).build()).build();
+            RequestConfig.custom()
+                .setConnectTimeout(httpRequestTimeout)
+                .setConnectionRequestTimeout(httpRequestTimeout)
+                .setSocketTimeout(httpRequestTimeout)
+                .build())
+        .build();
     if (httpMethod instanceof HttpEntityEnclosingRequestBase httpentityenclosingrequestbase) {
       httpentityenclosingrequestbase.setEntity(entity);
     }
