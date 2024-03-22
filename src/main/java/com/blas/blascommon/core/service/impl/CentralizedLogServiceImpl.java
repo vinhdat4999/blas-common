@@ -22,7 +22,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -50,11 +49,6 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
 
   @Lazy
   private final BlasConfigService blasConfigService;
-
-  public static void main(String[] args) {
-    System.out.println(
-        new JSONObject(Optional.ofNullable(null).map(Object::toString).orElse(EMPTY)));
-  }
 
   @Override
   public CentralizedLog saveLog(Exception exception) {
