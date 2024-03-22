@@ -21,6 +21,7 @@ import com.blas.blascommon.exceptions.types.NotFoundException;
 import com.blas.blascommon.exceptions.types.PaymentException;
 import com.blas.blascommon.exceptions.types.ServiceUnavailableException;
 import com.blas.blascommon.exceptions.types.UnauthorizedException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -105,7 +106,8 @@ public class ExceptionHandle {
     error.setMessage(exception.getMessage());
     error.setBlasErrorCode(new BlasErrorCode(exception.getBlasErrorCodeEnum()));
     error.setTimeStamp(currentTimeMillis());
-    return new ResponseEntity<>(error, FORBIDDEN);
+    return new ResponseEntity<>(error,
+        HttpStatus.valueOf(exception.getBlasErrorCodeEnum().getHttpCode()));
   }
 
   @ExceptionHandler
