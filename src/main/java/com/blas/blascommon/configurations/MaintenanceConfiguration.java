@@ -1,12 +1,10 @@
 package com.blas.blascommon.configurations;
 
-import static com.blas.blascommon.constants.ResponseMessage.HTTP_STATUS_NOT_200;
 import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_IN_MAINTENANCE;
 import static com.blas.blascommon.utils.httprequest.HttpMethod.GET;
 import static com.blas.blascommon.utils.httprequest.RequestUtils.getTokenFromRequest;
 
 import com.blas.blascommon.core.service.CentralizedLogService;
-import com.blas.blascommon.exceptions.types.BlasException;
 import com.blas.blascommon.exceptions.types.MaintenanceException;
 import com.blas.blascommon.payload.HttpResponse;
 import com.blas.blascommon.payload.MaintenanceTimeResponse;
@@ -56,13 +54,14 @@ public class MaintenanceConfiguration {
     MaintenanceTimeResponse maintenanceTimeResponse = new MaintenanceTimeResponse();
     maintenanceTimeResponse.setInMaintenance(false);
     boolean isChecked = false;
+    HttpResponse response = null;
     try {
-      HttpResponse response = httpRequest.sendRequestWithoutRequestBody(
+      response = httpRequest.sendRequestWithoutRequestBody(
           serviceSupportProperties.getEndpointCheckMaintenance(), GET,
           Map.of("service", serviceName), getTokenFromRequest(request));
       if (response.getStatusCode() != HttpStatus.OK.value()) {
-        centralizedLogService.saveLog(new BlasException(HTTP_STATUS_NOT_200), response,
-            maintenanceTimeResponse, request);
+        log.warn("Can not check maintenance time for " + serviceName
+            + " properly. Skip checking maintenance time.");
       } else {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -71,7 +70,8 @@ public class MaintenanceConfiguration {
             MaintenanceTimeResponse.class);
         isChecked = true;
       }
-    } catch (Exception ignored) {
+    } catch (Exception exception) {
+      centralizedLogService.saveLog(exception, response, maintenanceTimeResponse, request);
       log.warn("Can not check maintenance time for " + serviceName
           + " properly. Skip checking maintenance time.");
     } finally {
