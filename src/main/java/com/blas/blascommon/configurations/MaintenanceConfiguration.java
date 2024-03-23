@@ -1,68 +1,47 @@
-package com.blas.blascommon.interceptors;
+package com.blas.blascommon.configurations;
 
 import static com.blas.blascommon.constants.ResponseMessage.HTTP_STATUS_NOT_200;
 import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_IN_MAINTENANCE;
-import static com.blas.blascommon.utils.IpUtils.isLocalRequest;
 import static com.blas.blascommon.utils.httprequest.HttpMethod.GET;
 import static com.blas.blascommon.utils.httprequest.RequestUtils.getTokenFromRequest;
-import static java.time.LocalDateTime.now;
 
-import com.blas.blascommon.core.model.BlasGateInfo;
-import com.blas.blascommon.core.service.BlasGateInfoService;
 import com.blas.blascommon.core.service.CentralizedLogService;
 import com.blas.blascommon.exceptions.types.BlasException;
 import com.blas.blascommon.exceptions.types.MaintenanceException;
 import com.blas.blascommon.payload.HttpResponse;
 import com.blas.blascommon.payload.MaintenanceTimeResponse;
-import com.blas.blascommon.properties.BlasGateConfiguration;
 import com.blas.blascommon.properties.BlasServiceConfiguration;
 import com.blas.blascommon.properties.ServiceSupportProperties;
 import com.blas.blascommon.utils.httprequest.HttpRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
-@AllArgsConstructor
-public class BlasGateInterceptor implements HandlerInterceptor {
+@Configuration
+@RequiredArgsConstructor
+public class MaintenanceConfiguration {
 
-  private BlasServiceConfiguration blasServiceConfiguration;
-  private BlasGateConfiguration blasGateConfiguration;
-  private BlasGateInfoService blasGateInfoService;
-  private ServiceSupportProperties serviceSupportProperties;
-  private CentralizedLogService centralizedLogService;
-  private boolean isSendEmailAlert;
-  private HttpRequest httpRequest;
+  @Lazy
+  private final HttpRequest httpRequest;
 
-  @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-      Object handler) {
-    logRequestInfo(request);
-    checkMaintenance(request);
-    return true;
-  }
+  @Lazy
+  private final CentralizedLogService centralizedLogService;
 
-  @Override
-  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-      ModelAndView modelAndView) {
-    // No action to check
-  }
+  @Lazy
+  private final BlasServiceConfiguration blasServiceConfiguration;
 
-  @Override
-  public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
-      Object handler, Exception ex) {
-    // No action to check
-  }
+  @Lazy
+  private final ServiceSupportProperties serviceSupportProperties;
 
-  private void checkMaintenance(HttpServletRequest request) {
+  public void checkMaintenance(HttpServletRequest request) {
     List<String> serviceSkip = List.of("blas-support-service", "blas-drive");
     String serviceName = blasServiceConfiguration.getServiceName();
     if (serviceSkip.contains(serviceName)) {
@@ -105,23 +84,6 @@ public class BlasGateInterceptor implements HandlerInterceptor {
     }
     if (maintenanceTimeResponse.isInMaintenance()) {
       throw new MaintenanceException(MSG_IN_MAINTENANCE, maintenanceTimeResponse);
-    }
-  }
-
-  private void logRequestInfo(HttpServletRequest request) {
-    if (blasGateConfiguration.isEnableLogRequest() && (!isLocalRequest(request)
-        || blasGateConfiguration.isEnableLogLocalRequest())) {
-      BlasGateInfo blasGateInfo = BlasGateInfo.builder()
-          .service(blasServiceConfiguration.getServiceName())
-          .timeLogged(now())
-          .locale(request.getLocale().toString())
-          .remoteUser(request.getRemoteUser())
-          .remoteAddress(request.getRemoteAddr())
-          .requestUrl(request.getRequestURL().toString())
-          .remotePort(String.valueOf(request.getRemotePort()))
-          .queryString(request.getQueryString())
-          .build();
-      blasGateInfoService.createBlasGateInfo(blasGateInfo);
     }
   }
 }

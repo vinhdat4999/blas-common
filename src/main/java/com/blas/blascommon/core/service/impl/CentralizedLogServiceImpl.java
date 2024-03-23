@@ -33,22 +33,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class CentralizedLogServiceImpl implements CentralizedLogService {
 
-  @Value("${blas.service.serviceName}")
-  private String serviceName;
-
-  @Value("${blas.blas-idp.isSendEmailAlert}")
-  private boolean isSendEmailAlert;
-
   private static final String INTERNAL_EMAIL_SUBJECT = "[BLAS][CENTRALIZED LOG]ERROR ALERT";
-
   @Lazy
   private final CentralizedLogDao centralizedLogDao;
-
   @Lazy
   private final InternalEmail internalEmail;
-
   @Lazy
   private final BlasConfigService blasConfigService;
+  @Value("${blas.service.serviceName}")
+  private String serviceName;
+  @Value("${blas.blas-idp.isSendEmailAlert}")
+  private boolean isSendEmailAlert;
 
   @Override
   public CentralizedLog saveLog(Exception exception) {
