@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 5.1.0   | 23/03/2024   | Extract configuration                                                                                            |
 | 5.0.0   | 18/03/2024   | Support new HttpRequest to send HTTP Request and new Centralized Log                                             |
 | 4.12.0  | 02/02/2024   | Add new method AES encrypt, decrypt and support check report                                                     |
 | 4.11.0  | 29/01/2024   | Update Blas Error Code list                                                                                      |
