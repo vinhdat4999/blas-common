@@ -34,14 +34,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class CentralizedLogServiceImpl implements CentralizedLogService {
 
   private static final String INTERNAL_EMAIL_SUBJECT = "[BLAS][CENTRALIZED LOG]ERROR ALERT";
+
   @Lazy
   private final CentralizedLogDao centralizedLogDao;
+
   @Lazy
   private final InternalEmail internalEmail;
+
   @Lazy
   private final BlasConfigService blasConfigService;
+
   @Value("${blas.service.serviceName}")
   private String serviceName;
+
   @Value("${blas.blas-idp.isSendEmailAlert}")
   private boolean isSendEmailAlert;
 
@@ -66,25 +71,13 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
   @Override
   public CentralizedLog saveLog(Exception exception, Object logData1, Object logData2,
       Object logData3) {
-    final String centralizedLogId = genUUID();
-    CentralizedLog centralizedLog = CentralizedLog.builder()
-        .centralizedLogId(centralizedLogId)
-        .logTime(LocalDateTime.now())
-        .serviceName(serviceName)
-        .logType(ERROR.name())
-        .exception(Arrays.stream(exception.getStackTrace())
-            .map(Objects::toString)
-            .collect(Collectors.joining("\n")))
-        .cause(Optional.ofNullable(exception.getCause()).map(Throwable::toString).orElse(EMPTY))
-        .logData1(Optional.ofNullable(logData1).map(Object::toString).orElse(EMPTY))
-        .logData2(Optional.ofNullable(logData2).map(Object::toString).orElse(EMPTY))
-        .logData3(Optional.ofNullable(logData3).map(Object::toString).orElse(EMPTY))
-        .build();
-    if (isSendEmailAlert) {
-      sendAlertEmail(serviceName, ERROR, exception.toString());
-    }
-    log.error("Error logged. centralizedLogId: {}", centralizedLogId);
-    return centralizedLogDao.save(centralizedLog);
+    return saveLogBase(exception, logData1, logData2, logData3, isSendEmailAlert);
+  }
+
+  @Override
+  public CentralizedLog saveLog(Exception exception, Object logData1, Object logData2,
+      Object logData3, boolean sendEmail) {
+    return saveLogBase(exception, logData1, logData2, logData3, sendEmail);
   }
 
   @Override
@@ -107,5 +100,28 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
     Arrays.stream(blasConfigService.getConfigValueFromKey(ALERT_EMAIL_RECEIVER_LIST).split(COMMA))
         .forEach(email -> internalEmail.sendEmail(safeTrim(email), INTERNAL_EMAIL_SUBJECT,
             emailContent));
+  }
+
+  private CentralizedLog saveLogBase(Exception exception, Object logData1, Object logData2,
+      Object logData3, boolean isSendEmailAlert) {
+    final String centralizedLogId = genUUID();
+    CentralizedLog centralizedLog = CentralizedLog.builder()
+        .centralizedLogId(centralizedLogId)
+        .logTime(LocalDateTime.now())
+        .serviceName(serviceName)
+        .logType(ERROR.name())
+        .exception(Arrays.stream(exception.getStackTrace())
+            .map(Objects::toString)
+            .collect(Collectors.joining("\n")))
+        .cause(Optional.ofNullable(exception.getCause()).map(Throwable::toString).orElse(EMPTY))
+        .logData1(Optional.ofNullable(logData1).map(Object::toString).orElse(EMPTY))
+        .logData2(Optional.ofNullable(logData2).map(Object::toString).orElse(EMPTY))
+        .logData3(Optional.ofNullable(logData3).map(Object::toString).orElse(EMPTY))
+        .build();
+    if (isSendEmailAlert) {
+      sendAlertEmail(serviceName, ERROR, exception.toString());
+    }
+    log.error("Error logged. centralizedLogId: {}", centralizedLogId);
+    return centralizedLogDao.save(centralizedLog);
   }
 }
