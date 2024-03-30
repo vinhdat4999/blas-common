@@ -2,10 +2,10 @@ name: build and publish
 
 on:
   push:
-    branches: [ main ]
+    branches: [ develop ]
 
 jobs:
-  build-release:
+  build-snapshot:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,9 +31,16 @@ jobs:
       - name: Extract release version from pom.xml
         id: extractVersion
         run: |
-          serviceVersion=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml | sed "s/-SNAPSHOT//")
+          serviceVersion=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml)
           echo "serviceVersion=$serviceVersion"
           echo "serviceVersion=$serviceVersion" >> $GITHUB_OUTPUT
+
+      - name: Check if version contains -SNAPSHOT
+        run: |
+          if [[ ${{ steps.extractVersion.outputs.serviceVersion }} != *-SNAPSHOT* ]]; then
+          echo "Snapshot version must have suffix -SNAPSHOT"
+          exit 1
+          fi
 
       - name: Cache Maven dependencies
         uses: actions/cache@v2
@@ -46,7 +53,7 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Publish to GitHub Packages Apache Maven
-        run: mvn deploy:deploy-file -Durl="https://maven.pkg.github.com/vinhdat4999/blas-common" -DrepositoryId=github -Dfile=pom.xml -DpomFile=pom.xml -DgroupId=com.blas -DartifactId=blas-common -Dversion=${{ steps.extractVersion.outputs.serviceVersion }} -Dpackaging=jar
+        run: mvn deploy
         env:
           GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
