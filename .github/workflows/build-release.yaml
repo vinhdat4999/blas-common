@@ -49,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PACKAGE }}
 
       - name: Publish to GitHub Packages Apache Maven
-        run: mvn deploy:deploy-file -Durl="https://maven.pkg.github.com/vinhdat4999/blas-common" -DrepositoryId=github -Dfile=pom.xml -DpomFile=pom.xml -DgroupId=com.blas -DartifactId=blas-common -Dversion=${{ steps.extractVersion.outputs.serviceVersion }} -Dpackaging=jar
+        run: mvn deploy -Dversion=${{ steps.extractVersion.outputs.serviceVersion }}
         env:
           GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
