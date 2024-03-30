@@ -28,7 +28,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install libxml2-utils
 
-      - name: Extract release version from pom.xml
+      - name: Extract version from pom.xml
         id: extractVersion
         run: |
           serviceVersion=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml)
