@@ -1,11 +1,11 @@
-name: build and release
+name: build and publish
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build-and-release:
+  build-release:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,6 +17,23 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           server-id: github
+
+      - name: Install xmllint tool
+        shell: bash
+        continue-on-error: true
+        run: |
+          sudo apt-get clean
+          sudo apt-get install -f
+          sudo dpkg --configure -a
+          sudo apt-get update
+          sudo apt-get install libxml2-utils
+
+      - name: Extract release version from pom.xml
+        id: extractVersion
+        run: |
+          serviceVersion=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml | sed "s/-SNAPSHOT//")
+          echo "serviceVersion=$serviceVersion"
+          echo "serviceVersion=$serviceVersion" >> $GITHUB_OUTPUT
 
       - name: Cache Maven dependencies
         uses: actions/cache@v2

@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 5.3.0   | 30/03/2024   | Upgrade spring boot 3.2.4                                                                                        |
 | 5.2.0   | 23/03/2024   | Upgrade Java 21                                                                                                  |
 | 5.1.0   | 23/03/2024   | Extract configuration                                                                                            |
 | 5.0.0   | 18/03/2024   | Support new HttpRequest to send HTTP Request and new Centralized Log                                             |
