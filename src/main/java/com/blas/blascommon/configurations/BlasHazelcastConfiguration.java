@@ -14,10 +14,20 @@ import org.springframework.context.annotation.Configuration;
 @EnableCaching
 public class BlasHazelcastConfiguration implements CachingConfigurer {
 
+//  @Bean
+//  public Config hazelcastConfig() {
+//    Config config = new Config();
+//    config.setInstanceName("blasHazelcastInstance");
+//    return config;
+//  }
+
   @Bean
   public Config hazelcastConfig() {
     Config config = new Config();
-    config.setInstanceName("blasHazelcastInstance");
+    config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(false);
+    config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
+    config.getNetworkConfig().getJoin().getKubernetesConfig().setEnabled(true)
+        .setProperty("namespace", "default").setProperty("service-name", "hazelcast-service");
     return config;
   }
 
