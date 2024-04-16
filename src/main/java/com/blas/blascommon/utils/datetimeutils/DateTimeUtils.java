@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -66,6 +67,17 @@ public class DateTimeUtils {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
       return time.format(formatter);
     } catch (IllegalArgumentException exception) {
+      return EMPTY;
+    }
+  }
+
+  public static String convertDateTimeWithFormat(String time, String inFormat, String outFormat) {
+    try {
+      SimpleDateFormat inputDateFormat = new SimpleDateFormat(inFormat);
+      Date date = inputDateFormat.parse(time);
+      SimpleDateFormat outputDateFormat = new SimpleDateFormat(outFormat);
+      return outputDateFormat.format(date);
+    } catch (ParseException exception) {
       return EMPTY;
     }
   }

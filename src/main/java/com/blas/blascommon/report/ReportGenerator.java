@@ -2,7 +2,7 @@ package com.blas.blascommon.report;
 
 import static com.blas.blascommon.report.ReportConstants.REPORT_LINE_LENGTH;
 import static com.blas.blascommon.utils.StringUtils.EQUAL;
-import static com.blas.blascommon.utils.datetimeutils.DateTimeUtils.STANDARD_DATE_TIME_FORMAT_1;
+import static com.blas.blascommon.utils.datetimeutils.DateTimeUtils.STANDARD_DATE_TIME_FORMAT_2;
 import static com.blas.blascommon.utils.datetimeutils.DateTimeUtils.convertLocalDateTimeToTimeFormat;
 import static java.util.stream.Collectors.joining;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -53,7 +53,7 @@ public class ReportGenerator {
 
   private String generateTimeReport(LocalDateTime generatedTime) {
     return String.format("GENERATED REPORT TIME: %s",
-        convertLocalDateTimeToTimeFormat(generatedTime, STANDARD_DATE_TIME_FORMAT_1));
+        convertLocalDateTimeToTimeFormat(generatedTime, STANDARD_DATE_TIME_FORMAT_2));
   }
 
   private String generateReportBy(String reportBy) {
