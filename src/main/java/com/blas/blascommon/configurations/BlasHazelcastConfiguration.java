@@ -20,13 +20,16 @@ import org.springframework.context.annotation.Profile;
 @RequiredArgsConstructor
 public class BlasHazelcastConfiguration implements CachingConfigurer {
 
+  private static final String LOCAL_BLAS_HAZELCAST_INSTANCE = "blasHazelcastInstance";
+
   private final HazelcastConfiguration hazelcastConfiguration;
 
   @Bean
   @Profile("local")
   public Config hazelcastLocalConfig() {
+    log.info("Hazelcast localhost configuration. Instance name: {}", LOCAL_BLAS_HAZELCAST_INSTANCE);
     Config config = new Config();
-    config.setInstanceName("blasHazelcastInstance");
+    config.setInstanceName(LOCAL_BLAS_HAZELCAST_INSTANCE);
     return config;
   }
 

@@ -4,7 +4,6 @@ import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_IN_MAINTENANC
 import static com.blas.blascommon.utils.httprequest.HttpMethod.GET;
 import static com.blas.blascommon.utils.httprequest.RequestUtils.getTokenFromRequest;
 
-import com.blas.blascommon.core.service.CentralizedLogService;
 import com.blas.blascommon.exceptions.types.MaintenanceException;
 import com.blas.blascommon.payload.HttpResponse;
 import com.blas.blascommon.payload.MaintenanceTimeResponse;
@@ -31,9 +30,6 @@ public class MaintenanceConfiguration {
   private final HttpRequest httpRequest;
 
   @Lazy
-  private final CentralizedLogService centralizedLogService;
-
-  @Lazy
   private final BlasServiceConfiguration blasServiceConfiguration;
 
   @Lazy
@@ -54,7 +50,7 @@ public class MaintenanceConfiguration {
     MaintenanceTimeResponse maintenanceTimeResponse = new MaintenanceTimeResponse();
     maintenanceTimeResponse.setInMaintenance(false);
     boolean isChecked = false;
-    HttpResponse response = null;
+    HttpResponse response;
     try {
       response = httpRequest.sendRequestWithoutRequestBody(
           serviceSupportProperties.getEndpointCheckMaintenance(), GET,
@@ -71,7 +67,6 @@ public class MaintenanceConfiguration {
         isChecked = true;
       }
     } catch (Exception exception) {
-      centralizedLogService.saveLog(exception, response, maintenanceTimeResponse, request);
       log.warn("Can not check maintenance time for " + serviceName
           + " properly. Skip checking maintenance time.");
     } finally {

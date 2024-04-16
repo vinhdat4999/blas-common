@@ -22,7 +22,13 @@ public class BlasReport {
     this.reportMessages.add(message);
   }
 
+  public void addLineSeparator(int numOfLineSeparators) {
+    for (int i = 0; i < numOfLineSeparators; i++) {
+      this.reportMessages.add(EMPTY);
+    }
+  }
+
   public void addLineSeparator() {
-    this.reportMessages.add(EMPTY);
+    this.addLineSeparator(1);
   }
 }
