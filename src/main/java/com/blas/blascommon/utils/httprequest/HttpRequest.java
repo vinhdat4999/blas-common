@@ -114,9 +114,13 @@ public class HttpRequest {
     }
     StringEntity entity = new StringEntity(Optional.ofNullable(payload).orElse(EMPTY),
         APPLICATION_JSON);
-    log.debug("HTTP timeout not set. Using default timeout: {}", DEFAULT_TIMEOUT);
-    int httpRequestTimeout = blasRequestConfig.getHttpRequestTimeout() ==
-        0 ? DEFAULT_TIMEOUT : blasRequestConfig.getHttpRequestTimeout();
+    int httpRequestTimeout = blasRequestConfig.getHttpRequestTimeout();
+    if (httpRequestTimeout == 0) {
+      httpRequestTimeout = DEFAULT_TIMEOUT;
+      log.debug("HTTP timeout not set. Using default timeout: {}", DEFAULT_TIMEOUT);
+    } else {
+      log.debug("HTTP timeout = {}", httpRequestTimeout);
+    }
     CloseableHttpClient httpClient = HttpClients.custom()
         .setRedirectStrategy(new LaxRedirectStrategy()).setDefaultRequestConfig(
             RequestConfig.custom()

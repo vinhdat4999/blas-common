@@ -53,7 +53,6 @@ public class TelegramUtils {
         blasPrivateKeyConfiguration.getCertificate(),
         blasPrivateKeyConfiguration.getAliasBlasPrivateKey(),
         certPasswordConfiguration.getCertPassword());
-    assert privateKey != null;
     final String key = aesDecrypt(privateKey,
         blasConfigService.getConfigValueFromKey(TELEGRAM_BLAS_VIETNAM_BOT));
     URIBuilder uriBuilder = new URIBuilder("https://api.telegram.org");
