@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 5.5.0   | 18/04/2024   | Create ObjectMapper bean                                                                                         |
 | 5.4.0   | 17/04/2024   | Support new MarketInfo endpoint                                                                                  |
 | 5.3.0   | 04/04/2024   | Support Hazelcast on Kubernetes                                                                                  |
 | 5.2.0   | 23/03/2024   | Upgrade Java 21                                                                                                  |

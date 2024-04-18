@@ -11,7 +11,6 @@ import com.blas.blascommon.properties.BlasServiceConfiguration;
 import com.blas.blascommon.properties.ServiceSupportProperties;
 import com.blas.blascommon.utils.httprequest.HttpRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +33,9 @@ public class MaintenanceConfiguration {
 
   @Lazy
   private final ServiceSupportProperties serviceSupportProperties;
+
+  @Lazy
+  private final ObjectMapper objectMapper;
 
   public void checkMaintenance(HttpServletRequest request) {
     List<String> serviceSkip = List.of("blas-support-service", "blas-drive");
@@ -59,8 +61,6 @@ public class MaintenanceConfiguration {
         log.warn("Can not check maintenance time for " + serviceName
             + " properly. Skip checking maintenance time.");
       } else {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
         maintenanceTimeResponse = objectMapper.readValue(
             response.getResponse(),
             MaintenanceTimeResponse.class);
