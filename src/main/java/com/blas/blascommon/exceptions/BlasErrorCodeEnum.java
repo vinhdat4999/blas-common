@@ -34,7 +34,9 @@ public enum BlasErrorCodeEnum {
   MSG_ACCOUNT_INACTIVE(403, 26, "Account Inactive"),
   MSG_UNKNOWN_ERROR(500, 27, "Unknown Error"),
   MSG_IN_MAINTENANCE(503, 28, "Service is in maintenance"),
-  MSG_SECURITY_ERROR(403, 29, "Security Error");
+  MSG_SECURITY_ERROR(403, 29, "Security Error"),
+  MSG_STORAGE_ERROR(500, 30, "Storage Error"),
+  MSG_RESOURCE_NOT_FOUND(500, 31, "Resource not found");
 
   private final int httpCode;
   private final int errorCode;

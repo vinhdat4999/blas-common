@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @EnableCaching
 @RequiredArgsConstructor
+@Profile({"aks", "local"})
 public class BlasHazelcastConfiguration implements CachingConfigurer {
 
   private static final String LOCAL_BLAS_HAZELCAST_INSTANCE = "blasHazelcastInstance";
@@ -34,7 +35,7 @@ public class BlasHazelcastConfiguration implements CachingConfigurer {
   }
 
   @Bean
-  @Profile("default")
+  @Profile("aks")
   public Config hazelcastConfig() {
     Config config = new Config();
     config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(false);

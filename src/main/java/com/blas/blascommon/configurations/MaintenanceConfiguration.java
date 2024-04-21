@@ -1,9 +1,9 @@
 package com.blas.blascommon.configurations;
 
-import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_IN_MAINTENANCE;
 import static com.blas.blascommon.utils.httprequest.HttpMethod.GET;
 import static com.blas.blascommon.utils.httprequest.RequestUtils.getTokenFromRequest;
 
+import com.blas.blascommon.exceptions.BlasErrorCodeEnum;
 import com.blas.blascommon.exceptions.types.MaintenanceException;
 import com.blas.blascommon.payload.HttpResponse;
 import com.blas.blascommon.payload.MaintenanceTimeResponse;
@@ -12,6 +12,8 @@ import com.blas.blascommon.properties.ServiceSupportProperties;
 import com.blas.blascommon.utils.httprequest.HttpRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -40,45 +42,35 @@ public class MaintenanceConfiguration {
   public void checkMaintenance(HttpServletRequest request) {
     List<String> serviceSkip = List.of("blas-support-service", "blas-drive");
     String serviceName = blasServiceConfiguration.getServiceName();
-    if (serviceSkip.contains(serviceName)) {
+    if (serviceSkip.contains(serviceName) || !serviceSupportProperties.isThroughServiceSupport()) {
+      log.debug("Service {} does not require maintenance check.", serviceName);
       return;
     }
-    log.debug("Starting check maintenance...");
-    if (!serviceSupportProperties.isThroughServiceSupport()) {
-      log.debug(serviceName + " not through service support");
-      log.debug("Completely check maintenance");
-      return;
-    }
-    MaintenanceTimeResponse maintenanceTimeResponse = new MaintenanceTimeResponse();
-    maintenanceTimeResponse.setInMaintenance(false);
-    boolean isChecked = false;
-    HttpResponse response;
+    log.debug("Starting maintenance check for {}", serviceName);
     try {
-      response = httpRequest.sendRequestWithoutRequestBody(
+      HttpResponse response = httpRequest.sendRequestWithoutRequestBody(
           serviceSupportProperties.getEndpointCheckMaintenance(), GET,
           Map.of("service", serviceName), getTokenFromRequest(request));
-      if (response.getStatusCode() != HttpStatus.OK.value()) {
-        log.warn("Can not check maintenance time for " + serviceName
-            + " properly. Skip checking maintenance time.");
+
+      if (response.getStatusCode() == HttpStatus.OK.value()) {
+        MaintenanceTimeResponse maintenanceTimeResponse = objectMapper.readValue(
+            response.getResponse(), MaintenanceTimeResponse.class);
+        if (maintenanceTimeResponse.isInMaintenance()) {
+          throw new MaintenanceException(BlasErrorCodeEnum.MSG_IN_MAINTENANCE,
+              maintenanceTimeResponse);
+        } else {
+          log.debug("{} is available.", serviceName);
+        }
       } else {
-        maintenanceTimeResponse = objectMapper.readValue(
-            response.getResponse(),
-            MaintenanceTimeResponse.class);
-        isChecked = true;
+        log.warn("Unable to check maintenance time for {}. Skipping maintenance check.",
+            serviceName);
       }
-    } catch (Exception exception) {
-      log.warn("Can not check maintenance time for " + serviceName
-          + " properly. Skip checking maintenance time.");
+    } catch (IOException | InvocationTargetException | NoSuchMethodException |
+             InstantiationException | IllegalAccessException exception) {
+      log.warn("Error while checking maintenance time for {}. Skipping maintenance check.",
+          serviceName);
     } finally {
-      if (maintenanceTimeResponse.isInMaintenance()) {
-        log.warn(serviceName + " unavailable");
-      } else if (isChecked) {
-        log.debug(serviceName + " available");
-      }
-      log.debug("Completely check maintenance");
-    }
-    if (maintenanceTimeResponse.isInMaintenance()) {
-      throw new MaintenanceException(MSG_IN_MAINTENANCE, maintenanceTimeResponse);
+      log.debug("Completed maintenance check for {}", serviceName);
     }
   }
 }
