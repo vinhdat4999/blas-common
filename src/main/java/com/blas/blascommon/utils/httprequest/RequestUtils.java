@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.experimental.UtilityClass;
-import org.thymeleaf.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 @UtilityClass
 public class RequestUtils {
@@ -30,7 +30,7 @@ public class RequestUtils {
       for (Entry<String, String> entry : parameterList.entrySet()) {
         parameters.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
       }
-      hostUrl += "?" + StringUtils.substring(parameters, 0, parameters.length() - 1);
+      hostUrl += "?" + StringUtils.substring(parameters.toString(), 0, parameters.length() - 1);
     }
     return hostUrl;
   }
