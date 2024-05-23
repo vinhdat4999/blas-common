@@ -4,16 +4,21 @@ import java.time.LocalDate;
 
 public class LunarCalendarUtils {
 
-  private static char[] daysInGregorianMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-  private static String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+  private static final char[] DAYS_IN_GREGORIAN_MONTH = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30,
+      31};
+  private static final String[] MONTH_NAMES = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+      "Aug",
       "Sep", "Oct", "Nov", "Dec"};
-  private static String[] stemNames = {"Moc", "Moc", "Hoa", "Hoa", "Tho", "Tho", "Kim", "Kim",
+  private static final String[] STEM_NAMES = {"Moc", "Moc", "Hoa", "Hoa", "Tho", "Tho", "Kim",
+      "Kim",
       "Thuy", "Thuy"};
-  private static String[] heavenName = {"Giap", "At", "Binh", "Dinh", "Mau", "Ky", "Canh", "Tan",
+  private static final String[] HEAVEN_NAME = {"Giap", "At", "Binh", "Dinh", "Mau", "Ky", "Canh",
+      "Tan",
       "Nham", "Quy"};
-  private static String[] branchNames = {"Ty (Mouse)", "Suu", "Dan", "Mao", "Thin", "Ty (Snake)",
+  private static final String[] BRANCH_NAMES = {"Ty (Mouse)", "Suu", "Dan", "Mao", "Thin",
+      "Ty (Snake)",
       "Ngo", "Mui", "Than", "Dau", "Tuat", "Hoi"};
-  private static char[] lunarMonths = {
+  private static final char[] LUNAR_MONTHS = {
       //Lunar month map, 2 bytes per year, from 1900 to 2100, 402 bytes.
       //The first 4 bits represents the leap month of the year.
       //The rest 12 bits are flags indicate if the corresponding month
@@ -46,17 +51,17 @@ public class LunarCalendarUtils {
       0x01, 0xd5, 0x48, 0xb4, 0x09, 0x68, 0x89, 0x54, 0x0b, 0xa4, 0x0a, 0xa5, 0x6a, 0x95, 0x04,
       0xad, 0x08, 0x6a, 0x44, 0xda, 0x04, 0x74, 0x05, 0xb0, 0x25, 0x54, 0x03};
   // Base date: 01-Jan-1901, 4598/11/11 in Lunar calendar
-  private static int baseYear = 1901;
-  private static int baseMonth = 1;
-  private static int baseDate = 1;
-  private static int baseIndex = 0;
-  private static int baseLunarYear = 4598 - 1;
-  private static int baseLunarMonth = 11;
-  private static int baseLunarDate = 11;
-  private static int[] bigLeapMonthYears = {
+  private static final int BASE_YEAR = 1901;
+  private static final int BASE_MONTH = 1;
+  private static final int BASE_DATE = 1;
+  private static final int BASE_INDEX = 0;
+  private static final int BASE_LUNAR_YEAR = 4598 - 1;
+  private static final int BASE_LUNAR_MONTH = 11;
+  private static final int BASE_LUNAR_DATE = 11;
+  private static final int[] BIG_LEAP_MONTH_YEARS = {
       // The leap months in the following years have 30 days
       6, 14, 19, 25, 33, 36, 38, 41, 44, 52, 55, 79, 117, 136, 147, 150, 155, 158, 185, 193};
-  private static char[][] sectionalTermMap = {
+  private static final char[][] SECTIONAL_TERM_MAP = {
       {7, 6, 6, 6, 6, 6, 6, 6, 6, 5, 6, 6, 6, 5, 5, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 5},   // Jan
       {5, 4, 5, 5, 5, 4, 4, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 3, 3, 4, 4, 3, 3, 3},   // Feb
       {6, 6, 6, 7, 6, 6, 6, 6, 5, 6, 6, 6, 5, 5, 6, 6, 5, 5, 5, 6, 5, 5, 5, 5, 4, 5, 5, 5, 5},
@@ -80,7 +85,8 @@ public class LunarCalendarUtils {
       {7, 8, 8, 8, 7, 7, 8, 8, 7, 7, 7, 8, 7, 7, 7, 7, 6, 7, 7, 7, 6, 6, 7, 7, 6, 6, 6, 7, 7}
       // Dec
   };
-  private static char[][] sectionalTermYear = {{13, 49, 85, 117, 149, 185, 201, 250, 250}, // Jan
+  private static final char[][] SECTIONAL_TERM_YEAR = {{13, 49, 85, 117, 149, 185, 201, 250, 250},
+      // Jan
       {13, 45, 81, 117, 149, 185, 201, 250, 250}, // Feb
       {13, 48, 84, 112, 148, 184, 200, 201, 250}, // Mar
       {13, 45, 76, 108, 140, 172, 200, 201, 250}, // Apr
@@ -93,7 +99,7 @@ public class LunarCalendarUtils {
       {28, 60, 92, 124, 160, 192, 200, 201, 250}, // Nov
       {17, 53, 85, 124, 156, 188, 200, 201, 250}  // Dec
   };
-  private static char[][] principleTermMap = {
+  private static final char[][] PRINCIPLE_TERM_MAP = {
       {21, 21, 21, 21, 21, 20, 21, 21, 21, 20, 20, 21, 21, 20, 20, 20, 20, 20, 20, 20, 20, 19, 20,
           20, 20, 19, 19, 20},
       {20, 19, 19, 20, 20, 19, 19, 19, 19, 19, 19, 19, 19, 18, 19, 19, 19, 18, 18, 19, 19, 18, 18,
@@ -118,7 +124,7 @@ public class LunarCalendarUtils {
           22, 21, 21, 22, 22, 22},
       {22, 22, 23, 23, 22, 22, 22, 23, 22, 22, 22, 22, 21, 22, 22, 22, 21, 21, 22, 22, 21, 21, 21,
           22, 21, 21, 21, 21, 22}};
-  private static char[][] principleTermYear = {{13, 45, 81, 113, 149, 185, 201},     // Jan
+  private static final char[][] PRINCIPLE_TERM_YEAR = {{13, 45, 81, 113, 149, 185, 201},     // Jan
       {21, 57, 93, 125, 161, 193, 201},     // Feb
       {21, 56, 88, 120, 152, 188, 200, 201}, // Mar
       {21, 49, 81, 116, 144, 176, 200, 201}, // Apr
@@ -158,7 +164,7 @@ public class LunarCalendarUtils {
   }
 
   private static int daysInGregorianMonth(int y, int m) {
-    int d = daysInGregorianMonth[m - 1];
+    int d = DAYS_IN_GREGORIAN_MONTH[m - 1];
     if (m == 2 && isGregorianLeapYear(y)) {
       d++; // Leap year adjustment
     }
@@ -191,24 +197,24 @@ public class LunarCalendarUtils {
   private static int daysInLunarMonth(int y, int m) {
     // Regular month: m > 0
     // Leap month: m < 0
-    int index = y - baseLunarYear + baseIndex;
+    int index = y - BASE_LUNAR_YEAR + BASE_INDEX;
     int v = 0;
     int l = 0;
     int d = 30; // normal month
     if (1 <= m && m <= 8) {
-      v = lunarMonths[2 * index];
+      v = LUNAR_MONTHS[2 * index];
       l = m - 1;
       if (((v >> l) & 0x01) == 1) {
         d = 29;
       }
     } else if (9 <= m && m <= 12) {
-      v = lunarMonths[2 * index + 1];
+      v = LUNAR_MONTHS[2 * index + 1];
       l = m - 9;
       if (((v >> l) & 0x01) == 1) {
         d = 29;
       }
     } else { // leap month
-      v = lunarMonths[2 * index + 1];
+      v = LUNAR_MONTHS[2 * index + 1];
       v = (v >> 4) & 0x0F;
       if (v != Math.abs(m)) {
         d = 0; // wrong m specified
@@ -220,7 +226,7 @@ public class LunarCalendarUtils {
   }
 
   private static int getDayWhenMonthSpecified(int index) {
-    for (int bigLeapMonthYear : bigLeapMonthYears) {
+    for (int bigLeapMonthYear : BIG_LEAP_MONTH_YEARS) {
       if (bigLeapMonthYear == index) {
         return 30;
       }
@@ -232,8 +238,8 @@ public class LunarCalendarUtils {
     int n = Math.abs(m) + 1; // normal behavior
     if (m > 0) {
       // need to find out if we are in a leap year or not
-      int index = y - baseLunarYear + baseIndex;
-      int v = lunarMonths[2 * index + 1];
+      int index = y - BASE_LUNAR_YEAR + BASE_INDEX;
+      int v = LUNAR_MONTHS[2 * index + 1];
       v = (v >> 4) & 0x0F;
       if (v == m) {
         n = -m; // next month is a leap month
@@ -250,11 +256,11 @@ public class LunarCalendarUtils {
       return 0;
     }
     int index = 0;
-    int ry = y - baseYear + 1;
-    while (ry >= sectionalTermYear[m - 1][index]) {
+    int ry = y - BASE_YEAR + 1;
+    while (ry >= SECTIONAL_TERM_YEAR[m - 1][index]) {
       index++;
     }
-    return sectionalTermMap[m - 1][4 * index + ry % 4];
+    return SECTIONAL_TERM_MAP[m - 1][4 * index + ry % 4];
   }
 
   private static int principleTerm(int y, int m) {
@@ -262,11 +268,11 @@ public class LunarCalendarUtils {
       return 0;
     }
     int index = 0;
-    int ry = y - baseYear + 1;
-    while (ry >= principleTermYear[m - 1][index]) {
+    int ry = y - BASE_YEAR + 1;
+    while (ry >= PRINCIPLE_TERM_YEAR[m - 1][index]) {
       index++;
     }
-    return principleTermMap[m - 1][4 * index + ry % 4];
+    return PRINCIPLE_TERM_MAP[m - 1][4 * index + ry % 4];
   }
 
   private static String getTextLine(int s, String t) {
@@ -297,19 +303,19 @@ public class LunarCalendarUtils {
     if (lunarCalendar.getGregorianYear() < 1901 || lunarCalendar.getGregorianYear() > 2100) {
       return 1;
     }
-    int startYear = baseYear;
-    int startMonth = baseMonth;
-    int startDate = baseDate;
-    lunarCalendar.setLunarYear(baseLunarYear);
-    lunarCalendar.setLunarMonth(baseLunarMonth);
-    lunarCalendar.setLunarDate(baseLunarDate);
+    int startYear = BASE_YEAR;
+    int startMonth = BASE_MONTH;
+    int startDate = BASE_DATE;
+    lunarCalendar.setLunarYear(BASE_LUNAR_YEAR);
+    lunarCalendar.setLunarMonth(BASE_LUNAR_MONTH);
+    lunarCalendar.setLunarDate(BASE_LUNAR_DATE);
     // Switching to the second base to reduce the calculation process
     // Second base date: 01-Jan-2000, 4697/11/25 in Lunar calendar
     if (lunarCalendar.getGregorianYear() >= 2000) {
-      startYear = baseYear + 99;
+      startYear = BASE_YEAR + 99;
       startMonth = 1;
       startDate = 1;
-      lunarCalendar.setLunarYear(baseLunarYear + 99);
+      lunarCalendar.setLunarYear(BASE_LUNAR_YEAR + 99);
       lunarCalendar.setLunarMonth(11);
       lunarCalendar.setLunarDate(25);
     }
@@ -356,8 +362,8 @@ public class LunarCalendarUtils {
         sectionalTerm(lunarCalendar.getGregorianYear(), lunarCalendar.getGregorianMonth()));
     lunarCalendar.setPrincipleTerm(
         principleTerm(lunarCalendar.getGregorianYear(), lunarCalendar.getGregorianMonth()));
-    lunarCalendar.setHeaven(heavenName[((lunarCalendar.getLunarYear() - 1) % 10)]);
-    lunarCalendar.setBranchName(branchNames[((lunarCalendar.getLunarYear() - 1) % 12)]);
+    lunarCalendar.setHeaven(HEAVEN_NAME[((lunarCalendar.getLunarYear() - 1) % 10)]);
+    lunarCalendar.setBranchName(BRANCH_NAMES[((lunarCalendar.getLunarYear() - 1) % 12)]);
     return 0;
   }
 
@@ -368,8 +374,8 @@ public class LunarCalendarUtils {
     String[] table = new String[59]; // 6*9 + 5
     table[0] = getTextLine(27, "Gregorian Calendar Year: " + lunarCalendar.getGregorianYear());
     table[1] = getTextLine(27,
-        "Lunar Calendar Year: " + (lunarCalendar.getLunarYear() + 1) + " (" + stemNames[
-            (lunarCalendar.getLunarYear() + 1 - 1) % 10] + "-" + branchNames[
+        "Lunar Calendar Year: " + (lunarCalendar.getLunarYear() + 1) + " (" + STEM_NAMES[
+            (lunarCalendar.getLunarYear() + 1 - 1) % 10] + "-" + BRANCH_NAMES[
             (lunarCalendar.getLunarYear() + 1 - 1) % 12] + ")");
     int ln = 2;
     String[] mLeft = null;
@@ -400,7 +406,7 @@ public class LunarCalendarUtils {
     computeLunarFields(lunarCalendar);
     computeSolarTerms(lunarCalendar);
     String[] table = new String[8];
-    String title = "                    " + monthNames[lunarCalendar.getGregorianMonth() - 1]
+    String title = "                    " + MONTH_NAMES[lunarCalendar.getGregorianMonth() - 1]
         + "                   ";
     String header = "  Sun   Mon   Tue   Wed   Thu   Fri   Sat ";
     String blank = "                                          ";

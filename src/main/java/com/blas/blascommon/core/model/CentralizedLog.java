@@ -25,6 +25,10 @@ public class CentralizedLog {
   @NotEmpty
   private String centralizedLogId;
 
+  @Field(name = "global_id")
+  @NotEmpty
+  private String globalId;
+
   @Field(name = "log_time")
   @NotNull
   private LocalDateTime logTime;

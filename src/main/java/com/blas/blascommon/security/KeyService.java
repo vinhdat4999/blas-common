@@ -5,7 +5,7 @@ import static com.blas.blascommon.security.SecurityUtils.getPrivateKeyAesFromCer
 
 import com.blas.blascommon.configurations.CertPasswordConfiguration;
 import com.blas.blascommon.exceptions.types.BadRequestException;
-import com.blas.blascommon.properties.BlasPrivateKeyConfiguration;
+import com.blas.blascommon.properties.BlasPrivateKeyProperties;
 import java.io.IOException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -22,12 +22,12 @@ public class KeyService {
   private final CertPasswordConfiguration certPasswordConfiguration;
 
   @Lazy
-  private final BlasPrivateKeyConfiguration blasPrivateKeyConfiguration;
+  private final BlasPrivateKeyProperties blasPrivateKeyProperties;
 
   public String getBlasPrivateKey() {
     try {
-      return getPrivateKeyAesFromCertificate(blasPrivateKeyConfiguration.getCertificate(),
-          blasPrivateKeyConfiguration.getAliasBlasPrivateKey(),
+      return getPrivateKeyAesFromCertificate(blasPrivateKeyProperties.getCertificate(),
+          blasPrivateKeyProperties.getAliasBlasPrivateKey(),
           certPasswordConfiguration.getCertPassword());
     } catch (KeyStoreException | CertificateException | IOException | NoSuchAlgorithmException |
              UnrecoverableKeyException exception) {

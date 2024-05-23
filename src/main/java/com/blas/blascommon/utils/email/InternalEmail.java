@@ -8,7 +8,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import com.blas.blascommon.configurations.CertPasswordConfiguration;
 import com.blas.blascommon.core.service.BlasConfigService;
-import com.blas.blascommon.properties.BlasPrivateKeyConfiguration;
+import com.blas.blascommon.properties.BlasPrivateKeyProperties;
 import jakarta.mail.Message.RecipientType;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
@@ -52,8 +52,7 @@ public class InternalEmail {
   private final BlasConfigService blasConfigService;
 
   @Lazy
-  private final BlasPrivateKeyConfiguration blasPrivateKeyConfiguration;
-
+  private final BlasPrivateKeyProperties blasPrivateKeyProperties;
   @Lazy
   private final CertPasswordConfiguration certPasswordConfiguration;
 
@@ -71,8 +70,8 @@ public class InternalEmail {
     String password = EMPTY;
     try {
       final String privateKey = getPrivateKeyAesFromCertificate(
-          blasPrivateKeyConfiguration.getCertificate(),
-          blasPrivateKeyConfiguration.getAliasBlasPrivateKey(),
+          blasPrivateKeyProperties.getCertificate(),
+          blasPrivateKeyProperties.getAliasBlasPrivateKey(),
           certPasswordConfiguration.getCertPassword());
       assert privateKey != null;
       password = aesDecrypt(privateKey,

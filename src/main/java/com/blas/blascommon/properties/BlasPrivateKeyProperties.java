@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "blas.service")
-public class BlasServiceConfiguration {
+@ConfigurationProperties(prefix = "blas")
+public class BlasPrivateKeyProperties {
 
-  private String serviceName;
+  private String aliasBlasPrivateKey;
+  private String certificate;
 }

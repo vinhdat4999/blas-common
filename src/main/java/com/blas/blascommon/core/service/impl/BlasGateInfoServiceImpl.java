@@ -1,7 +1,5 @@
 package com.blas.blascommon.core.service.impl;
 
-import static com.blas.blascommon.utils.IdUtils.genUUID;
-
 import com.blas.blascommon.core.dao.mongodb.BlasGateInfoDao;
 import com.blas.blascommon.core.model.BlasGateInfo;
 import com.blas.blascommon.core.service.BlasGateInfoService;
@@ -20,7 +18,6 @@ public class BlasGateInfoServiceImpl implements BlasGateInfoService {
 
   @Override
   public BlasGateInfo createBlasGateInfo(BlasGateInfo blasGateInfo) {
-    blasGateInfo.setId(genUUID());
     return blasGateInfoDao.save(blasGateInfo);
   }
 }

@@ -8,9 +8,8 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "blas.hazelcast")
-public class HazelcastConfiguration {
+@ConfigurationProperties(prefix = "blas.request-config")
+public class BlasRequestConfigProperties {
 
-  private String aksNamespace;
-  private String hazelcastService;
+  private int httpRequestTimeout;
 }

@@ -6,7 +6,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 import com.blas.blascommon.payload.HttpResponse;
-import com.blas.blascommon.properties.BlasRequestConfig;
+import com.blas.blascommon.properties.BlasRequestConfigProperties;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class HttpRequest {
   private static final int DEFAULT_TIMEOUT = 30000;
 
   @Lazy
-  private final BlasRequestConfig blasRequestConfig;
+  private final BlasRequestConfigProperties blasRequestConfigProperties;
 
   public HttpResponse sendPostRequestWithFormUrlEncodedPayload(String hostUrl,
       Map<String, String> parameterList, Map<String, String> headerList,
@@ -114,7 +114,7 @@ public class HttpRequest {
     }
     StringEntity entity = new StringEntity(Optional.ofNullable(payload).orElse(EMPTY),
         APPLICATION_JSON);
-    int httpRequestTimeout = blasRequestConfig.getHttpRequestTimeout();
+    int httpRequestTimeout = blasRequestConfigProperties.getHttpRequestTimeout();
     if (httpRequestTimeout == 0) {
       httpRequestTimeout = DEFAULT_TIMEOUT;
       log.debug("HTTP timeout not set. Using default timeout: {}", DEFAULT_TIMEOUT);

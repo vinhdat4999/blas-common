@@ -22,7 +22,7 @@ public class BlasGateInfo {
 
   @Id
   @NotEmpty
-  private String id;
+  private String globalId;
 
   private String service;
 
@@ -41,8 +41,8 @@ public class BlasGateInfo {
   @Field(name = "request_url")
   private String requestUrl;
 
-  @Field(name = "remote_port")
-  private String remotePort;
+  @Field(name = "thread")
+  private String thread;
 
   @Field(name = "query_string")
   private String queryString;
