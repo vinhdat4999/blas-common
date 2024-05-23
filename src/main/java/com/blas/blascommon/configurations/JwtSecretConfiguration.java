@@ -6,7 +6,7 @@ import static com.blas.blascommon.security.SecurityUtils.getPrivateKeyAesFromCer
 import static java.util.Objects.requireNonNull;
 
 import com.blas.blascommon.core.service.BlasConfigService;
-import com.blas.blascommon.properties.BlasPrivateKeyConfiguration;
+import com.blas.blascommon.properties.BlasPrivateKeyProperties;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -31,7 +31,7 @@ public class JwtSecretConfiguration {
 
   private final CertPasswordConfiguration certPasswordConfiguration;
 
-  private final BlasPrivateKeyConfiguration blasPrivateKeyConfiguration;
+  private final BlasPrivateKeyProperties blasPrivateKeyProperties;
 
   @Bean
   public String getJwtSecretKey()
@@ -40,8 +40,8 @@ public class JwtSecretConfiguration {
     final String jwtSecretKeyEncrypted = blasConfigService.getConfigValueFromKey(
         BLAS_JWT_SECRET_KEY_VALUE);
     return aesDecrypt(requireNonNull(
-        getPrivateKeyAesFromCertificate(blasPrivateKeyConfiguration.getCertificate(),
-            blasPrivateKeyConfiguration.getAliasBlasPrivateKey(),
+        getPrivateKeyAesFromCertificate(blasPrivateKeyProperties.getCertificate(),
+            blasPrivateKeyProperties.getAliasBlasPrivateKey(),
             certPasswordConfiguration.getCertPassword())), jwtSecretKeyEncrypted);
   }
 }

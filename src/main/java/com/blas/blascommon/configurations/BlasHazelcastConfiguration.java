@@ -1,6 +1,6 @@
 package com.blas.blascommon.configurations;
 
-import com.blas.blascommon.properties.HazelcastConfiguration;
+import com.blas.blascommon.properties.HazelcastProperties;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
@@ -23,7 +23,7 @@ public class BlasHazelcastConfiguration implements CachingConfigurer {
 
   private static final String LOCAL_BLAS_HAZELCAST_INSTANCE = "blasHazelcastInstance";
 
-  private final HazelcastConfiguration hazelcastConfiguration;
+  private final HazelcastProperties hazelcastProperties;
 
   @Bean
   @Profile("local")
@@ -40,8 +40,8 @@ public class BlasHazelcastConfiguration implements CachingConfigurer {
     Config config = new Config();
     config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(false);
     config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
-    String hazelcastService = hazelcastConfiguration.getHazelcastService();
-    String aksNamespace = hazelcastConfiguration.getAksNamespace();
+    String hazelcastService = hazelcastProperties.getHazelcastService();
+    String aksNamespace = hazelcastProperties.getAksNamespace();
     config.getNetworkConfig().getJoin().getKubernetesConfig().setEnabled(true)
         .setProperty("namespace", aksNamespace)
         .setProperty("service-name", hazelcastService);

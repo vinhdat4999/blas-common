@@ -1,6 +1,7 @@
 package com.blas.blascommon.core.service.impl;
 
 import static com.blas.blascommon.constants.BlasConstant.ALERT_EMAIL_RECEIVER_LIST;
+import static com.blas.blascommon.constants.MDCConstant.GLOBAL_ID;
 import static com.blas.blascommon.constants.ResponseMessage.CENTRALIZED_LOG_ID_NOT_FOUND;
 import static com.blas.blascommon.enums.LogType.ERROR;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
@@ -22,6 +23,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -55,6 +57,7 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
     final String centralizedLogId = genUUID();
     CentralizedLog centralizedLog = CentralizedLog.builder()
         .centralizedLogId(centralizedLogId)
+        .globalId(MDC.get(GLOBAL_ID))
         .logTime(LocalDateTime.now())
         .serviceName(serviceName)
         .logType(ERROR.name())
@@ -107,6 +110,7 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
     final String centralizedLogId = genUUID();
     CentralizedLog centralizedLog = CentralizedLog.builder()
         .centralizedLogId(centralizedLogId)
+        .globalId(MDC.get(GLOBAL_ID))
         .logTime(LocalDateTime.now())
         .serviceName(serviceName)
         .logType(ERROR.name())

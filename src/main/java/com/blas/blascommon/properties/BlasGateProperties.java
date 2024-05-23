@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @ConfigurationProperties(prefix = "blas.gate-interceptor")
-public class BlasGateConfiguration {
+public class BlasGateProperties {
 
   private boolean enableLogRequest;
   private boolean enableLogLocalRequest;

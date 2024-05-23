@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "blas")
-public class BlasPrivateKeyConfiguration {
+@ConfigurationProperties(prefix = "blas.hazelcast")
+public class HazelcastProperties {
 
-  private String aliasBlasPrivateKey;
-  private String certificate;
+  private String aksNamespace;
+  private String hazelcastService;
 }

@@ -1,13 +1,13 @@
 package com.blas.blascommon.configurations;
 
+import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_IN_MAINTENANCE;
 import static com.blas.blascommon.utils.httprequest.HttpMethod.GET;
 import static com.blas.blascommon.utils.httprequest.RequestUtils.getTokenFromRequest;
 
-import com.blas.blascommon.exceptions.BlasErrorCodeEnum;
 import com.blas.blascommon.exceptions.types.MaintenanceException;
 import com.blas.blascommon.payload.HttpResponse;
 import com.blas.blascommon.payload.MaintenanceTimeResponse;
-import com.blas.blascommon.properties.BlasServiceConfiguration;
+import com.blas.blascommon.properties.BlasServiceProperties;
 import com.blas.blascommon.properties.ServiceSupportProperties;
 import com.blas.blascommon.utils.httprequest.HttpRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +31,7 @@ public class MaintenanceConfiguration {
   private final HttpRequest httpRequest;
 
   @Lazy
-  private final BlasServiceConfiguration blasServiceConfiguration;
+  private final BlasServiceProperties blasServiceProperties;
 
   @Lazy
   private final ServiceSupportProperties serviceSupportProperties;
@@ -41,7 +41,7 @@ public class MaintenanceConfiguration {
 
   public void checkMaintenance(HttpServletRequest request) {
     List<String> serviceSkip = List.of("blas-support-service", "blas-drive");
-    String serviceName = blasServiceConfiguration.getServiceName();
+    String serviceName = blasServiceProperties.getServiceName();
     if (serviceSkip.contains(serviceName) || !serviceSupportProperties.isThroughServiceSupport()) {
       log.debug("Service {} does not require maintenance check.", serviceName);
       return;
@@ -56,8 +56,7 @@ public class MaintenanceConfiguration {
         MaintenanceTimeResponse maintenanceTimeResponse = objectMapper.readValue(
             response.getResponse(), MaintenanceTimeResponse.class);
         if (maintenanceTimeResponse.isInMaintenance()) {
-          throw new MaintenanceException(BlasErrorCodeEnum.MSG_IN_MAINTENANCE,
-              maintenanceTimeResponse);
+          throw new MaintenanceException(MSG_IN_MAINTENANCE, maintenanceTimeResponse);
         } else {
           log.debug("{} is available.", serviceName);
         }

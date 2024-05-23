@@ -28,6 +28,10 @@ public class EmailLog {
   @NotEmpty
   private String emailLogId;
 
+  @Column(name = "global_id", length = 50, nullable = false)
+  @NotEmpty
+  private String globalId;
+
   @ManyToOne
   @JoinColumn(name = "generated_by", foreignKey = @ForeignKey(name = "fk_email_logs_1"))
   @NotNull

@@ -1,6 +1,7 @@
 package com.blas.blascommon.utils.fileutils.exportfile;
 
 
+import static com.blas.blascommon.utils.datetimeutils.DateTimeUtils.DATE_DDMMYYYY_SLASH_FORMAT;
 import static com.itextpdf.html2pdf.HtmlConverter.convertToPdf;
 import static com.itextpdf.kernel.colors.DeviceRgb.RED;
 import static org.apache.commons.lang3.StringUtils.upperCase;
@@ -86,7 +87,8 @@ public class Pdf {
   public static void addSignature(String inputFilePath, String outputFilePath, String signedBy)
       throws IOException {
     signedBy = "SIGN BY: " + upperCase(signedBy);
-    String signDate = "SIGN DATE: " + new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+    String signDate =
+        "SIGN DATE: " + new SimpleDateFormat(DATE_DDMMYYYY_SLASH_FORMAT).format(new Date());
     try (com.itextpdf.kernel.pdf.PdfReader reader = new com.itextpdf.kernel.pdf.PdfReader(
         inputFilePath); com.itextpdf.kernel.pdf.PdfWriter writer = new com.itextpdf.kernel.pdf.PdfWriter(
         outputFilePath); PdfDocument pdfDoc = new PdfDocument(reader,

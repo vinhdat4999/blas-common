@@ -14,5 +14,4 @@ import org.springframework.stereotype.Component;
 public class JwtConfigurationProperties {
 
   private long timeToExpired;
-  private long timeToExpiredInternalToken;
 }

@@ -1,15 +1,20 @@
 package com.blas.blascommon.configurations;
 
+import static com.blas.blascommon.constants.MDCConstant.GLOBAL_ID;
 import static com.blas.blascommon.utils.IpUtils.isLocalRequest;
 import static java.time.LocalDateTime.now;
 
 import com.blas.blascommon.core.model.BlasGateInfo;
 import com.blas.blascommon.core.service.BlasGateInfoService;
-import com.blas.blascommon.properties.BlasGateConfiguration;
-import com.blas.blascommon.properties.BlasServiceConfiguration;
+import com.blas.blascommon.properties.BlasGateProperties;
+import com.blas.blascommon.properties.BlasServiceProperties;
+import com.blas.blascommon.utils.IdUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -18,26 +23,35 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RequestInterceptorConfiguration {
 
+  private static final List<String> REQUIRED_LOG_SERVICES = List.of("blas-payment-gateway",
+      "blas-email");
+
   @Lazy
-  private final BlasGateConfiguration blasGateConfiguration;
+  private final BlasGateProperties blasGateProperties;
 
   @Lazy
   private final BlasGateInfoService blasGateInfoService;
 
   @Lazy
-  private final BlasServiceConfiguration blasServiceConfiguration;
+  private final BlasServiceProperties blasServiceProperties;
+
+  @Value("${blas.service.serviceName}")
+  protected String serviceName;
 
   public void logRequestInfo(HttpServletRequest request) {
-    if (blasGateConfiguration.isEnableLogRequest() && (!isLocalRequest(request)
-        || blasGateConfiguration.isEnableLogLocalRequest())) {
+    if (REQUIRED_LOG_SERVICES.contains(serviceName) || (blasGateProperties.isEnableLogRequest()
+        && (!isLocalRequest(request) || blasGateProperties.isEnableLogLocalRequest()))) {
+      final String globalId = IdUtils.genUUID();
+      MDC.put(GLOBAL_ID, globalId);
       BlasGateInfo blasGateInfo = BlasGateInfo.builder()
-          .service(blasServiceConfiguration.getServiceName())
+          .globalId(globalId)
+          .service(blasServiceProperties.getServiceName())
           .timeLogged(now())
           .locale(request.getLocale().toString())
           .remoteUser(request.getRemoteUser())
           .remoteAddress(request.getRemoteAddr())
           .requestUrl(request.getRequestURL().toString())
-          .remotePort(String.valueOf(request.getRemotePort()))
+          .thread(String.valueOf(Thread.currentThread().threadId()))
           .queryString(request.getQueryString())
           .build();
       blasGateInfoService.createBlasGateInfo(blasGateInfo);

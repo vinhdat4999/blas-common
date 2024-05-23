@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 5.7.0   | 24/05/2024   | Support Global ID to trace the request                                                                           |
 | 5.6.0   | 22/04/2024   | Support blas-jet                                                                                                 |
 | 5.5.0   | 18/04/2024   | Create ObjectMapper bean                                                                                         |
 | 5.4.0   | 17/04/2024   | Support new MarketInfo endpoint                                                                                  |

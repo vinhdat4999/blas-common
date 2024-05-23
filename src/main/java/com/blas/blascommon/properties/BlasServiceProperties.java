@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "blas.request-config")
-public class BlasRequestConfig {
+@ConfigurationProperties(prefix = "blas.service")
+public class BlasServiceProperties {
 
-  private int httpRequestTimeout;
+  private String serviceName;
 }
