@@ -2,7 +2,11 @@ package com.blas.blascommon.jwt;
 
 import static com.blas.blascommon.constants.SecurityConstant.AUTHORIZATION;
 import static com.blas.blascommon.constants.SecurityConstant.BEARER_SPACE;
+import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_ACCOUNT_BLOCKED;
+import static org.apache.commons.codec.CharEncoding.UTF_8;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -39,6 +43,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
   @Lazy
   private final JwtTokenUtil jwtTokenUtil;
 
+  @Lazy
+  private final ObjectMapper objectMapper;
+
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain)
@@ -60,6 +67,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
+      if (!userDetails.isAccountNonLocked()) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType(APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding(UTF_8);
+        response.getWriter().write(objectMapper.writeValueAsString(MSG_ACCOUNT_BLOCKED));
+        return;
+      }
       boolean isValidToken = false;
       try {
         isValidToken = jwtTokenUtil.validateToken(jwtToken, userDetails);

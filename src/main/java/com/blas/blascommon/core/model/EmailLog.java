@@ -28,8 +28,7 @@ public class EmailLog {
   @NotEmpty
   private String emailLogId;
 
-  @Column(name = "global_id", length = 50, nullable = false)
-  @NotEmpty
+  @Column(name = "global_id", length = 50)
   private String globalId;
 
   @ManyToOne

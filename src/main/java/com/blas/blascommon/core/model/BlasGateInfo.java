@@ -41,8 +41,8 @@ public class BlasGateInfo {
   @Field(name = "request_url")
   private String requestUrl;
 
-  @Field(name = "thread")
-  private String thread;
+  @Field(name = "user_agent")
+  private String userAgent;
 
   @Field(name = "query_string")
   private String queryString;
