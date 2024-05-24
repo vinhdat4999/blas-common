@@ -3,6 +3,7 @@ package com.blas.blascommon.configurations;
 import static com.blas.blascommon.constants.MDCConstant.GLOBAL_ID;
 import static com.blas.blascommon.utils.IpUtils.isLocalRequest;
 import static java.time.LocalDateTime.now;
+import static org.springframework.http.HttpHeaders.USER_AGENT;
 
 import com.blas.blascommon.core.model.BlasGateInfo;
 import com.blas.blascommon.core.service.BlasGateInfoService;
@@ -51,7 +52,7 @@ public class RequestInterceptorConfiguration {
           .remoteUser(request.getRemoteUser())
           .remoteAddress(request.getRemoteAddr())
           .requestUrl(request.getRequestURL().toString())
-          .thread(String.valueOf(Thread.currentThread().threadId()))
+          .userAgent(request.getHeader(USER_AGENT))
           .queryString(request.getQueryString())
           .build();
       blasGateInfoService.createBlasGateInfo(blasGateInfo);
