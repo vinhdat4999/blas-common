@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 5.8.0   | 25/05/2024   | Add Error Alert email template                                                                                   |
 | 5.7.0   | 24/05/2024   | Support Global ID to trace the request                                                                           |
 | 5.6.0   | 22/04/2024   | Support blas-jet                                                                                                 |
 | 5.5.0   | 18/04/2024   | Create ObjectMapper bean                                                                                         |

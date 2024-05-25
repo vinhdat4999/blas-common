@@ -1,5 +1,6 @@
 package com.blas.blascommon.enums;
 
+import com.blas.blascommon.exceptions.types.BadRequestException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -10,7 +11,18 @@ public enum EmailTemplate {
   STRIPE_PAYMENT_RECEIPT("stripe-payment-receipt"),
   VNPAY_PAYMENT_RECEIPT("vnpay-payment-receipt"),
   ADD_CARD_SUCCESS("add-card-success"),
-  REPORT_SPENDING("report-spending");
+  REPORT_SPENDING("report-spending"),
+  ERROR_ALERT("error-alert");
 
   private final String templateName;
+
+  private static final String INVALID_EMAIL_TEMPLATE = "Email template not found";
+
+  public static EmailTemplate getEmailTemplate(String templateName) {
+    try {
+      return EmailTemplate.valueOf(templateName);
+    } catch (IllegalArgumentException exception) {
+      throw new BadRequestException(INVALID_EMAIL_TEMPLATE);
+    }
+  }
 }
