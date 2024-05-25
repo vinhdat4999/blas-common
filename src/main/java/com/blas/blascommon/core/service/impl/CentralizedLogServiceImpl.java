@@ -3,6 +3,7 @@ package com.blas.blascommon.core.service.impl;
 import static com.blas.blascommon.constants.BlasConstant.ALERT_EMAIL_RECEIVER_LIST;
 import static com.blas.blascommon.constants.MDCConstant.GLOBAL_ID;
 import static com.blas.blascommon.constants.ResponseMessage.CENTRALIZED_LOG_ID_NOT_FOUND;
+import static com.blas.blascommon.enums.EmailTemplate.ERROR_ALERT;
 import static com.blas.blascommon.enums.LogType.ERROR;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 import static com.blas.blascommon.utils.StringUtils.COMMA;
@@ -15,13 +16,16 @@ import com.blas.blascommon.core.service.BlasConfigService;
 import com.blas.blascommon.core.service.CentralizedLogService;
 import com.blas.blascommon.enums.LogType;
 import com.blas.blascommon.exceptions.types.NotFoundException;
+import com.blas.blascommon.utils.TemplateUtils;
 import com.blas.blascommon.utils.email.InternalEmail;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,6 +50,9 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
   @Lazy
   private final BlasConfigService blasConfigService;
 
+  @Lazy
+  private final TemplateUtils templateUtils;
+
   @Value("${blas.service.serviceName}")
   private String serviceName;
 
@@ -62,10 +69,11 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
         .serviceName(serviceName)
         .logType(ERROR.name())
         .exception(exception.toString())
+        .message(exception.getMessage())
         .cause(Optional.ofNullable(exception.getCause()).map(Throwable::toString).orElse(EMPTY))
         .build();
     if (isSendEmailAlert) {
-      sendAlertEmail(serviceName, ERROR, exception.toString());
+      sendAlertEmail(centralizedLogId, serviceName, ERROR, exception.toString());
     }
     log.error("Error logged. centralizedLogId: {}", centralizedLogId);
     return centralizedLogDao.save(centralizedLog);
@@ -96,10 +104,14 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
         .orElseThrow(() -> new NotFoundException(CENTRALIZED_LOG_ID_NOT_FOUND));
   }
 
-  private void sendAlertEmail(String serviceName, LogType logType, String exception) {
-    String emailContent = String.format(
-        "1 error have logged. </br>Service: %s</br>Log type: %s</br>Exception: %s", serviceName,
-        logType, exception);
+  @SneakyThrows
+  private void sendAlertEmail(String centralizedLogId, String serviceName, LogType logType,
+      String exception) {
+    String emailContent = templateUtils.generateHtmlContent(ERROR_ALERT,
+        Map.ofEntries(Map.entry("level", logType.name()),
+            Map.entry("centralizedLogId", centralizedLogId),
+            Map.entry("service", serviceName),
+            Map.entry("exception", exception)));
     Arrays.stream(blasConfigService.getConfigValueFromKey(ALERT_EMAIL_RECEIVER_LIST).split(COMMA))
         .forEach(email -> internalEmail.sendEmail(safeTrim(email), INTERNAL_EMAIL_SUBJECT,
             emailContent));
@@ -117,13 +129,14 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
         .exception(Arrays.stream(exception.getStackTrace())
             .map(Objects::toString)
             .collect(Collectors.joining("\n")))
+        .message(exception.getMessage())
         .cause(Optional.ofNullable(exception.getCause()).map(Throwable::toString).orElse(EMPTY))
         .logData1(Optional.ofNullable(logData1).map(Object::toString).orElse(EMPTY))
         .logData2(Optional.ofNullable(logData2).map(Object::toString).orElse(EMPTY))
         .logData3(Optional.ofNullable(logData3).map(Object::toString).orElse(EMPTY))
         .build();
     if (isSendEmailAlert) {
-      sendAlertEmail(serviceName, ERROR, exception.toString());
+      sendAlertEmail(centralizedLogId, serviceName, ERROR, String.valueOf(exception));
     }
     log.error("Error logged. centralizedLogId: {}", centralizedLogId);
     return centralizedLogDao.save(centralizedLog);

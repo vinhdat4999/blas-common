@@ -41,6 +41,8 @@ public class CentralizedLog {
 
   private String exception;
 
+  private String message;
+
   private String cause;
 
   @Field(name = "log_data1")

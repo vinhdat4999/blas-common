@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class HtmlEmailWithAttachmentResponse {
+public class EmailResponse {
 
   private int failedEmailNum;
   private List<EmailRequest> failedEmailList;
