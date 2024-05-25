@@ -14,9 +14,8 @@ public enum EmailTemplate {
   REPORT_SPENDING("report-spending"),
   ERROR_ALERT("error-alert");
 
-  private final String templateName;
-
   private static final String INVALID_EMAIL_TEMPLATE = "Email template not found";
+  private final String templateName;
 
   public static EmailTemplate getEmailTemplate(String templateName) {
     try {
