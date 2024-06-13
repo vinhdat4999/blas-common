@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 5.9.0   | 14/06/2024   | Add MongoDB config                                                                                               |
 | 5.8.0   | 26/05/2024   | Add Error Alert email template                                                                                   |
 | 5.7.0   | 24/05/2024   | Support Global ID to trace the request                                                                           |
 | 5.6.0   | 22/04/2024   | Support blas-jet                                                                                                 |
