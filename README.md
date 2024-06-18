@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 5.10.0  | 18/06/2024   | Support Viet Nam Banking transaction and upgrade spring boot 3.3.0                                               |
 | 5.9.0   | 14/06/2024   | Add MongoDB config                                                                                               |
 | 5.8.0   | 26/05/2024   | Add Error Alert email template                                                                                   |
 | 5.7.0   | 24/05/2024   | Support Global ID to trace the request                                                                           |
