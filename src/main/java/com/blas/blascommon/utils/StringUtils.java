@@ -22,6 +22,7 @@ public class StringUtils {
   public static final String QUESTION_MARK = "?";
   public static final String AMPERSAND = "&";
   public static final String UNDERSCORE = "_";
+  public static final String NEW_LINE_CHARACTER = "\n";
 
   public static String safeTrim(String text) {
     return Optional.ofNullable(text)
