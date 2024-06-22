@@ -1,14 +1,14 @@
 package com.blas.blascommon.utils;
 
+import static com.blas.blascommon.constants.BlasConstant.TELEGRAM_BLAS_ADMIN_BOT;
 import static com.blas.blascommon.constants.BlasConstant.TELEGRAM_BLAS_VIETNAM_BOT;
 import static com.blas.blascommon.security.SecurityUtils.aesDecrypt;
-import static com.blas.blascommon.security.SecurityUtils.getPrivateKeyAesFromCertificate;
 import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import static com.blas.blascommon.utils.httprequest.HttpMethod.POST;
 
-import com.blas.blascommon.configurations.CertPasswordConfiguration;
 import com.blas.blascommon.core.service.BlasConfigService;
 import com.blas.blascommon.properties.BlasPrivateKeyProperties;
+import com.blas.blascommon.security.KeyService;
 import com.blas.blascommon.utils.httprequest.HttpRequest;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -16,10 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
 import java.util.List;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -45,16 +42,23 @@ public class TelegramUtils {
   @Lazy
   private final HttpRequest httpRequest;
 
-  private final CertPasswordConfiguration certPasswordConfiguration;
+  @Lazy
+  private final KeyService keyService;
 
-  public void sendTelegramMessage(String text, String chatId)
-      throws URISyntaxException, InvalidAlgorithmParameterException, UnrecoverableKeyException, IllegalBlockSizeException, NoSuchPaddingException, CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    final String privateKey = getPrivateKeyAesFromCertificate(
-        blasPrivateKeyProperties.getCertificate(),
-        blasPrivateKeyProperties.getAliasBlasPrivateKey(),
-        certPasswordConfiguration.getCertPassword());
-    final String key = aesDecrypt(privateKey,
-        blasConfigService.getConfigValueFromKey(TELEGRAM_BLAS_VIETNAM_BOT));
+  public void sendTelegramMessageBlasVietNamBot(String text, String chatId)
+      throws URISyntaxException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    sendTelegramMessageWithBot(TELEGRAM_BLAS_VIETNAM_BOT, text, chatId);
+  }
+
+  public void sendTelegramMessageBlasAdminBot(String text, String chatId)
+      throws URISyntaxException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    sendTelegramMessageWithBot(TELEGRAM_BLAS_ADMIN_BOT, text, chatId);
+  }
+
+  private void sendTelegramMessageWithBot(String bot, String text, String chatId)
+      throws URISyntaxException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    final String key = aesDecrypt(keyService.getBlasPrivateKey(),
+        blasConfigService.getConfigValueFromKey(bot));
     URIBuilder uriBuilder = new URIBuilder("https://api.telegram.org");
     uriBuilder.setPath("bot" + key + "/sendMessage");
     uriBuilder.addParameter("chat_id", chatId);

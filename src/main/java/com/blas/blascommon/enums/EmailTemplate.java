@@ -12,7 +12,9 @@ public enum EmailTemplate {
   VNPAY_PAYMENT_RECEIPT("vnpay-payment-receipt"),
   ADD_CARD_SUCCESS("add-card-success"),
   REPORT_SPENDING("report-spending"),
-  ERROR_ALERT("error-alert");
+  ERROR_ALERT("error-alert"),
+  REMIND_DEBT("remind-debt"),
+  BANKING_PAYMENT_RECEIPT("banking-payment-receipt");
 
   private static final String INVALID_EMAIL_TEMPLATE = "Email template not found";
   private final String templateName;
