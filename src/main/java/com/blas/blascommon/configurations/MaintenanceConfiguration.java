@@ -61,12 +61,12 @@ public class MaintenanceConfiguration {
           log.debug("{} is available.", serviceName);
         }
       } else {
-        log.warn("Unable to check maintenance time for {}. Skipping maintenance check.",
+        log.debug("Unable to check maintenance time for {}. Skipping maintenance check.",
             serviceName);
       }
     } catch (IOException | InvocationTargetException | NoSuchMethodException |
              InstantiationException | IllegalAccessException exception) {
-      log.warn("Error while checking maintenance time for {}. Skipping maintenance check.",
+      log.debug("Error while checking maintenance time for {}. Skipping maintenance check.",
           serviceName);
     } finally {
       log.debug("Completed maintenance check for {}", serviceName);

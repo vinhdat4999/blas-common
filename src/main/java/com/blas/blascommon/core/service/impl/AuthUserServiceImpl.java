@@ -3,7 +3,6 @@ package com.blas.blascommon.core.service.impl;
 import static com.blas.blascommon.constants.ResponseMessage.DUPLICATED_EMAIL;
 import static com.blas.blascommon.constants.ResponseMessage.DUPLICATED_PHONE;
 import static com.blas.blascommon.constants.ResponseMessage.DUPLICATED_USERNAME;
-import static com.blas.blascommon.constants.ResponseMessage.USERNAME_NOT_FOUND;
 import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 
@@ -43,11 +42,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
   @Override
   public AuthUser getAuthUserByUsername(String username) {
-    AuthUser authUser = authUserDao.getAuthUserByUsername(username);
-    if (authUser == null) {
-      throw new NotFoundException(USERNAME_NOT_FOUND);
-    }
-    return authUser;
+    return authUserDao.getAuthUserByUsername(username);
   }
 
   @Override

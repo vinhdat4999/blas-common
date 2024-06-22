@@ -50,7 +50,7 @@ public class TemplateUtils {
     InputStream inputStream = classLoader.getResourceAsStream(
         "templates/" + emailTemplate.getTemplateName() + ".html");
     String content = convertInputStreamToString(inputStream);
-    Pattern pattern = Pattern.compile("\\$\\{([^{}]+)}");
+    Pattern pattern = Pattern.compile("\\$\\{([^{!#}]+)}");
     Matcher matcher = pattern.matcher(content);
     Set<String> variables = new HashSet<>();
     while (matcher.find()) {

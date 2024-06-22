@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -52,6 +53,13 @@ public class FileUtils {
   public static InputStreamResource getInputStreamResource(String path)
       throws FileNotFoundException {
     return new InputStreamResource(new FileInputStream(path));
+  }
+
+  public static byte[] toByteArrayFromBufferedImage(BufferedImage image, String format)
+      throws IOException {
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    ImageIO.write(image, format, outputStream);
+    return outputStream.toByteArray();
   }
 
   public static long getFileSize(String path) {
