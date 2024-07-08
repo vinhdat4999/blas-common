@@ -1,6 +1,7 @@
 package com.blas.blascommon.utils;
 
 import static com.blas.blascommon.constants.BlasConstant.TELEGRAM_BLAS_ADMIN_BOT;
+import static com.blas.blascommon.constants.BlasConstant.TELEGRAM_BLAS_PAYMENT_GATEWAY_BOT;
 import static com.blas.blascommon.constants.BlasConstant.TELEGRAM_BLAS_VIETNAM_BOT;
 import static com.blas.blascommon.security.SecurityUtils.aesDecrypt;
 import static com.blas.blascommon.utils.StringUtils.EMPTY;
@@ -53,6 +54,11 @@ public class TelegramUtils {
   public void sendTelegramMessageBlasAdminBot(String text, String chatId)
       throws URISyntaxException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     sendTelegramMessageWithBot(TELEGRAM_BLAS_ADMIN_BOT, text, chatId);
+  }
+
+  public void sendTelegramMessageBlasPaymentGatewayBot(String text, String chatId)
+      throws URISyntaxException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    sendTelegramMessageWithBot(TELEGRAM_BLAS_PAYMENT_GATEWAY_BOT, text, chatId);
   }
 
   private void sendTelegramMessageWithBot(String bot, String text, String chatId)
