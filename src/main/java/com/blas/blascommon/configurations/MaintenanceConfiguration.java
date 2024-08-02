@@ -1,5 +1,6 @@
 package com.blas.blascommon.configurations;
 
+import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_DISABLED_TRAFFIC;
 import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_IN_MAINTENANCE;
 import static com.blas.blascommon.utils.httprequest.HttpMethod.GET;
 import static com.blas.blascommon.utils.httprequest.RequestUtils.getTokenFromRequest;
@@ -43,7 +44,6 @@ public class MaintenanceConfiguration {
     List<String> serviceSkip = List.of("blas-support-service", "blas-drive");
     String serviceName = blasServiceProperties.getServiceName();
     if (serviceSkip.contains(serviceName) || !serviceSupportProperties.isThroughServiceSupport()) {
-      log.debug("Service {} does not require maintenance check.", serviceName);
       return;
     }
     log.debug("Starting maintenance check for {}", serviceName);
@@ -55,11 +55,13 @@ public class MaintenanceConfiguration {
       if (response.getStatusCode() == HttpStatus.OK.value()) {
         MaintenanceTimeResponse maintenanceTimeResponse = objectMapper.readValue(
             response.getResponse(), MaintenanceTimeResponse.class);
+        if (maintenanceTimeResponse.isDisabledTraffic()) {
+          throw new MaintenanceException(MSG_DISABLED_TRAFFIC);
+        }
         if (maintenanceTimeResponse.isInMaintenance()) {
           throw new MaintenanceException(MSG_IN_MAINTENANCE, maintenanceTimeResponse);
-        } else {
-          log.debug("{} is available.", serviceName);
         }
+        log.debug("{} is available.", serviceName);
       } else {
         log.debug("Unable to check maintenance time for {}. Skipping maintenance check.",
             serviceName);

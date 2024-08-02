@@ -13,6 +13,12 @@ public class MaintenanceException extends RuntimeException {
 
   private final MaintenanceTimeResponse maintenanceTimeResponse;
 
+  public MaintenanceException(final BlasErrorCodeEnum blasErrorCodeEnum) {
+    super(blasErrorCodeEnum.getMessageDescription());
+    this.blasErrorCodeEnum = blasErrorCodeEnum;
+    this.maintenanceTimeResponse = null;
+  }
+
   public MaintenanceException(final BlasErrorCodeEnum blasErrorCodeEnum,
       MaintenanceTimeResponse maintenanceTimeResponse, Throwable cause) {
     super(maintenanceTimeResponse.getNotificationMessage(), cause);

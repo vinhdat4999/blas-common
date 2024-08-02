@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 5.14.0  | 02/08/2024   | Support traffic flag                                                                                             |
 | 5.13.0  | 08/07/2024   | Add Blas Payment Gateway Telegram bot                                                                            |
 | 5.12.0  | 28/06/2024   | Support multiple bank to pay for blas-banking-payment-gateway service                                            |
 | 5.11.0  | 23/06/2024   | Support new blas-banking-payment-gateway service                                                                 |

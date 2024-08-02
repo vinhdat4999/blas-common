@@ -37,4 +37,8 @@ public class MaintenanceTime {
   @NotEmpty
   @Field("notification_message")
   private String notificationMessage;
+
+  @NotEmpty
+  @Field("disabled_traffic")
+  private boolean disabledTraffic;
 }
