@@ -53,6 +53,7 @@ public class InternalEmail {
 
   @Lazy
   private final BlasPrivateKeyProperties blasPrivateKeyProperties;
+
   @Lazy
   private final CertPasswordConfiguration certPasswordConfiguration;
 

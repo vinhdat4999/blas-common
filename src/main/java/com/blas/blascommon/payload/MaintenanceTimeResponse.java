@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MaintenanceTimeResponse {
 
+  private boolean disabledTraffic;
   private boolean isInMaintenance;
   private LocalDateTime startTime;
   private LocalDateTime endTime;
