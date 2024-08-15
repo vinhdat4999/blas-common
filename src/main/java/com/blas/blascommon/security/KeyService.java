@@ -1,6 +1,5 @@
 package com.blas.blascommon.security;
 
-import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_BLAS_APP_FAILURE;
 import static com.blas.blascommon.security.SecurityUtils.getPrivateKeyAesFromCertificate;
 
 import com.blas.blascommon.configurations.CertPasswordConfiguration;
@@ -31,7 +30,7 @@ public class KeyService {
           certPasswordConfiguration.getCertPassword());
     } catch (KeyStoreException | CertificateException | IOException | NoSuchAlgorithmException |
              UnrecoverableKeyException exception) {
-      throw new BadRequestException(MSG_BLAS_APP_FAILURE);
+      throw new BadRequestException(exception.getMessage());
     }
   }
 }

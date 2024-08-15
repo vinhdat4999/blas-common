@@ -26,4 +26,5 @@ public class BlasConstant {
   public static final String BLAS_PAYMENT_GATEWAY_IMAP_USERNAME = "BLAS_PAYMENT_GATEWAY_IMAP_USERNAME";
   public static final String BLAS_PAYMENT_GATEWAY_IMAP_PASSWORD = "BLAS_PAYMENT_GATEWAY_IMAP_PASSWORD";
   public static final String IMGBB_PRIVATE_KEY = "IMGBB_PRIVATE_KEY";
+  public static final String GOOGLE_SERVICE_ACCOUNT_ID = "GOOGLE_SERVICE_ACCOUNT_ID";
 }
