@@ -1,6 +1,7 @@
 package com.blas.blascommon.utils.email;
 
 import static com.blas.blascommon.constants.BlasConstant.INTERNAL_EMAIL_PASSWORD;
+import static com.blas.blascommon.constants.BlasConstant.INTERNAL_EMAIL_USERNAME;
 import static com.blas.blascommon.security.SecurityUtils.aesDecrypt;
 import static com.blas.blascommon.security.SecurityUtils.getPrivateKeyAesFromCertificate;
 import static jakarta.mail.Transport.send;
@@ -45,7 +46,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class InternalEmail {
 
-  private static final String EMAIL_SENDER = "blassystemvietnam@gmail.com";
   private static final int PORT_SENDER = 465;
 
   @Lazy
@@ -68,6 +68,7 @@ public class InternalEmail {
     props.put("mail.smtp.ssl.protocols", "TLSv1.3");
     props.put("mail.smtp.ssl.checkserveridentity", "true");
     props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+    String username = EMPTY;
     String password = EMPTY;
     try {
       final String privateKey = getPrivateKeyAesFromCertificate(
@@ -75,6 +76,8 @@ public class InternalEmail {
           blasPrivateKeyProperties.getAliasBlasPrivateKey(),
           certPasswordConfiguration.getCertPassword());
       assert privateKey != null;
+      username = aesDecrypt(privateKey,
+          blasConfigService.getConfigValueFromKey(INTERNAL_EMAIL_USERNAME));
       password = aesDecrypt(privateKey,
           blasConfigService.getConfigValueFromKey(INTERNAL_EMAIL_PASSWORD));
     } catch (KeyStoreException | CertificateException | IOException | NoSuchAlgorithmException |
@@ -83,16 +86,17 @@ public class InternalEmail {
              NoSuchPaddingException exception) {
       log.error(exception.toString());
     }
+    final String finalUsername = username;
     final String finalPassword = password;
     Session session = Session.getDefaultInstance(props, new jakarta.mail.Authenticator() {
       @Override
       protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication(EMAIL_SENDER, finalPassword);
+        return new PasswordAuthentication(finalUsername, finalPassword);
       }
     });
     MimeMessage message = new MimeMessage(session);
     try {
-      message.setFrom(new InternetAddress(EMAIL_SENDER));
+      message.setFrom(new InternetAddress(finalUsername));
     } catch (MessagingException exception) {
       log.error(exception.toString());
     }

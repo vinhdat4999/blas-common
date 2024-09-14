@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 5.16.0  | 14/09/2024   | Integrate with Hashicorp Vault                                                                                   |
 | 5.15.0  | 15/08/2024   | Custom HTTP error response and uptake blas-bom 1.21.0                                                            |
 | 5.14.0  | 02/08/2024   | Support traffic flag                                                                                             |
 | 5.13.0  | 08/07/2024   | Add Blas Payment Gateway Telegram bot                                                                            |
