@@ -28,8 +28,10 @@ public class AddressServiceImpl implements AddressService {
 
   @Override
   public List<Address> getAllActiveAddressByUser(String userId) {
-    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
-    return addressDao.getAllActiveAddressByUser(userId);
+    if (authUserDao.existsById(userId)) {
+      return addressDao.getAllActiveAddressByUser(userId);
+    }
+    throw new NotFoundException(USER_ID_NOT_FOUND);
   }
 
   @Override
@@ -40,8 +42,10 @@ public class AddressServiceImpl implements AddressService {
 
   @Override
   public Address getDefaultAddressByUser(String userId) {
-    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
-    return addressDao.getDefaultAddressByUser(userId);
+    if (authUserDao.existsById(userId)) {
+      return addressDao.getDefaultAddressByUser(userId);
+    }
+    throw new NotFoundException(USER_ID_NOT_FOUND);
   }
 
   @Override
@@ -52,8 +56,9 @@ public class AddressServiceImpl implements AddressService {
 
   @Override
   public void updateAddress(Address address) {
-    addressDao.findById(address.getAddressId())
-        .orElseThrow(() -> new NotFoundException(ADDRESS_ID_NOT_FOUND));
-    addressDao.save(address);
+    if (addressDao.existsById(address.getAddressId())) {
+      addressDao.save(address);
+    }
+    throw new NotFoundException(ADDRESS_ID_NOT_FOUND);
   }
 }

@@ -11,7 +11,7 @@ public class MaintenanceException extends RuntimeException {
 
   private final BlasErrorCodeEnum blasErrorCodeEnum;
 
-  private final MaintenanceTimeResponse maintenanceTimeResponse;
+  private final transient MaintenanceTimeResponse maintenanceTimeResponse;
 
   public MaintenanceException(final BlasErrorCodeEnum blasErrorCodeEnum) {
     super(blasErrorCodeEnum.getMessageDescription());

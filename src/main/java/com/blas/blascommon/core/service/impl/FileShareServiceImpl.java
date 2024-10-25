@@ -1,6 +1,5 @@
 package com.blas.blascommon.core.service.impl;
 
-import static com.blas.blascommon.constants.ResponseMessage.FILE_ID_NOT_FOUND;
 import static com.blas.blascommon.constants.ResponseMessage.FILE_PATH_NOT_FOUND;
 import static com.blas.blascommon.constants.ResponseMessage.FILE_SHARE_ID_NOT_FOUND;
 import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
@@ -40,8 +39,10 @@ public class FileShareServiceImpl implements FileShareService {
 
   @Override
   public List<FileShare> getAllFileShareByFileId(String fileId) {
-    fileDao.findById(fileId).orElseThrow(() -> new NotFoundException(FILE_ID_NOT_FOUND));
-    return fileShareDao.getAllFileShareByFileId(fileId);
+    if (fileDao.existsById(fileId)) {
+      return fileShareDao.getAllFileShareByFileId(fileId);
+    }
+    throw new NotFoundException(FILE_SHARE_ID_NOT_FOUND);
   }
 
   @Override
@@ -55,8 +56,10 @@ public class FileShareServiceImpl implements FileShareService {
 
   @Override
   public List<FileShare> getAllFileShareByShareForThisUser(String userId) {
-    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
-    return fileShareDao.getAllFileShareByShareForThisUser(userId);
+    if (authUserDao.existsById(userId)) {
+      return fileShareDao.getAllFileShareByShareForThisUser(userId);
+    }
+    throw new NotFoundException(USER_ID_NOT_FOUND);
   }
 
   @Override
@@ -73,9 +76,10 @@ public class FileShareServiceImpl implements FileShareService {
 
   @Override
   public void updateFileShare(FileShare fileShare) {
-    fileShareDao.findById(fileShare.getFileShareId())
-        .orElseThrow(() -> new NotFoundException(FILE_SHARE_ID_NOT_FOUND));
-    fileShareDao.save(fileShare);
+    if (fileShareDao.existsById(fileShare.getFileShareId())) {
+      fileShareDao.save(fileShare);
+    }
+    throw new NotFoundException(FILE_SHARE_ID_NOT_FOUND);
   }
 
   @Override

@@ -41,8 +41,9 @@ public class BlasResultServiceImpl implements BlasResultService {
 
   @Override
   public void updateBlasResult(BlasResult blasResult) {
-    blasResultDao.findById(blasResult.getId())
-        .orElseThrow(() -> new NotFoundException(BLAS_LOG_ID_NOT_FOUND));
-    blasResultDao.save(blasResult);
+    if (blasResultDao.existsById(blasResult.getId())) {
+      blasResultDao.save(blasResult);
+    }
+    throw new NotFoundException(BLAS_LOG_ID_NOT_FOUND);
   }
 }

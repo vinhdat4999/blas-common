@@ -34,7 +34,9 @@ public class RoleServiceImpl implements RoleService {
 
   @Override
   public void updateRole(Role role) {
-    roleDao.findById(role.getRoleId()).orElseThrow(() -> new NotFoundException(ROLE_ID_NOT_FOUND));
-    roleDao.save(role);
+    if (roleDao.existsById(role.getRoleId())) {
+      roleDao.save(role);
+    }
+    throw new NotFoundException(ROLE_ID_NOT_FOUND);
   }
 }
