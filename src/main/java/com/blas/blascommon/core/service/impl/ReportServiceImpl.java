@@ -48,8 +48,9 @@ public class ReportServiceImpl implements ReportService {
 
   @Override
   public Report updateReport(Report report) {
-    reportDao.findById(report.getReportCode())
-        .orElseThrow(() -> new NotFoundException(REPORT_CODE_NOT_FOUND));
-    return reportDao.save(report);
+    if (reportDao.existsById(report.getReportCode())) {
+      return reportDao.save(report);
+    }
+    throw new NotFoundException(REPORT_CODE_NOT_FOUND);
   }
 }

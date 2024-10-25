@@ -15,6 +15,7 @@ import com.blas.blascommon.exceptions.types.BadRequestException;
 import com.blas.blascommon.exceptions.types.NotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +38,8 @@ public class AuthUserServiceImpl implements AuthUserService {
 
   @Override
   public AuthUser getAuthUserByUserId(String userId) {
-    return authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
+    return authUserDao.findById(userId)
+        .orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
   }
 
   @Override
@@ -71,17 +73,20 @@ public class AuthUserServiceImpl implements AuthUserService {
 
   @Override
   public void updateAuthUser(AuthUser authUser) {
-    authUserDao.findById(authUser.getUserId())
-        .orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
+    if (!authUserDao.existsById(authUser.getUserId())) {
+      throw new NotFoundException(USER_ID_NOT_FOUND);
+    }
     UserDetail userDetail = userDetailDao.getUserDetailByPhone(
         authUser.getUserDetail().getPhoneNumber());
-    if (userDetail != null && !userDetail.getUserId().equals(authUser.getUserId())) {
-      throw new BadRequestException(DUPLICATED_PHONE);
-    }
+    checkDuplicated(userDetail, authUser, DUPLICATED_PHONE);
     userDetail = userDetailDao.getUserDetailByEmail(authUser.getUserDetail().getEmail());
-    if (userDetail != null && !userDetail.getUserId().equals(authUser.getUserId())) {
-      throw new BadRequestException(DUPLICATED_EMAIL);
-    }
+    checkDuplicated(userDetail, authUser, DUPLICATED_EMAIL);
     authUserDao.save(authUser);
+  }
+
+  private void checkDuplicated(UserDetail userDetail, AuthUser authUser, String failedMessage) {
+    if (userDetail != null && !StringUtils.equals(userDetail.getUserId(), authUser.getUserId())) {
+      throw new BadRequestException(failedMessage);
+    }
   }
 }

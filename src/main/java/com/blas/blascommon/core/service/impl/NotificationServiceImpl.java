@@ -28,14 +28,18 @@ public class NotificationServiceImpl implements NotificationService {
 
   @Override
   public List<Notification> getAllNotificationByUser(String userId) {
-    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
-    return notificationDao.getAllNotificationByUser(userId);
+    if (authUserDao.existsById(userId)) {
+      return notificationDao.getAllNotificationByUser(userId);
+    }
+    throw new NotFoundException(USER_ID_NOT_FOUND);
   }
 
   @Override
   public int getNumberOfUnreadNotificationByUser(String userId) {
-    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
-    return notificationDao.getNumberOfUnreadNotificationByUser(userId);
+    if (authUserDao.existsById(userId)) {
+      return notificationDao.getNumberOfUnreadNotificationByUser(userId);
+    }
+    throw new NotFoundException(USER_ID_NOT_FOUND);
   }
 
   @Override
@@ -46,9 +50,10 @@ public class NotificationServiceImpl implements NotificationService {
 
   @Override
   public void updateNotification(Notification notification) {
-    notificationDao.findById(notification.getNofiticationId())
-        .orElseThrow(() -> new NotFoundException(NOTIFICATION_ID_NOT_FOUND));
-    notificationDao.save(notification);
+    if (notificationDao.existsById(notification.getNofiticationId())) {
+      notificationDao.save(notification);
+    }
+    throw new NotFoundException(NOTIFICATION_ID_NOT_FOUND);
   }
 
   @Override

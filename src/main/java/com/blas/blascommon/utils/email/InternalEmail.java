@@ -76,8 +76,7 @@ public class InternalEmail {
           blasPrivateKeyProperties.getAliasBlasPrivateKey(),
           certPasswordConfiguration.getCertPassword());
       assert privateKey != null;
-      username = aesDecrypt(privateKey,
-          blasConfigService.getConfigValueFromKey(INTERNAL_EMAIL_USERNAME));
+      username = blasConfigService.getConfigValueFromKey(INTERNAL_EMAIL_USERNAME);
       password = aesDecrypt(privateKey,
           blasConfigService.getConfigValueFromKey(INTERNAL_EMAIL_PASSWORD));
     } catch (KeyStoreException | CertificateException | IOException | NoSuchAlgorithmException |

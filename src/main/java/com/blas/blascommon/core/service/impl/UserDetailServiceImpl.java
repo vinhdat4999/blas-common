@@ -46,8 +46,9 @@ public class UserDetailServiceImpl implements UserDetailService {
 
   @Override
   public void updateUserDetail(UserDetail userDetail) {
-    userDetailDao.findById(userDetail.getUserId())
-        .orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
+    if (!userDetailDao.existsById(userDetail.getUserId())) {
+      throw new NotFoundException(USER_ID_NOT_FOUND);
+    }
     UserDetail userDetailOld = userDetailDao.getUserDetailByPhone(userDetail.getPhoneNumber());
     if (!userDetail.getUserId().equals(userDetailOld.getUserId())) {
       throw new BadRequestException(DUPLICATED_PHONE);

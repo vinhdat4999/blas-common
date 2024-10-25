@@ -28,8 +28,10 @@ public class MessageHelpServiceImpl implements MessageHelpService {
 
   @Override
   public List<MessageHelp> getAllMessageHelpByHelpTicketId(String ticketId) {
-    helpDao.findById(ticketId).orElseThrow(() -> new NotFoundException(HELP_TICKET_ID_NOT_FOUND));
-    return messageHelpDao.getMessageHelpListByHelpTicketId(ticketId);
+    if (helpDao.existsById(ticketId)) {
+      return messageHelpDao.getMessageHelpListByHelpTicketId(ticketId);
+    }
+    throw new NotFoundException(HELP_TICKET_ID_NOT_FOUND);
   }
 
   @Override
@@ -46,8 +48,9 @@ public class MessageHelpServiceImpl implements MessageHelpService {
 
   @Override
   public void updateMessageHelp(MessageHelp messageHelp) {
-    messageHelpDao.findById(messageHelp.getId())
-        .orElseThrow(() -> new NotFoundException(MESSAGE_HELP_ID_NOT_FOUND));
-    messageHelpDao.save(messageHelp);
+    if (messageHelpDao.existsById(messageHelp.getId())) {
+      messageHelpDao.save(messageHelp);
+    }
+    throw new NotFoundException(MESSAGE_HELP_ID_NOT_FOUND);
   }
 }

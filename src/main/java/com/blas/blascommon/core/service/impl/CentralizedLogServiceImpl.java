@@ -8,6 +8,7 @@ import static com.blas.blascommon.enums.LogType.ERROR;
 import static com.blas.blascommon.utils.IdUtils.genUUID;
 import static com.blas.blascommon.utils.StringUtils.COMMA;
 import static com.blas.blascommon.utils.StringUtils.EMPTY;
+import static com.blas.blascommon.utils.StringUtils.NEW_LINE_CHARACTER;
 import static com.blas.blascommon.utils.StringUtils.safeTrim;
 
 import com.blas.blascommon.core.dao.mongodb.CentralizedLogDao;
@@ -99,9 +100,10 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
 
   @Override
   public void updateCentralizedLog(CentralizedLog centralizedLog) {
-    centralizedLogDao.findById(centralizedLog.getCentralizedLogId())
-        .map(centralizedLogDao::save)
-        .orElseThrow(() -> new NotFoundException(CENTRALIZED_LOG_ID_NOT_FOUND));
+    if (centralizedLogDao.existsById(centralizedLog.getCentralizedLogId())) {
+      centralizedLogDao.save(centralizedLog);
+    }
+    throw new NotFoundException(CENTRALIZED_LOG_ID_NOT_FOUND);
   }
 
   @SneakyThrows
@@ -128,7 +130,7 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
         .logType(ERROR.name())
         .exception(Arrays.stream(exception.getStackTrace())
             .map(Objects::toString)
-            .collect(Collectors.joining("\n")))
+            .collect(Collectors.joining(NEW_LINE_CHARACTER)))
         .message(exception.getMessage())
         .cause(Optional.ofNullable(exception.getCause()).map(Throwable::toString).orElse(EMPTY))
         .logData1(Optional.ofNullable(logData1).map(Object::toString).orElse(EMPTY))

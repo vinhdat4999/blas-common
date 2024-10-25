@@ -71,7 +71,7 @@ public class SecurityUtils {
   /**
    * MD5 encryption can cause some security vulnerabilities
    */
-  @Deprecated
+  @Deprecated(since = "2.7.0")
   public static String md5Encode(String rawPassword) {
     return getHashedString(rawPassword, MD5);
   }
@@ -79,7 +79,7 @@ public class SecurityUtils {
   /**
    * SHA-1 encryption can cause some security vulnerabilities
    */
-  @Deprecated
+  @Deprecated(since = "2.7.0")
   public static String sha1Encode(String rawPassword) {
     String hashedPassword = EMPTY;
     try {

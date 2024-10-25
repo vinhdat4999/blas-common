@@ -28,8 +28,10 @@ public class HelpServiceImpl implements HelpService {
 
   @Override
   public List<Help> getAllHelpByUser(String userId) {
-    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
-    return helpDao.getHelpListByUserId(userId);
+    if (authUserDao.existsById(userId)) {
+      return helpDao.getHelpListByUserId(userId);
+    }
+    throw new NotFoundException(USER_ID_NOT_FOUND);
   }
 
   @Override
@@ -39,8 +41,10 @@ public class HelpServiceImpl implements HelpService {
 
   @Override
   public List<Help> getAllHelpByUserAndStatus(String userId, String status) {
-    authUserDao.findById(userId).orElseThrow(() -> new NotFoundException(USER_ID_NOT_FOUND));
-    return helpDao.getHelpListByStatus(userId);
+    if (authUserDao.existsById(userId)) {
+      return helpDao.getHelpListByStatus(userId);
+    }
+    throw new NotFoundException(USER_ID_NOT_FOUND);
   }
 
   @Override
@@ -61,8 +65,9 @@ public class HelpServiceImpl implements HelpService {
 
   @Override
   public void updateHelp(Help help) {
-    helpDao.findById(help.getTicketId())
-        .orElseThrow(() -> new NotFoundException(HELP_TICKET_ID_NOT_FOUND));
-    helpDao.save(help);
+    if (helpDao.existsById(help.getTicketId())) {
+      helpDao.save(help);
+    }
+    throw new NotFoundException(HELP_TICKET_ID_NOT_FOUND);
   }
 }
