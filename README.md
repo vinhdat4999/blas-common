@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 5.18.0  | 29/10/2024   | Change mask json logic                                                                                           |
 | 5.17.0  | 25/10/2024   | Unmasked internal email value                                                                                    |
 | 5.16.0  | 14/09/2024   | Integrate with Hashicorp Vault                                                                                   |
 | 5.15.0  | 15/08/2024   | Custom HTTP error response and uptake blas-bom 1.21.0                                                            |
