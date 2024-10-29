@@ -26,6 +26,14 @@ public class EmailLogServiceImpl implements EmailLogService {
   }
 
   @Override
+  public EmailLog createEmailLog(EmailLog emailLog, boolean autoGenId) {
+    if (autoGenId) {
+      emailLog.setEmailLogId(genUUID());
+    }
+    return emailLogDao.save(emailLog);
+  }
+
+  @Override
   public Integer getNumOfSentEmailInDateOfUserId(String userId, LocalDate date) {
     return emailLogDao.getNumOfSentEmailInDateOfUserId(userId, date);
   }
