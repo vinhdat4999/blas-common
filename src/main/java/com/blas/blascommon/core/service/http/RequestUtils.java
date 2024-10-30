@@ -1,4 +1,4 @@
-package com.blas.blascommon.utils.httprequest;
+package com.blas.blascommon.core.service.http;
 
 import static com.blas.blascommon.constants.SecurityConstant.AUTHORIZATION;
 import static com.blas.blascommon.constants.SecurityConstant.BEARER_SPACE;

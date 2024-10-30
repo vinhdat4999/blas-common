@@ -16,4 +16,5 @@ public class SecurityConstant {
   public static final String SHA512 = "SHA-512";
   public static final String HMAC_SHA_512 = "HmacSHA512";
   public static final String SLASH_REPLACE = "{blas_slash_replace}";
+  public static final String YOU_CAN_NOT_ACCESS_THIS_RESOURCE = "YOU CAN NOT ACCESS THIS RESOURCE";
 }

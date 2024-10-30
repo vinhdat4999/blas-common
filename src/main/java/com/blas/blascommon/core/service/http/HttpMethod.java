@@ -1,4 +1,4 @@
-package com.blas.blascommon.utils.httprequest;
+package com.blas.blascommon.core.service.http;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

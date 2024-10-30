@@ -1,5 +1,8 @@
 package com.blas.blascommon.utils;
 
+import static com.blas.blascommon.utils.StringUtils.EMPTY;
+import static com.blas.blascommon.utils.StringUtils.HYPHEN;
+
 import java.security.SecureRandom;
 import java.util.UUID;
 import lombok.experimental.UtilityClass;
@@ -10,7 +13,7 @@ public class IdUtils {
   private static final SecureRandom random = new SecureRandom();
 
   public static String genUUID() {
-    return UUID.randomUUID().toString();
+    return UUID.randomUUID().toString().replace(HYPHEN, EMPTY);
   }
 
   public static String genMixID() {
