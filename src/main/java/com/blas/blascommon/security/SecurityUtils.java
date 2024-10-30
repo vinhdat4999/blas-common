@@ -5,6 +5,7 @@ import static com.blas.blascommon.constants.SecurityConstant.MD5;
 import static com.blas.blascommon.constants.SecurityConstant.SHA1;
 import static com.blas.blascommon.constants.SecurityConstant.SHA256;
 import static com.blas.blascommon.constants.SecurityConstant.SHA512;
+import static com.blas.blascommon.constants.SecurityConstant.YOU_CAN_NOT_ACCESS_THIS_RESOURCE;
 import static com.blas.blascommon.enums.Role.ADMIN;
 import static com.blas.blascommon.enums.Role.BOD;
 import static com.blas.blascommon.enums.Role.MAINTAINER;
@@ -15,6 +16,7 @@ import static com.blas.blascommon.utils.StringUtils.UNDERSCORE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.blas.blascommon.core.service.AuthUserService;
+import com.blas.blascommon.exceptions.types.ForbiddenException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -50,6 +52,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -66,6 +69,13 @@ public class SecurityUtils {
 
   public static String getUserIdLoggedIn(AuthUserService authUserService) {
     return authUserService.getAuthUserByUsername(getUsernameLoggedIn()).getUserId();
+  }
+
+  public static void authorize(String username, Authentication authentication) {
+    if (!StringUtils.equals(getUsernameLoggedIn(), username) && !isPrioritizedRole(
+        authentication)) {
+      throw new ForbiddenException(YOU_CAN_NOT_ACCESS_THIS_RESOURCE);
+    }
   }
 
   /**

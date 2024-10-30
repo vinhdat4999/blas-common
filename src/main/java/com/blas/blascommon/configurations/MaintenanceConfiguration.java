@@ -2,15 +2,15 @@ package com.blas.blascommon.configurations;
 
 import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_DISABLED_TRAFFIC;
 import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_IN_MAINTENANCE;
-import static com.blas.blascommon.utils.httprequest.HttpMethod.GET;
-import static com.blas.blascommon.utils.httprequest.RequestUtils.getTokenFromRequest;
+import static com.blas.blascommon.core.service.http.HttpMethod.GET;
+import static com.blas.blascommon.core.service.http.RequestUtils.getTokenFromRequest;
 
 import com.blas.blascommon.exceptions.types.MaintenanceException;
 import com.blas.blascommon.payload.HttpResponse;
 import com.blas.blascommon.payload.MaintenanceTimeResponse;
 import com.blas.blascommon.properties.BlasServiceProperties;
 import com.blas.blascommon.properties.ServiceSupportProperties;
-import com.blas.blascommon.utils.httprequest.HttpRequest;
+import com.blas.blascommon.core.service.http.HttpRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
