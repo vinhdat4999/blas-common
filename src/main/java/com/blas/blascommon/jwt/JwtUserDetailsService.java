@@ -5,6 +5,7 @@ import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import com.blas.blascommon.core.model.AuthUser;
 import com.blas.blascommon.core.model.Role;
 import com.blas.blascommon.core.service.AuthUserService;
+import com.blas.blascommon.exceptions.types.UnauthorizedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,10 +25,10 @@ public class JwtUserDetailsService implements UserDetailsService {
   private final AuthUserService authUserService;
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+  public UserDetails loadUserByUsername(String username) {
     AuthUser authUser = authUserService.getAuthUserByUsername(username);
     if (authUser == null) {
-      throw new UsernameNotFoundException("User not found with username: " + username);
+      throw new UnauthorizedException("User not found with username: " + username);
     }
     String userRole = Optional.ofNullable(authUser.getRole()).map(Role::getRoleName).orElse(EMPTY);
     List<GrantedAuthority> grantList = new ArrayList<>();
