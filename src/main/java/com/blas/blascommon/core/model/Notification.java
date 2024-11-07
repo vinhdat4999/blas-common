@@ -1,13 +1,9 @@
 package com.blas.blascommon.core.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -15,37 +11,44 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "notifications")
+@Document(collection = "notifications")
 public class Notification {
 
   @Id
-  @Column(name = "nofitication_id", length = 50, nullable = false)
   @NotEmpty
-  private String nofiticationId;
+  @Field(name = "_id")
+  private String notificationId;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_notifications_1"))
-  @NotNull
-  private UserDetail userDetail;
+  @Field(name = "creator_username")
+  private String creatorUsername;
 
-  @Column(name = "content", length = 200, nullable = false)
   @NotEmpty
-  private String content;
+  @Field(name = "receiver_username")
+  private String receiverUsername;
 
-  @Column(name = "time")
-  @NotNull
-  private LocalDateTime time;
+  @NotEmpty
+  @Field(name = "message")
+  private String message;
 
-  @Column(name = "link_ref", length = 200)
-  private String linkRef;
-
-  @Column(name = "is_read")
-  @NotNull
+  @Field(name = "is_read")
+  @JsonProperty("isRead")
   private boolean isRead;
+
+  @NotNull
+  @Column(name = "created_time")
+  private LocalDateTime createdTime;
+
+  @Column(name = "read_time")
+  private LocalDateTime readTime;
+
+  @Column(name = "link_to")
+  private String linkTo;
 }

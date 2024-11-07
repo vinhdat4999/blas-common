@@ -4,7 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
-| 6.1.0   | 04/11/2024   | Uptake blas-bom 1.23.0                                                                                           |
+| 6.1.0   | 07/11/2024   | Uptake blas-bom 1.23.0                                                                                           |
 | 6.0.0   | 30/10/2024   | Send Telegram image                                                                                              |
 | 5.18.0  | 29/10/2024   | Change mask json logic                                                                                           |
 | 5.17.0  | 25/10/2024   | Unmasked internal email value                                                                                    |
