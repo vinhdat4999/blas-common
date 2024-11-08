@@ -1,4 +1,3 @@
-
 package com.blas.blascommon.core.service;
 
 import static com.blas.blascommon.exceptions.BlasErrorCodeEnum.MSG_SERVER_ERROR;

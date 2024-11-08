@@ -1,7 +1,7 @@
 package com.blas.blascommon.core.service.http;
 
-import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import static com.blas.blascommon.core.service.http.RequestUtils.addParameters;
+import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
