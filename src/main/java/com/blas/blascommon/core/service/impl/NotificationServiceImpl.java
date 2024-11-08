@@ -1,11 +1,17 @@
 package com.blas.blascommon.core.service.impl;
 
+import static com.blas.blascommon.utils.IdUtils.genUUID;
+
 import com.blas.blascommon.core.dao.mongodb.NotificationDao;
 import com.blas.blascommon.core.model.Notification;
 import com.blas.blascommon.core.service.NotificationService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(rollbackFor = {Exception.class, Throwable.class})
 public class NotificationServiceImpl implements NotificationService {
+
+
+  @Lazy
+  private final MongoTemplate mongoTemplate;
 
   @Lazy
   private final NotificationDao notificationDao;
@@ -24,7 +34,7 @@ public class NotificationServiceImpl implements NotificationService {
 
   @Override
   public Notification getNotificationById(String notificationId) {
-    return notificationDao.findById(notificationId).orElse(null);
+    return notificationDao.getNotificationByNotificationId(notificationId);
   }
 
   @Override
@@ -34,7 +44,17 @@ public class NotificationServiceImpl implements NotificationService {
 
   @Override
   public Notification save(Notification notification) {
-    notification.setNotificationId(null);
+    notification.setNotificationId(genUUID());
     return notificationDao.save(notification);
+  }
+
+  @Override
+  public void updateReadNotification(String notificationId) {
+    Query query = new Query(Criteria.where("notification_id").is(notificationId));
+
+    Update update = new Update()
+        .set("is_read", true);
+
+    mongoTemplate.updateFirst(query, update, Notification.class);
   }
 }

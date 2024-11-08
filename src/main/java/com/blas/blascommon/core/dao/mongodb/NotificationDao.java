@@ -11,6 +11,11 @@ import org.springframework.stereotype.Repository;
 public interface NotificationDao extends MongoRepository<Notification, String> {
 
   @Query("{" +
+      "'notification_id': ?0" +
+      "}")
+  Notification getNotificationByNotificationId(@Param("notification_id") String notificationId);
+
+  @Query("{" +
       "'receiver_username': ?0" +
       "}")
   List<Notification> getAllNotificationByUsername(@Param("receiver_username") String username);

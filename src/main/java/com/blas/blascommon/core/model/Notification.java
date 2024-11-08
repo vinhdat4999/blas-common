@@ -24,7 +24,7 @@ public class Notification {
 
   @Id
   @NotEmpty
-  @Field(name = "_id")
+  @Field(name = "notification_id")
   private String notificationId;
 
   @Field(name = "creator_username")

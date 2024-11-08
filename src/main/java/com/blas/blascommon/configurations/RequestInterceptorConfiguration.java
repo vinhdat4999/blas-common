@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 public class RequestInterceptorConfiguration {
 
   private static final List<String> REQUIRED_LOG_SERVICES = List.of("blas-payment-gateway",
-      "blas-email");
+      "blas-notification");
 
   @Lazy
   private final BlasGateProperties blasGateProperties;
