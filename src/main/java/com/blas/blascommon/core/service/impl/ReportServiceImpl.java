@@ -6,7 +6,7 @@ import com.blas.blascommon.core.dao.jpa.ReportDao;
 import com.blas.blascommon.core.model.Report;
 import com.blas.blascommon.core.service.ReportService;
 import com.blas.blascommon.exceptions.types.NotFoundException;
-import com.blas.blascommon.utils.IdUtils;
+import com.blas.blascommon.utils.idutils.IdUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;

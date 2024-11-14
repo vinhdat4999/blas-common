@@ -61,12 +61,10 @@ public class TelegramService {
 
   public void sendTelegramMessageBlasPaymentGatewayBot(String text, String chatId, String imageUrl)
       throws InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, URISyntaxException, IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    sendTelegramMessageWithBot(TELEGRAM_BLAS_PAYMENT_GATEWAY_BOT, text,
-        chatId, imageUrl);
+    sendTelegramMessageWithBot(TELEGRAM_BLAS_PAYMENT_GATEWAY_BOT, text, chatId, imageUrl);
   }
 
-  public void sendTelegramMessageWithBot(String bot, String text,
-      String chatId, String imageUrl)
+  public void sendTelegramMessageWithBot(String bot, String text, String chatId, String imageUrl)
       throws InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, URISyntaxException, IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     final String key = aesDecrypt(keyService.getBlasPrivateKey(),
         blasConfigService.getConfigValueFromKey(bot));

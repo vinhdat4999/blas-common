@@ -2,7 +2,7 @@ package com.blas.blascommon.core.service.impl;
 
 import static com.blas.blascommon.constants.ResponseMessage.HELP_TICKET_ID_NOT_FOUND;
 import static com.blas.blascommon.constants.ResponseMessage.MESSAGE_HELP_ID_NOT_FOUND;
-import static com.blas.blascommon.utils.IdUtils.genUUID;
+import static com.blas.blascommon.utils.idutils.IdUtils.genUniqueId;
 
 import com.blas.blascommon.core.dao.jpa.HelpDao;
 import com.blas.blascommon.core.dao.jpa.MessageHelpDao;
@@ -42,7 +42,7 @@ public class MessageHelpServiceImpl implements MessageHelpService {
 
   @Override
   public MessageHelp createMessageHelp(MessageHelp messageHelp) {
-    messageHelp.setId(genUUID());
+    messageHelp.setId(genUniqueId());
     return messageHelpDao.save(messageHelp);
   }
 

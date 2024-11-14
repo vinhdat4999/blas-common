@@ -1,6 +1,6 @@
 package com.blas.blascommon.core.service.impl;
 
-import static com.blas.blascommon.utils.IdUtils.genUUID;
+import static com.blas.blascommon.utils.idutils.IdUtils.genUniqueId;
 
 import com.blas.blascommon.core.dao.jpa.EmailLogDao;
 import com.blas.blascommon.core.model.EmailLog;
@@ -21,14 +21,14 @@ public class EmailLogServiceImpl implements EmailLogService {
 
   @Override
   public EmailLog createEmailLog(EmailLog emailLog) {
-    emailLog.setEmailLogId(genUUID());
+    emailLog.setEmailLogId(genUniqueId());
     return emailLogDao.save(emailLog);
   }
 
   @Override
   public EmailLog createEmailLog(EmailLog emailLog, boolean autoGenId) {
     if (autoGenId) {
-      emailLog.setEmailLogId(genUUID());
+      emailLog.setEmailLogId(genUniqueId());
     }
     return emailLogDao.save(emailLog);
   }

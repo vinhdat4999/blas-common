@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,22 +31,22 @@ public class BlasGateInterceptor implements HandlerInterceptor, WebMvcConfigurer
   }
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-      Object handler) {
+  public boolean preHandle(@NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response, @NonNull Object handler) {
     requestInterceptorConfiguration.logRequestInfo(request);
     maintenanceConfiguration.checkMaintenance(request);
     return true;
   }
 
   @Override
-  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-      ModelAndView modelAndView) {
+  public void postHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+      @NonNull Object handler, ModelAndView modelAndView) {
     // No operation
   }
 
   @Override
-  public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
-      Object handler, Exception ex) {
+  public void afterCompletion(@NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response, @NonNull Object handler, Exception ex) {
     // No operation
   }
 }
