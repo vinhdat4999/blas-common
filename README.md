@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 6.3.0   | 23/11/2024   | Add unique ID generation                                                                                         |
 | 6.2.0   | 08/11/2024   | Rename blas-email to blas-notification service                                                                   |
 | 6.1.0   | 07/11/2024   | Uptake blas-bom 1.23.0                                                                                           |
 | 6.0.0   | 30/10/2024   | Send Telegram image                                                                                              |

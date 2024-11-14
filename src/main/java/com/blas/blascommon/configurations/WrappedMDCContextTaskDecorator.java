@@ -4,6 +4,7 @@ import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.slf4j.MDC;
 import org.springframework.core.task.TaskDecorator;
+import org.springframework.lang.NonNull;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -13,7 +14,7 @@ public class WrappedMDCContextTaskDecorator implements TaskDecorator {
   private final boolean isRequestContextAvailable;
 
   @Override
-  public Runnable decorate(Runnable runnable) {
+  public @NonNull Runnable decorate(@NonNull Runnable runnable) {
     // Grab the current thread context data
     RequestAttributes requestAttributes = null;
     if (isRequestContextAvailable) {

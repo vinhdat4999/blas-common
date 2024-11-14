@@ -4,7 +4,7 @@ import static com.blas.blascommon.constants.ResponseMessage.DUPLICATED_FILE;
 import static com.blas.blascommon.constants.ResponseMessage.FILE_ID_NOT_FOUND;
 import static com.blas.blascommon.constants.ResponseMessage.FILE_PATH_NOT_FOUND;
 import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
-import static com.blas.blascommon.utils.IdUtils.genUUID;
+import static com.blas.blascommon.utils.idutils.IdUtils.genUniqueId;
 
 import com.blas.blascommon.core.dao.jpa.AuthUserDao;
 import com.blas.blascommon.core.dao.jpa.FileDao;
@@ -77,7 +77,7 @@ public class FileServiceImpl implements FileService {
     if (getFileByUserIdAndFilePath(userId, file.getFilePath()) != null) {
       throw new BadRequestException(DUPLICATED_FILE);
     }
-    file.setFileId(genUUID());
+    file.setFileId(genUniqueId());
     return fileDao.save(file);
   }
 

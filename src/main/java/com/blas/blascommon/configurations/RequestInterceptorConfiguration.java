@@ -2,6 +2,7 @@ package com.blas.blascommon.configurations;
 
 import static com.blas.blascommon.constants.MDCConstant.GLOBAL_ID;
 import static com.blas.blascommon.utils.IpUtils.isLocalRequest;
+import static com.blas.blascommon.utils.idutils.IdUtils.genUniqueId;
 import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpHeaders.USER_AGENT;
 
@@ -9,7 +10,6 @@ import com.blas.blascommon.core.model.BlasGateInfo;
 import com.blas.blascommon.core.service.BlasGateInfoService;
 import com.blas.blascommon.properties.BlasGateProperties;
 import com.blas.blascommon.properties.BlasServiceProperties;
-import com.blas.blascommon.utils.IdUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class RequestInterceptorConfiguration {
   public void logRequestInfo(HttpServletRequest request) {
     if (REQUIRED_LOG_SERVICES.contains(serviceName) || (blasGateProperties.isEnableLogRequest()
         && (!isLocalRequest(request) || blasGateProperties.isEnableLogLocalRequest()))) {
-      final String globalId = IdUtils.genUUID();
+      final String globalId = genUniqueId();
       MDC.put(GLOBAL_ID, globalId);
       BlasGateInfo blasGateInfo = BlasGateInfo.builder()
           .globalId(globalId)

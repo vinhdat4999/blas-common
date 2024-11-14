@@ -41,6 +41,9 @@ public class BlasGateInfo {
   @Field(name = "request_url")
   private String requestUrl;
 
+  @Field(name = "request_body")
+  private String requestBody;
+
   @Field(name = "user_agent")
   private String userAgent;
 
