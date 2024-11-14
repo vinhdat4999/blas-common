@@ -1,10 +1,6 @@
-package com.blas.blascommon.utils;
-
-import static com.blas.blascommon.utils.StringUtils.EMPTY;
-import static com.blas.blascommon.utils.StringUtils.HYPHEN;
+package com.blas.blascommon.utils.idutils;
 
 import java.security.SecureRandom;
-import java.util.UUID;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -12,9 +8,18 @@ public class IdUtils {
 
   private static final SecureRandom random = new SecureRandom();
 
-  public static String genUUID() {
-    return UUID.randomUUID().toString().replace(HYPHEN, EMPTY);
+  /**
+   * Generate case-sensitive unique ID
+   *
+   * @return Case-sensitive unique ID string
+   */
+  public static String genUniqueId() {
+    return UniqueIDGenerator.getUniqueIdAsString();
   }
+
+//  public static String genUUID() {
+//    return UUID.randomUUID().toString().replace(HYPHEN, EMPTY);
+//  }
 
   public static String genMixID() {
     int leftLimit = 48; // numeral '0'
