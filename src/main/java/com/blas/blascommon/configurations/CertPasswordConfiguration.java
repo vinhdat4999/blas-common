@@ -4,6 +4,7 @@ import static com.blas.blascommon.constants.BlasConstant.BLAS_CERT_PASSWORD;
 import static com.blas.blascommon.security.SecurityUtils.base64Decode;
 
 import com.blas.blascommon.core.service.BlasConfigService;
+import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,7 @@ public class CertPasswordConfiguration {
   @Bean
   public String getCertPassword() {
     log.info("Getting cert password...");
-    return new String(base64Decode(blasConfigService.getConfigValueFromKey(BLAS_CERT_PASSWORD)));
+    return new String(base64Decode(blasConfigService.getConfigValueFromKey(BLAS_CERT_PASSWORD)),
+        StandardCharsets.UTF_8);
   }
 }

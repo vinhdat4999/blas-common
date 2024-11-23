@@ -1,6 +1,6 @@
 package com.blas.blascommon.core.service.impl;
 
-import static com.blas.blascommon.utils.IdUtils.genUUID;
+import static com.blas.blascommon.utils.idutils.IdUtils.genUniqueId;
 
 import com.blas.blascommon.core.dao.mongodb.NotificationDao;
 import com.blas.blascommon.core.model.Notification;
@@ -44,7 +44,7 @@ public class NotificationServiceImpl implements NotificationService {
 
   @Override
   public Notification save(Notification notification) {
-    notification.setNotificationId(genUUID());
+    notification.setNotificationId(genUniqueId());
     return notificationDao.save(notification);
   }
 

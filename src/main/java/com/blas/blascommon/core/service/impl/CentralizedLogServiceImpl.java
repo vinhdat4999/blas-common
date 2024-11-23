@@ -5,11 +5,11 @@ import static com.blas.blascommon.constants.MDCConstant.GLOBAL_ID;
 import static com.blas.blascommon.constants.ResponseMessage.CENTRALIZED_LOG_ID_NOT_FOUND;
 import static com.blas.blascommon.enums.EmailTemplate.ERROR_ALERT;
 import static com.blas.blascommon.enums.LogType.ERROR;
-import static com.blas.blascommon.utils.IdUtils.genUUID;
 import static com.blas.blascommon.utils.StringUtils.COMMA;
 import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import static com.blas.blascommon.utils.StringUtils.NEW_LINE_CHARACTER;
 import static com.blas.blascommon.utils.StringUtils.safeTrim;
+import static com.blas.blascommon.utils.idutils.IdUtils.genUniqueId;
 
 import com.blas.blascommon.core.dao.mongodb.CentralizedLogDao;
 import com.blas.blascommon.core.model.CentralizedLog;
@@ -62,7 +62,7 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
 
   @Override
   public CentralizedLog saveLog(Exception exception) {
-    final String centralizedLogId = genUUID();
+    final String centralizedLogId = genUniqueId();
     CentralizedLog centralizedLog = CentralizedLog.builder()
         .centralizedLogId(centralizedLogId)
         .globalId(MDC.get(GLOBAL_ID))
@@ -94,7 +94,7 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
 
   @Override
   public CentralizedLog createCentralizedLog(CentralizedLog centralizedLog) {
-    centralizedLog.setCentralizedLogId(genUUID());
+    centralizedLog.setCentralizedLogId(genUniqueId());
     return centralizedLogDao.save(centralizedLog);
   }
 
@@ -121,7 +121,7 @@ public class CentralizedLogServiceImpl implements CentralizedLogService {
 
   private CentralizedLog saveLogBase(Exception exception, Object logData1, Object logData2,
       Object logData3, boolean isSendEmailAlert) {
-    final String centralizedLogId = genUUID();
+    final String centralizedLogId = genUniqueId();
     CentralizedLog centralizedLog = CentralizedLog.builder()
         .centralizedLogId(centralizedLogId)
         .globalId(MDC.get(GLOBAL_ID))

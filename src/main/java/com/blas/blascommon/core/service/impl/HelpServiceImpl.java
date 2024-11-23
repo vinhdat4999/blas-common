@@ -2,7 +2,7 @@ package com.blas.blascommon.core.service.impl;
 
 import static com.blas.blascommon.constants.ResponseMessage.HELP_TICKET_ID_NOT_FOUND;
 import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
-import static com.blas.blascommon.utils.IdUtils.genMixID;
+import static com.blas.blascommon.utils.idutils.IdUtils.genMixID;
 
 import com.blas.blascommon.core.dao.jpa.AuthUserDao;
 import com.blas.blascommon.core.dao.jpa.HelpDao;

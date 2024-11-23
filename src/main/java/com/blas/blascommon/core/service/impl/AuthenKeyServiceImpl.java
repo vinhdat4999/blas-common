@@ -2,8 +2,8 @@ package com.blas.blascommon.core.service.impl;
 
 import static com.blas.blascommon.constants.Configuration.MINUTE_TO_EXPIRED;
 import static com.blas.blascommon.constants.ResponseMessage.USER_ID_NOT_FOUND;
-import static com.blas.blascommon.utils.IdUtils.genMixID;
-import static com.blas.blascommon.utils.IdUtils.genUUID;
+import static com.blas.blascommon.utils.idutils.IdUtils.genMixID;
+import static com.blas.blascommon.utils.idutils.IdUtils.genUniqueId;
 
 import com.blas.blascommon.core.dao.jpa.AuthenKeyDao;
 import com.blas.blascommon.core.model.AuthUser;
@@ -53,7 +53,7 @@ public class AuthenKeyServiceImpl implements AuthenKeyService {
     if (authenKeyOld == null) {
       authenKeyDao.save(
           AuthenKey.builder()
-              .authenId(genUUID())
+              .authenId(genUniqueId())
               .authUser(authUser)
               .key(sha256Encoder.encode(key))
               .isUsed(false)
