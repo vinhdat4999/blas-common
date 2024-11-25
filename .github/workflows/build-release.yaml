@@ -63,5 +63,5 @@ jobs:
           -Dversion=${{ steps.extractVersion.outputs.serviceVersion }} \
           -Dpackaging=jar
         env:
-          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
