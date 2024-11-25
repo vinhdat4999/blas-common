@@ -63,14 +63,24 @@ public class ImageUtils {
   }
 
   public static BufferedImage genQrCode(String content) throws WriterException {
-    QRCodeWriter qrCodeWriter = new QRCodeWriter();
-    BitMatrix matrix = qrCodeWriter.encode(content, QR_CODE, QR_WIDTH, QR_HEIGHT);
-    return MatrixToImageWriter.toBufferedImage(matrix);
+    return buildQrBufferImage(content, QR_WIDTH, QR_HEIGHT);
+  }
+
+  public static BufferedImage genQrCode(String content, int width, int height)
+      throws WriterException {
+    return buildQrBufferImage(content, width, height);
   }
 
   public static BufferedImage genBarCode(String content) {
     UPCAWriter upcaWriter = new UPCAWriter();
     BitMatrix matrix = upcaWriter.encode(content, UPC_A, BAR_CODE_WIDTH, BAR_CODE_HEIGHT);
+    return MatrixToImageWriter.toBufferedImage(matrix);
+  }
+
+  private BufferedImage buildQrBufferImage(String content, int width, int height)
+      throws WriterException {
+    QRCodeWriter qrCodeWriter = new QRCodeWriter();
+    BitMatrix matrix = qrCodeWriter.encode(content, QR_CODE, width, height);
     return MatrixToImageWriter.toBufferedImage(matrix);
   }
 }
