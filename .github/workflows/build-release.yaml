@@ -47,7 +47,7 @@ jobs:
 
       - name: Verify JAR exists
         run: |
-          if [ ! -f target/blas-common-${{ steps.extractVersion.outputs.serviceVersion }}.jar ]; then
+          if [ ! -f target/blas-common-${{ steps.extractVersion.outputs.serviceVersion }}-SNAPSHOT.jar ]; then
             echo "JAR file does not exist! Ensure the build step succeeded."
             exit 1
           fi
@@ -56,12 +56,12 @@ jobs:
         run: mvn deploy:deploy-file \
           -Durl="https://maven.pkg.github.com/vinhdat4999/blas-common" \
           -DrepositoryId=github \
-          -Dfile=target/blas-common-${{ steps.extractVersion.outputs.serviceVersion }}.jar \
+          -Dfile=target/blas-common-${{ steps.extractVersion.outputs.serviceVersion }}-SNAPSHOT.jar \
           -DpomFile=pom.xml \
           -DgroupId=com.blas \
           -DartifactId=blas-common \
           -Dversion=${{ steps.extractVersion.outputs.serviceVersion }} \
           -Dpackaging=jar
         env:
-          GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
+          GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
