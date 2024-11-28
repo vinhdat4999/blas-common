@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 6.5.0   | 28/11/2024   | Support OpenTelemetry log data model and trace                                                                   |
 | 6.4.0   | 25/11/2024   | Update default QR image size                                                                                     |
 | 6.3.0   | 23/11/2024   | Add unique ID generation                                                                                         |
 | 6.2.0   | 08/11/2024   | Rename blas-email to blas-notification service                                                                   |

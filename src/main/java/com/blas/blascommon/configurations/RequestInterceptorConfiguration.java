@@ -1,6 +1,6 @@
 package com.blas.blascommon.configurations;
 
-import static com.blas.blascommon.constants.MDCConstant.GLOBAL_ID;
+import static com.blas.blascommon.constants.MdcConstants.GLOBAL_ID;
 import static com.blas.blascommon.utils.IpUtils.isLocalRequest;
 import static com.blas.blascommon.utils.idutils.IdUtils.genUniqueId;
 import static java.time.LocalDateTime.now;
