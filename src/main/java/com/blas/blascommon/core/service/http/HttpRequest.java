@@ -1,15 +1,20 @@
 package com.blas.blascommon.core.service.http;
 
+import static com.blas.blascommon.constants.IdHttpHeader.CALLER_ID;
+import static com.blas.blascommon.constants.IdHttpHeader.CALLER_SERVICE_ID;
+import static com.blas.blascommon.constants.IdHttpHeader.GLOBAL_ID;
 import static com.blas.blascommon.core.service.http.RequestUtils.addParameters;
 import static com.blas.blascommon.utils.StringUtils.EMPTY;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
+import com.blas.blascommon.constants.MdcConstants;
 import com.blas.blascommon.payload.HttpResponse;
 import com.blas.blascommon.properties.BlasRequestConfigProperties;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,6 +37,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -43,6 +50,9 @@ public class HttpRequest {
   private static final String METHOD_CANNOT_BE_NULL = "Method cannot be null";
   private static final int DEFAULT_TIMEOUT = 30000;
 
+  @Value("${blas.service.serviceName}")
+  private String serviceName;
+
   @Lazy
   private final BlasRequestConfigProperties blasRequestConfigProperties;
 
@@ -51,12 +61,11 @@ public class HttpRequest {
       Map<String, String> payload) throws IOException {
     log.debug("Start send POST request...");
     log.debug("Connecting to {}...", hostUrl);
+    headerList = addIdsToHeaderMap(headerList, MDC.get(MdcConstants.GLOBAL_ID), serviceName);
     try (CloseableHttpClient client = HttpClients.createDefault()) {
       HttpPost httpPost = new HttpPost(addParameters(hostUrl, parameterList));
-      if (headerList != null) {
-        for (Entry<String, String> entry : headerList.entrySet()) {
-          httpPost.setHeader(entry.getKey(), entry.getValue());
-        }
+      for (Entry<String, String> entry : headerList.entrySet()) {
+        httpPost.setHeader(entry.getKey(), entry.getValue());
       }
       List<NameValuePair> urlParameters = new ArrayList<>();
       for (Entry<String, String> entry : payload.entrySet()) {
@@ -103,14 +112,13 @@ public class HttpRequest {
     if (method == null) {
       throw new IllegalArgumentException(METHOD_CANNOT_BE_NULL);
     }
+    headerList = addIdsToHeaderMap(headerList, MDC.get(MdcConstants.GLOBAL_ID), serviceName);
     log.debug("Start send {} request...", method);
     log.debug("Connecting to {}...", hostUrl);
     HttpRequestBase httpMethod = method.getClazz().getDeclaredConstructor(String.class)
         .newInstance(addParameters(hostUrl, parameterList));
-    if (headerList != null) {
-      for (Entry<String, String> entry : headerList.entrySet()) {
-        httpMethod.setHeader(entry.getKey(), entry.getValue());
-      }
+    for (Entry<String, String> entry : headerList.entrySet()) {
+      httpMethod.setHeader(entry.getKey(), entry.getValue());
     }
     StringEntity entity = new StringEntity(Optional.ofNullable(payload).orElse(EMPTY),
         APPLICATION_JSON);
@@ -139,5 +147,17 @@ public class HttpRequest {
         .statusCode(statusCode)
         .response(IOUtils.toString(response.getEntity().getContent(), UTF_8))
         .build();
+  }
+
+  private Map<String, String> addIdsToHeaderMap(Map<String, String> headerList, String globalId,
+      String serviceName) {
+    Map<String, String> newHeaders = new HashMap<>();
+    if (headerList != null) {
+      newHeaders.putAll(headerList);
+    }
+    newHeaders.put(GLOBAL_ID, globalId);
+    newHeaders.put(CALLER_SERVICE_ID, serviceName);
+    newHeaders.put(CALLER_ID, serviceName);
+    return newHeaders;
   }
 }

@@ -1,7 +1,7 @@
 package com.blas.blascommon.core.service.impl;
 
 import static com.blas.blascommon.constants.BlasConstant.ALERT_EMAIL_RECEIVER_LIST;
-import static com.blas.blascommon.constants.MDCConstant.GLOBAL_ID;
+import static com.blas.blascommon.constants.MdcConstants.GLOBAL_ID;
 import static com.blas.blascommon.constants.ResponseMessage.CENTRALIZED_LOG_ID_NOT_FOUND;
 import static com.blas.blascommon.enums.EmailTemplate.ERROR_ALERT;
 import static com.blas.blascommon.enums.LogType.ERROR;
