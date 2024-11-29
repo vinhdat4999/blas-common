@@ -19,7 +19,7 @@ public class CertPasswordConfiguration {
 
   @Bean
   public String getCertPassword() {
-    log.info("Getting cert password...");
+    log.debug("Getting cert password...");
     return new String(base64Decode(blasConfigService.getConfigValueFromKey(BLAS_CERT_PASSWORD)),
         StandardCharsets.UTF_8);
   }
