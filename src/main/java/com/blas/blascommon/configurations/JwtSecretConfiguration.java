@@ -36,7 +36,7 @@ public class JwtSecretConfiguration {
   @Bean
   public String getJwtSecretKey()
       throws UnrecoverableKeyException, CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, InvalidKeyException {
-    log.info("Extracting secret key...");
+    log.debug("Extracting secret key...");
     final String jwtSecretKeyEncrypted = blasConfigService.getConfigValueFromKey(
         BLAS_JWT_SECRET_KEY_VALUE);
     return aesDecrypt(requireNonNull(
