@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 @Profile({"aks", "local"})
 public class EmailQueueService {
 
+  private static final String TRACE_ID_FIELD = "TraceId";
+
   @Value("${blas.service.serviceName}")
   private String serviceName;
 
@@ -38,6 +40,7 @@ public class EmailQueueService {
         .globalId(MDC.get(GLOBAL_ID))
         .callerId(serviceName)
         .callerServiceId(serviceName)
+        .traceId(MDC.get(TRACE_ID_FIELD))
         .build();
     try {
       boolean result = topic.offer(objectMapper.writeValueAsString(hazelcastWrapper));

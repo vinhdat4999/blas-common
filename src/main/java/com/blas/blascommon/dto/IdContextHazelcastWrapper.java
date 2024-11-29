@@ -15,4 +15,5 @@ public class IdContextHazelcastWrapper {
   private String globalId;
   private String callerId;
   private String callerServiceId;
+  private String traceId;
 }
