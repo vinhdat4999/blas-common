@@ -4,6 +4,7 @@
 
 | Version | Date release | Tickets/Notes                                                                                                    |
 |---------|--------------|------------------------------------------------------------------------------------------------------------------|
+| 6.7.0   | 05/12/2024   | Add OpenTelemetry agent extension                                                                                |
 | 6.6.0   | 29/11/2024   | Support Hazelcast aspect                                                                                         |
 | 6.5.0   | 28/11/2024   | Support OpenTelemetry log data model and trace                                                                   |
 | 6.4.0   | 25/11/2024   | Update default QR image size                                                                                     |
