@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 @ConditionalOnProperty(name = "blas.image.imgbb.enabled", havingValue = "true")
 public class ImgbbService {
 
-  private static final String HAVE_ERROR_WHEN_PUBLISH_QR_PAY_IMAGE_TO_IMGBB = "HAVE ERROR WHEN PUBLISH QR PAY IMAGE TO IMGBB";
+  private static final String HAVE_ERROR_WHEN_PUBLISH_QR_PAY_IMAGE_TO_IMGBB = "HAVE ERROR WHEN PUBLISH IMAGE TO IMGBB";
   private static final String EXPIRATION = "expiration";
   private static final String KEY = "key";
   private static final String IMAGE = "image";
@@ -39,8 +39,17 @@ public class ImgbbService {
   @Lazy
   private final CentralizedLogService centralizedLogService;
 
-  public String publishImage(String base64EncodedData)
+  public String publishImageGetUrl(String base64EncodedData)
       throws IOException, IllegalArgumentException {
+    return publish(base64EncodedData).getData().getDisplayUrl();
+  }
+
+  public ImgbbResponseDto publishImage(String base64EncodedData)
+      throws IOException, IllegalArgumentException {
+    return publish(base64EncodedData);
+  }
+
+  private ImgbbResponseDto publish(String base64EncodedData) throws IOException {
     long expirationTime = imgbbProperties.getExpirationTime();
     HttpResponse response = httpRequest.sendPostRequestWithFormUrlEncodedPayload(
         imgbbProperties.getUrl(), Map.of(EXPIRATION, String.valueOf(expirationTime), KEY,
@@ -54,7 +63,7 @@ public class ImgbbService {
           expirationTime);
       throw blasException;
     }
-    return imgbbResponseDTO.getData().getDisplayUrl();
+    return imgbbResponseDTO;
   }
 
   private ImgbbResponseDto handleResponse(HttpResponse response) throws JsonProcessingException {
