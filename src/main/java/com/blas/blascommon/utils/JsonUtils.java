@@ -24,10 +24,8 @@ public class JsonUtils {
     if (jsonElement instanceof JSONObject jsonObject) {
       for (String key : jsonObject.keySet()) {
         Object value = jsonObject.get(key);
-        if (keys.contains(key) && value instanceof String str) {
-          jsonObject.put(key, ASTERISK.repeat(str.length()));
-        } else if (keys.contains(key)) {
-          jsonObject.put(key, ASTERISK.repeat(3));
+        if (keys.contains(key)) {
+          jsonObject.put(key, ASTERISK.repeat(8));
         } else {
           maskKeys(value, keys);
         }
