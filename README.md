@@ -4,6 +4,7 @@
 
 | Version |   | Date release | Tickets/Notes                                                                                                    |
 |---------|:--|--------------|------------------------------------------------------------------------------------------------------------------|
+| 7.1.0   |   | 13/02/2025   | Add serializer                                                                                                   |
 | 7.0.0   |   | 23/12/2024   | Support blas-retail-sale service                                                                                 |
 | 6.7.0   |   | 05/12/2024   | Add OpenTelemetry agent extension                                                                                |
 | 6.6.0   |   | 29/11/2024   | Support Hazelcast aspect                                                                                         |

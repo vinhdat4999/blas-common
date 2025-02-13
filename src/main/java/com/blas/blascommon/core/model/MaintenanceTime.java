@@ -3,6 +3,7 @@ package com.blas.blascommon.core.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @AllArgsConstructor
 @Entity
 @Document(collection = "maintenance_times")
-public class MaintenanceTime {
+public class MaintenanceTime implements Serializable {
 
   @Id
   @NotEmpty
