@@ -1,0 +1,53 @@
+name: Sync Workflow to Multiple Repos
+
+on:
+  push:
+#    paths:
+#      - ".github/workflows/*.yml"
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  sync-workflows:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+
+      - name: Read repository list
+        id: read-repos
+        run: |
+          echo "REPO_LIST=$(cat list.txt | tr '\n' ' ')" >> $GITHUB_ENV
+
+      - name: Sync workflow file
+        env:
+          GH_PAT: ${{ secrets.PACKAGE }}
+        run: |
+          for entry in $REPO_LIST; do
+            repo=$(echo $entry | cut -d'@' -f1)
+            branch=$(echo $entry | cut -d'@' -f2)
+
+            echo "Syncing workflow to $repo on branch $branch"
+          
+            git clone --depth=1 -b $branch https://x-access-token:$GH_PAT@github.com/$repo.git temp-repo
+            cd temp-repo
+          
+            # Copy the workflow files
+            mkdir -p .github/workflows
+            cp ../.github/workflows/*.yml .github/workflows/
+          
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git config --global user.name "github-actions[bot]"
+          
+            git add .github/workflows/*.yml
+            if git diff --cached --quiet; then
+              echo "No changes to commit for $repo on branch $branch"
+            else
+              git commit -m "Sync workflow from source repo"
+              git push origin $branch
+            fi
+          
+            cd ..
+            rm -rf temp-repo
+          done
