@@ -28,7 +28,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install libxml2-utils
 
-      - name: Extract version from pom.xml
+      - name: Extract snapshot version from pom.xml
         id: extractVersion
         run: |
           serviceVersion=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml)
@@ -43,7 +43,7 @@ jobs:
           fi
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -59,18 +59,18 @@ jobs:
         run: mvn deploy
         env:
           GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PACKAGE }}
 
   delete-old-packages:
-    needs: build-snapshot
+    needs: build-release
     runs-on: ubuntu-latest
     steps:
       - name: delete old package versions
         uses: actions/delete-package-versions@v5
         with:
-          package-name: com.blas.blas-common
+          package-name: com.blas.${{ github.event.repository.name }}
           package-type: maven
-          min-versions-to-keep: 5
+          min-versions-to-keep: 10
           delete-only-untagged-versions: false
         env:
           GITHUB_TOKEN: ${{ secrets.PACKAGE }}
